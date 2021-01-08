@@ -36,6 +36,11 @@
 
 NeQuo is a app built with flutter for you to see and add quotes
 
+<a href="https://play.google.com/store/apps/details?id=com.deverick.com.deverick.com.deverick.nequo">
+  <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100">
+</a>
+
+
 ## :building_construction: Technologies
 
 - [Flutter](https://flutter.dev/)
