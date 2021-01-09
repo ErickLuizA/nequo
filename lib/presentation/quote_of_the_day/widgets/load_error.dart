@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoadError extends StatelessWidget {
@@ -26,12 +27,12 @@ class LoadError extends StatelessWidget {
             vertical: 30,
           ),
           child: Text(
-            "Error while loading quote of the day",
+            AppLocalizations.of(context).translate('load_qod_error'),
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
         MaterialButton(
-          child: Text('Try again'),
+          child: Text(AppLocalizations.of(context).translate('try_again')),
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,
@@ -39,7 +40,7 @@ class LoadError extends StatelessWidget {
         ),
         SizedBox(height: 10),
         MaterialButton(
-          child: Text('Continue'),
+          child: Text(AppLocalizations.of(context).translate('continue')),
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,

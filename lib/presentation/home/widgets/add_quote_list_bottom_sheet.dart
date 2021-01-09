@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
 
@@ -53,14 +54,15 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
               style: TextStyle(color: Colors.white70),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Quote list name',
+                labelText:
+                    AppLocalizations.of(context).translate('quote_list_name'),
                 labelStyle: TextStyle(
                   color: Colors.white70,
                 ),
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -73,7 +75,7 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
               child: SizedBox(height: 10),
             ),
             TextButton(
-              child: Text("Create"),
+              child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(
@@ -97,8 +99,8 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
                   if (res.isLeft()) {
                     Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
-                        content:
-                            Text("A error occurred while adding quote list"),
+                        content: Text(AppLocalizations.of(context)
+                            .translate('add_quote_list_error')),
                       ),
                     );
                   } else {
@@ -111,7 +113,7 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
             ),
             SizedBox(height: 10),
             TextButton(
-              child: Text("Cancel"),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(

@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoadErrorWidget extends StatelessWidget {
@@ -31,7 +32,7 @@ class LoadErrorWidget extends StatelessWidget {
           ),
         ),
         MaterialButton(
-          child: Text('Try again'),
+          child: Text(AppLocalizations.of(context).translate("try_again")),
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,

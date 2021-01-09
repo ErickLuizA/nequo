@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/dependency_injection.dart';
 import 'package:NeQuo/domain/usecases/delete_favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
@@ -77,7 +78,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                 Icons.hourglass_empty_outlined,
                                 size: 50,
                               ),
-                              Text("Empty List"),
+                              Text(AppLocalizations.of(context)
+                                  .translate('empty_list')),
                             ],
                           ),
                         ),
@@ -89,7 +91,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             } else if (state is FailedState) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
-                  content: Text("Error while trying to delete favorite"),
+                  content: Text(
+                      AppLocalizations.of(context).translate('del_fav_error')),
                 ),
               );
               return Center(
@@ -190,7 +193,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             } else {
               return LoadErrorWidget(
                 retry: getFavorites,
-                text: 'Error while loading favorites',
+                text: AppLocalizations.of(context).translate("load_fav_error"),
               );
             }
           }),

@@ -1,9 +1,11 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/dependency_injection.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
 import 'package:NeQuo/presentation/home/bloc/home_list_event.dart';
 import 'package:NeQuo/presentation/home/bloc/home_list_state.dart';
+import 'package:NeQuo/presentation/home/utils/random_id.dart';
 import 'package:NeQuo/presentation/home/widgets/bottom_sheet_widget.dart';
 import 'package:NeQuo/presentation/home/widgets/drawer_widget.dart';
 import 'package:NeQuo/presentation/shared/load_error_widget.dart';
@@ -44,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void handleShare() async {
     await share(ShareParams(
-      subject: 'NeQuo - QuotesApp',
-      text: 'Find here the best quotes.',
+      subject: 'NeQuo - Quotes App',
+      text: AppLocalizations.of(context).translate('find_quotes'),
     ));
   }
 
@@ -75,7 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            QuoteListCard(name: 'Random Quotes'),
+            QuoteListCard(
+              id: ID,
+              name: AppLocalizations.of(context).translate('random_quotes'),
+            ),
             BlocBuilder<HomeListBloc, HomeListState>(
               builder: (context, state) {
                 if (state is EmptyListState) {
@@ -104,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else {
                   return LoadErrorWidget(
-                    text: "Error while loading quotes list",
+                    text:
+                        AppLocalizations.of(context).translate('load_ql_error'),
                     retry: getQuotesList,
                   );
                 }

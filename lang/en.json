@@ -1,0 +1,36 @@
+{
+  "load_qod_error": "Error while loading quote of the day",
+  "try_again": "Try Again",
+  "continue": "Continue",
+
+  "add_fav_error": "Error when trying to add favorite",
+
+  "find_quotes": "Find here the best quotes.",
+  "random_quotes": "Random Quotes",
+  "load_ql_error": "Error while loading quotes list",
+
+  "author": "Author",
+  "fill_field": "Please fill this field",
+  "quote": "Quote",
+  "add_quote_error": "A error occurred while adding quote to the list",
+  "cancel": "Cancel",
+
+  "quote_list_name": "Quote list name",
+  "create": "Create",
+  "add_quote_list_error": "A error occurred while adding quote list",
+
+  "add_quote_list": "Add quote list",
+  "add_quote_to_list": "Add quote to list",
+  "no_lists": "You don't have created lists to add quotes.",
+
+  "favorites": "Favorites",
+  "share": "Share",
+
+  "empty_list": "Empty List",
+  "del_fav_error": "Error while trying to delete favorite",
+  "load_fav_error": "Error while loading favorites",
+
+  "del_quote_list_error": "Error when trying to delete quote list",
+  "del_list": "Delete list",
+  "del_quote_error": "Error when trying to delete quote"
+}

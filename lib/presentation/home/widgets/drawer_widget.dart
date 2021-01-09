@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -17,7 +18,7 @@ class DrawerWidget extends StatelessWidget {
         children: [
           ListTile(
             onTap: handleNavigateToFavorites,
-            title: Text('Favorites'),
+            title: Text(AppLocalizations.of(context).translate('favorites')),
             leading: Icon(
               Icons.favorite_outline,
               color: Colors.white,
@@ -28,7 +29,7 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             onTap: handleShare,
-            title: Text('Share'),
+            title: Text(AppLocalizations.of(context).translate('share')),
             leading: Icon(
               Icons.share,
               color: Colors.white,

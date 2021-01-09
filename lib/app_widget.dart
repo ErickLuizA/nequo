@@ -1,9 +1,11 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/presentation/details/details_screen.dart';
 import 'package:NeQuo/presentation/favorites/favorites_screen.dart';
 import 'package:NeQuo/presentation/home/home_screen.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
 import 'package:NeQuo/presentation/random_details/random_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class App extends StatelessWidget {
@@ -37,6 +39,25 @@ class App extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode &&
+              supportedLocale.countryCode == locale?.countryCode) {
+            return supportedLocale;
+          }
+        }
+
+        return supportedLocales.first;
+      },
       initialRoute: '/',
       routes: {
         '/': (_) => QuoteOfTheDayScreen(),

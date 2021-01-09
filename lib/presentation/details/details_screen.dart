@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/usecases/delete_quote.dart';
 import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
@@ -139,21 +140,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     is DeleteListErrorState) {
                                   Scaffold.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(
-                                          "Error when trying to delete quote list"),
+                                      content: Text(AppLocalizations.of(context)
+                                          .translate("del_quote_list_error")),
                                     ),
                                   );
                                   return PopupMenuButton<String>(
                                     onSelected: (val) {
-                                      switch (val) {
-                                        case 'Delete List':
-                                          handleDeleteQuoteList();
-                                          break;
+                                      if (val ==
+                                          AppLocalizations.of(context)
+                                              .translate("del_list")) {
+                                        handleDeleteQuoteList();
                                       }
                                     },
                                     itemBuilder: (BuildContext context) {
-                                      return {'Delete List'}
-                                          .map((String choice) {
+                                      return {
+                                        AppLocalizations.of(context)
+                                            .translate("del_list")
+                                      }.map((String choice) {
                                         return PopupMenuItem<String>(
                                           value: choice,
                                           child: Text(choice),
@@ -174,15 +177,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 } else {
                                   return PopupMenuButton<String>(
                                     onSelected: (val) {
-                                      switch (val) {
-                                        case 'Delete List':
-                                          handleDeleteQuoteList();
-                                          break;
+                                      if (val ==
+                                          AppLocalizations.of(context)
+                                              .translate("del_list")) {
+                                        handleDeleteQuoteList();
                                       }
                                     },
                                     itemBuilder: (BuildContext context) {
-                                      return {'Delete List'}
-                                          .map((String choice) {
+                                      return {
+                                        AppLocalizations.of(context)
+                                            .translate("del_list")
+                                      }.map((String choice) {
                                         return PopupMenuItem<String>(
                                           value: choice,
                                           child: Text(choice),
@@ -203,7 +208,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 Icons.hourglass_empty_outlined,
                                 size: 50,
                               ),
-                              Text("Empty List"),
+                              Text(AppLocalizations.of(context)
+                                  .translate("empty_list")),
                             ],
                           ),
                         ),
@@ -238,20 +244,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             } else if (delListState is DeleteListErrorState) {
                               Scaffold.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                      "Error when trying to delete quote list"),
+                                  content: Text(AppLocalizations.of(context)
+                                      .translate("del_quote_list_error")),
                                 ),
                               );
                               return PopupMenuButton<String>(
                                 onSelected: (val) {
-                                  switch (val) {
-                                    case 'Delete List':
-                                      handleDeleteQuoteList();
-                                      break;
+                                  if (val ==
+                                      AppLocalizations.of(context)
+                                          .translate("del_list")) {
+                                    handleDeleteQuoteList();
                                   }
                                 },
                                 itemBuilder: (BuildContext context) {
-                                  return {'Delete List'}.map((String choice) {
+                                  return {
+                                    AppLocalizations.of(context)
+                                        .translate("del_list")
+                                  }.map((String choice) {
                                     return PopupMenuItem<String>(
                                       value: choice,
                                       child: Text(choice),
@@ -272,14 +281,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             } else {
                               return PopupMenuButton<String>(
                                 onSelected: (val) {
-                                  switch (val) {
-                                    case 'Delete List':
-                                      handleDeleteQuoteList();
-                                      break;
+                                  if (val ==
+                                      AppLocalizations.of(context)
+                                          .translate("del_list")) {
+                                    handleDeleteQuoteList();
                                   }
                                 },
                                 itemBuilder: (BuildContext context) {
-                                  return {'Delete List'}.map((String choice) {
+                                  return {
+                                    AppLocalizations.of(context)
+                                        .translate("del_list")
+                                  }.map((String choice) {
                                     return PopupMenuItem<String>(
                                       value: choice,
                                       child: Text(choice),
@@ -381,8 +393,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             } else if (delState is DeleteErrorState) {
                               Scaffold.of(context).showSnackBar(
                                 SnackBar(
-                                  content:
-                                      Text("Error when trying to delete quote"),
+                                  content: Text(AppLocalizations.of(context)
+                                      .translate("del_quote_error")),
                                 ),
                               );
                               return ActionButton(

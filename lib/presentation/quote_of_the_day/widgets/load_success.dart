@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
 import 'package:NeQuo/presentation/shared/action_button.dart';
@@ -79,7 +80,8 @@ class LoadSuccess extends StatelessWidget {
                   } else if (state is FavoriteErrorState) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("Error when trying to add favorite"),
+                        content: Text(AppLocalizations.of(context)
+                            .translate('add_fav_error')),
                       ),
                     );
                     return ActionButton(

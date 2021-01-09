@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class BottomSheetWidget extends StatelessWidget {
       spacing: 15,
       children: [
         TextButton(
-          child: Text("Add quote list"),
+          child: Text(AppLocalizations.of(context).translate('add_quote_list')),
           style: ButtonStyle(
             minimumSize: MaterialStateProperty.all(
               Size(MediaQuery.of(context).size.width, 50),
@@ -49,7 +50,8 @@ class BottomSheetWidget extends StatelessWidget {
           },
         ),
         TextButton(
-          child: Text("Add quote to list"),
+          child:
+              Text(AppLocalizations.of(context).translate('add_quote_to_list')),
           style: ButtonStyle(
             minimumSize: MaterialStateProperty.all(
               Size(
@@ -65,7 +67,8 @@ class BottomSheetWidget extends StatelessWidget {
             if (list.isEmpty) {
               Scaffold.of(scaffoldContext).showSnackBar(
                 SnackBar(
-                  content: Text("You don't have created lists to add quotes."),
+                  content:
+                      Text(AppLocalizations.of(context).translate('no_lists')),
                 ),
               );
             } else {

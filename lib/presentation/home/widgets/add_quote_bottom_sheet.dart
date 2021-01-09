@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/data/models/quote_model.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
@@ -61,14 +62,14 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               style: TextStyle(color: Colors.white70),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Author',
+                labelText: AppLocalizations.of(context).translate('author'),
                 labelStyle: TextStyle(
                   color: Colors.white70,
                 ),
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -85,7 +86,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               maxLines: isKeyboardOff ? 10 : 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Quote',
+                labelText: AppLocalizations.of(context).translate('quote'),
                 alignLabelWithHint: true,
                 labelStyle: TextStyle(
                   color: Colors.white70,
@@ -93,7 +94,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -125,7 +126,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: isKeyboardOff ? 30 : 10),
             TextButton(
-              child: Text("Create"),
+              child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(
@@ -153,8 +154,8 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                   if (res.isLeft()) {
                     Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
-                        content: Text(
-                            "A error occurred while adding quote to the list"),
+                        content: Text(AppLocalizations.of(context)
+                            .translate('add_quote_error')),
                       ),
                     );
                   } else {
@@ -167,7 +168,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: 10),
             TextButton(
-              child: Text("Cancel"),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(

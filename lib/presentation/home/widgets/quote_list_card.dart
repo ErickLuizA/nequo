@@ -1,5 +1,6 @@
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:NeQuo/presentation/details/details_screen.dart';
+import 'package:NeQuo/presentation/home/utils/random_id.dart';
 import 'package:flutter/material.dart';
 
 class QuoteListCard extends StatelessWidget {
@@ -28,7 +29,7 @@ class QuoteListCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          name == 'Random Quotes'
+          id == ID
               ? Navigator.of(context).pushNamed('/random_details')
               : Navigator.of(context).push(
                   MaterialPageRoute(
