@@ -2,7 +2,7 @@ import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 
 class AddQuoteListBottomSheet extends StatefulWidget {

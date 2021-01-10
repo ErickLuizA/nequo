@@ -1,4 +1,4 @@
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';

@@ -7,7 +7,7 @@ import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_success.dart';
 import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/service_locator.dart';
 
 class QuoteOfTheDayScreen extends StatefulWidget {
   @override
@@ -17,7 +17,6 @@ class QuoteOfTheDayScreen extends StatefulWidget {
 class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
   QuoteOfTheDayBloc _quoteOfTheDayBloc;
   FavoriteBloc _favoriteBloc;
-
   ShareQuote share;
 
   @override
@@ -66,7 +65,9 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
             builder: (context, state) {
               if (state is LoadingState) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    key: Key('loading'),
+                  ),
                 );
               } else if (state is SuccessState) {
                 return LoadSuccess(

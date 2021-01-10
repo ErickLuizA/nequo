@@ -7,7 +7,7 @@ import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
 import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:NeQuo/domain/usecases/load_quotes.dart';

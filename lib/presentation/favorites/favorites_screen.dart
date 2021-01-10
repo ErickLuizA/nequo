@@ -1,5 +1,5 @@
 import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/usecases/delete_favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
