@@ -66,9 +66,8 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
             builder: (context, state) {
               if (state is LoadingState) {
                 return Center(
-                  child: CircularProgressIndicator(
-                    key: Key("loading"),
-                  ),
+                  key: Key("loading"),
+                  child: CircularProgressIndicator(),
                 );
               } else if (state is SuccessState) {
                 return LoadSuccess(

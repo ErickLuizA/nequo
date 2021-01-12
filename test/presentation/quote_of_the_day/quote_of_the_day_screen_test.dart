@@ -34,15 +34,18 @@ void main() {
     expect(find.byKey(Key("quod_container")), findsOneWidget);
   });
 
-  testWidgets('renders load_error widget when nothing is returned from bloc',
+  testWidgets('renders loading when LoadingState is returned from bloc',
       (tester) async {
-    await tester.pumpWidget(makeApp(QuoteOfTheDayScreen()));
-    await tester.pumpAndSettle();
+    when(quoteOfTheDayBlocMock.state).thenAnswer((_) => LoadingState());
 
-    expect(find.byKey(Key("load_error")), findsOneWidget);
+    await tester.pumpWidget(makeApp(QuoteOfTheDayScreen()));
+    await tester.pump();
+
+    expect(find.byKey(Key("loading")), findsOneWidget);
   });
 
-  testWidgets('renders load_success widget when quote is returned from bloc',
+  testWidgets(
+      'renders load_success widget when SuccessState is returned from bloc',
       (tester) async {
     when(quoteOfTheDayBlocMock.state).thenAnswer(
       (_) => SuccessState(
@@ -54,5 +57,15 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byKey(Key("load_success")), findsOneWidget);
+  });
+
+  testWidgets('renders load_error widget when ErrorState is returned from bloc',
+      (tester) async {
+    when(quoteOfTheDayBlocMock.state).thenAnswer((_) => ErrorState());
+
+    await tester.pumpWidget(makeApp(QuoteOfTheDayScreen()));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(Key("load_error")), findsOneWidget);
   });
 }
