@@ -13,11 +13,12 @@ class LoadSuccess extends StatelessWidget {
   final FavoriteBloc favoriteBloc;
 
   const LoadSuccess({
+    Key key,
     @required this.close,
     @required this.state,
     @required this.share,
     @required this.favoriteBloc,
-  });
+  }) : super(key: key);
 
   void handleFavorite() {
     favoriteBloc.add(

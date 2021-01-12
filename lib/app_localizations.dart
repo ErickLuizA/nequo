@@ -5,63 +5,69 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalizations {
-  final Locale locale;
+  AppLocalizations(
+    this._locale, {
+    this.isTest = false,
+  });
 
-  AppLocalizations(this.locale);
+  final Locale _locale;
+  bool isTest;
+  Map<String, String> _sentences;
 
-  // Helper method to keep the code in the widgets concise
-  // Localizations are accessed using an InheritedWidget "of" syntax
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  // Static member to have a simple access to the delegate from the MaterialApp
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
-
-  Map<String, String> _localizedStrings;
-
-  Future<bool> load() async {
-    // Load the language JSON file from the "lang" folder
-    String jsonString =
-        await rootBundle.loadString('lang/${locale.languageCode}.json');
-    Map<String, dynamic> jsonMap = json.decode(jsonString);
-
-    _localizedStrings = jsonMap.map((key, value) {
-      return MapEntry(key, value.toString());
-    });
-
-    return true;
+  Future<AppLocalizations> loadTest(Locale locale) async {
+    return AppLocalizations(locale);
   }
 
-  // This method will be called from every widget which needs a localized text
+  Future<AppLocalizations> load() async {
+    String data =
+        await rootBundle.loadString('lang/${_locale.languageCode}.json');
+
+    Map<String, dynamic> _result = json.decode(data);
+    _sentences = new Map();
+    _result.forEach((String key, dynamic value) {
+      _sentences[key] = value.toString();
+    });
+    return AppLocalizations(_locale);
+  }
+
   String translate(String key) {
-    return _localizedStrings[key];
+    if (isTest) return key;
+
+    if (key == null) {
+      return '...';
+    }
+
+    return _sentences[key];
   }
 }
 
-// LocalizationsDelegate is a factory for a set of localized resources
-// In this case, the localized strings will be gotten in an AppLocalizations object
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
-  // This delegate instance will never change (it doesn't even have fields!)
-  // It can provide a constant constructor.
-  const _AppLocalizationsDelegate();
+class LocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
+  const LocalizationDelegate({
+    this.isTest = false,
+  });
+
+  final bool isTest;
 
   @override
-  bool isSupported(Locale locale) {
-    // Include all of your supported language codes here
-    return ['en', 'pt'].contains(locale.languageCode);
-  }
+  bool isSupported(Locale locale) => ['en', 'pt'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    // AppLocalizations class is where the JSON loading actually runs
-    AppLocalizations localizations = new AppLocalizations(locale);
-    await localizations.load();
+    AppLocalizations localizations =
+        new AppLocalizations(locale, isTest: isTest);
+    if (isTest) {
+      await localizations.loadTest(locale);
+    } else {
+      await localizations.load();
+    }
+
     return localizations;
   }
 
   @override
-  bool shouldReload(_AppLocalizationsDelegate old) => false;
+  bool shouldReload(LocalizationDelegate old) => false;
 }

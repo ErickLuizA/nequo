@@ -60,17 +60,19 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
           ),
         ],
         child: Container(
+          key: Key("quod_container"),
           color: Theme.of(context).primaryColor,
           child: BlocBuilder<QuoteOfTheDayBloc, QuoteOfTheDayState>(
             builder: (context, state) {
               if (state is LoadingState) {
                 return Center(
                   child: CircularProgressIndicator(
-                    key: Key('loading'),
+                    key: Key("loading"),
                   ),
                 );
               } else if (state is SuccessState) {
                 return LoadSuccess(
+                  key: Key("load_success"),
                   close: handleNavigateToHome,
                   favoriteBloc: _favoriteBloc,
                   share: () {
@@ -85,6 +87,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
                 );
               } else {
                 return LoadError(
+                  key: Key("load_error"),
                   navigate: handleNavigateToHome,
                   retry: handleLoadQuote,
                 );

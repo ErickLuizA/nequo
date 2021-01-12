@@ -5,7 +5,7 @@ import 'package:NeQuo/service_locator.dart' as sl;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await sl.setUp();
+  await sl.setUp(testing: false);
 
   runApp(App());
 }
