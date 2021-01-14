@@ -10,30 +10,20 @@ class LoadSuccess extends StatelessWidget {
   final Function close;
   final Function share;
   final SuccessState state;
-  final FavoriteBloc favoriteBloc;
+  final Function(Favorite favorite) addFavorite;
 
   const LoadSuccess({
     Key key,
     @required this.close,
     @required this.state,
     @required this.share,
-    @required this.favoriteBloc,
+    @required this.addFavorite,
   }) : super(key: key);
-
-  void handleFavorite() {
-    favoriteBloc.add(
-      AddFavoriteEvent(
-        favorite: Favorite(
-          author: state.quote.author,
-          content: state.quote.content,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: Key("load_success_container"),
       padding: const EdgeInsets.only(
         right: 20,
         left: 20,
@@ -42,6 +32,7 @@ class LoadSuccess extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ActionButton(
+            key: Key("close_button"),
             icon: Icons.close_outlined,
             onPress: close,
             align: Alignment.topRight,
@@ -73,31 +64,53 @@ class LoadSuccess extends StatelessWidget {
           Column(
             children: [
               BlocBuilder<FavoriteBloc, FavoriteState>(
-                builder: (context, state) {
-                  if (state is FavoriteLoadingState) {
+                builder: (context, favState) {
+                  if (favState is FavoriteLoadingState) {
                     return Center(
+                      key: Key("loading_state"),
                       child: CircularProgressIndicator(),
                     );
-                  } else if (state is FavoriteErrorState) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)
-                            .translate('add_fav_error')),
-                      ),
-                    );
+                  } else if (favState is FavoriteErrorState) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          key: Key("snackbar"),
+                          content: Text(AppLocalizations.of(context)
+                              .translate('add_fav_error')),
+                        ),
+                      );
+                    });
+
                     return ActionButton(
+                      key: Key("error_state"),
                       icon: Icons.favorite_outline,
-                      onPress: handleFavorite,
+                      onPress: () {
+                        addFavorite(
+                          Favorite(
+                            author: state.quote.author,
+                            content: state.quote.content,
+                          ),
+                        );
+                      },
                     );
-                  } else if (state is FavoriteSuccessState) {
+                  } else if (favState is FavoriteSuccessState) {
                     return ActionButton(
+                      key: Key("success_state"),
                       icon: Icons.favorite,
                       onPress: () {},
                     );
                   } else {
                     return ActionButton(
+                      key: Key("favorite_button"),
                       icon: Icons.favorite_outline,
-                      onPress: handleFavorite,
+                      onPress: () {
+                        addFavorite(
+                          Favorite(
+                            author: state.quote.author,
+                            content: state.quote.content,
+                          ),
+                        );
+                      },
                     );
                   }
                 },
@@ -106,6 +119,7 @@ class LoadSuccess extends StatelessWidget {
                 height: 20,
               ),
               ActionButton(
+                key: Key("share_button"),
                 icon: Icons.share_outlined,
                 onPress: share,
               ),

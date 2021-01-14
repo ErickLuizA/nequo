@@ -27,7 +27,7 @@ void main() {
 
     await tester.pumpAndSettle();
 
-    expect(find.byKey(Key("load_error")), findsOneWidget);
+    expect(find.byKey(Key("load_error_container")), findsOneWidget);
   });
 
   testWidgets('should call retry function when button is pressed',

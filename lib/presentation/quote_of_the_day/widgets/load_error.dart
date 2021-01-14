@@ -14,7 +14,7 @@ class LoadError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      key: Key("load_error"),
+      key: Key("load_error_container"),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(

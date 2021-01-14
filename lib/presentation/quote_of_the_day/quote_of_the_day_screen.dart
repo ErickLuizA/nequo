@@ -1,3 +1,4 @@
+import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.dart';
@@ -47,6 +48,10 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
+  void addFavorite(Favorite favorite) {
+    _favoriteBloc.add(AddFavoriteEvent(favorite: favorite));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +68,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
           key: Key("quod_container"),
           color: Theme.of(context).primaryColor,
           child: BlocBuilder<QuoteOfTheDayBloc, QuoteOfTheDayState>(
-            builder: (context, state) {
+            builder: (_, state) {
               if (state is LoadingState) {
                 return Center(
                   key: Key("loading"),
@@ -73,7 +78,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
                 return LoadSuccess(
                   key: Key("load_success"),
                   close: handleNavigateToHome,
-                  favoriteBloc: _favoriteBloc,
+                  addFavorite: addFavorite,
                   share: () {
                     share(
                       ShareParams(
