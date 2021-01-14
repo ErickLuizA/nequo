@@ -97,6 +97,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("details_screen"),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(

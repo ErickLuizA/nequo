@@ -1,4 +1,5 @@
 import 'package:NeQuo/app_localizations.dart';
+import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
 import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
@@ -75,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocProvider(
         create: (_) => _homeListBloc,
         child: Column(
+          key: Key("home_screen"),
           mainAxisSize: MainAxisSize.min,
           children: [
             QuoteListCard(
@@ -83,14 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             BlocBuilder<HomeListBloc, HomeListState>(
               builder: (context, state) {
-                if (state is EmptyListState) {
-                  return Container();
-                } else if (state is LoadingListState) {
-                  return Center(
-                    child: CircularProgressIndicator(),
+                if (state is LoadingListState) {
+                  return LoadingWidget(Key("loading"));
+                } else if (state is ErrorListState) {
+                  return LoadErrorWidget(
+                    key: Key("load_error_widget"),
+                    text:
+                        AppLocalizations.of(context).translate('load_ql_error'),
+                    retry: getQuotesList,
                   );
                 } else if (state is SuccessListState) {
                   return Flexible(
+                    key: Key("success_list_state"),
                     child: ListView.builder(
                       shrinkWrap: true,
                       itemCount: state.quoteList.length,
@@ -108,10 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
-                  return LoadErrorWidget(
-                    text:
-                        AppLocalizations.of(context).translate('load_ql_error'),
-                    retry: getQuotesList,
+                  return Container(
+                    key: Key("empty_list_state"),
                   );
                 }
               },
@@ -130,7 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               builder: (context) => BottomSheetWidget(
-                list: quoteList != null ? quoteList : List(),
+                key: Key("bottom_sheet_widget"),
+                list: quoteList ?? List(),
                 scaffoldContext: scaffoldContext,
                 getQuotesList: getQuotesList,
               ),

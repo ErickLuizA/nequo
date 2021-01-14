@@ -63,6 +63,7 @@ class _RandomDetailsScreenState extends State<RandomDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("random_details_screen"),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(

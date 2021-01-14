@@ -18,10 +18,12 @@ class QuoteListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      key: Key("quote_list_card"),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
+        key: Key("list_tile"),
         title: Text(
           name,
           style: TextStyle(
