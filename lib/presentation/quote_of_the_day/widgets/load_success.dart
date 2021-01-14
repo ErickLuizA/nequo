@@ -1,8 +1,9 @@
 import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:NeQuo/presentation/shared/action_button.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,9 +67,12 @@ class LoadSuccess extends StatelessWidget {
               BlocBuilder<FavoriteBloc, FavoriteState>(
                 builder: (context, favState) {
                   if (favState is FavoriteLoadingState) {
-                    return Center(
-                      key: Key("loading_state"),
-                      child: CircularProgressIndicator(),
+                    return LoadingWidget(Key("loading_state"));
+                  } else if (favState is FavoriteSuccessState) {
+                    return ActionButton(
+                      key: Key("success_state"),
+                      icon: Icons.favorite,
+                      onPress: () {},
                     );
                   } else if (favState is FavoriteErrorState) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -92,12 +96,6 @@ class LoadSuccess extends StatelessWidget {
                           ),
                         );
                       },
-                    );
-                  } else if (favState is FavoriteSuccessState) {
-                    return ActionButton(
-                      key: Key("success_state"),
-                      icon: Icons.favorite,
-                      onPress: () {},
                     );
                   } else {
                     return ActionButton(

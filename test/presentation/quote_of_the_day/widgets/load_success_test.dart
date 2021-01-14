@@ -2,7 +2,7 @@ import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/entities/quote.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_success.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';

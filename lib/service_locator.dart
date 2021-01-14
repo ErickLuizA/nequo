@@ -26,7 +26,7 @@ import 'package:NeQuo/external/services/share.dart';
 import 'package:NeQuo/presentation/details/bloc/details_bloc.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:NeQuo/presentation/random_details/bloc/random_details_bloc.dart';

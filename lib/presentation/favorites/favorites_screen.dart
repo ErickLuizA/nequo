@@ -5,8 +5,8 @@ import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_event.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:NeQuo/presentation/shared/action_button.dart';
-import 'package:NeQuo/presentation/shared/load_error_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
+import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

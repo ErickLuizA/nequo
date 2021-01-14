@@ -8,7 +8,7 @@ import 'package:NeQuo/presentation/home/bloc/home_list_state.dart';
 import 'package:NeQuo/presentation/home/utils/random_id.dart';
 import 'package:NeQuo/presentation/home/widgets/bottom_sheet_widget.dart';
 import 'package:NeQuo/presentation/home/widgets/drawer_widget.dart';
-import 'package:NeQuo/presentation/shared/load_error_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
 import 'package:NeQuo/presentation/home/widgets/quote_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -4,7 +4,7 @@ import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_event.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:NeQuo/service_locator.dart';
@@ -15,7 +15,7 @@ import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/details/bloc/details_bloc.dart';
 import 'package:NeQuo/presentation/details/bloc/details_event.dart';
 import 'package:NeQuo/presentation/details/bloc/details_state.dart';
-import 'package:NeQuo/presentation/shared/action_button.dart';
+import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
 
 class DetailsScreen extends StatefulWidget {
   final QuoteList quoteList;

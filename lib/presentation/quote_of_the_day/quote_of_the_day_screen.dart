@@ -5,7 +5,8 @@ import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_error.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_success.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:NeQuo/service_locator.dart';
@@ -70,10 +71,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
           child: BlocBuilder<QuoteOfTheDayBloc, QuoteOfTheDayState>(
             builder: (_, state) {
               if (state is LoadingState) {
-                return Center(
-                  key: Key("loading"),
-                  child: CircularProgressIndicator(),
-                );
+                return LoadingWidget(Key("loading"));
               } else if (state is SuccessState) {
                 return LoadSuccess(
                   key: Key("load_success"),
