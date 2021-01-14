@@ -14,9 +14,11 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      key: Key("drawer"),
       child: ListView(
         children: [
           ListTile(
+            key: Key("list_tile_navigation"),
             onTap: handleNavigateToFavorites,
             title: Text(AppLocalizations.of(context).translate('favorites')),
             leading: Icon(
@@ -28,6 +30,7 @@ class DrawerWidget extends StatelessWidget {
             height: 10,
           ),
           ListTile(
+            key: Key("list_tile_share"),
             onTap: handleShare,
             title: Text(AppLocalizations.of(context).translate('share')),
             leading: Icon(
