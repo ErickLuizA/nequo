@@ -20,11 +20,13 @@ class BottomSheetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      key: Key("bottom_sheet"),
       direction: Axis.vertical,
       crossAxisAlignment: WrapCrossAlignment.start,
       spacing: 15,
       children: [
         TextButton(
+          key: Key("open_add_quote_list_bottom_sheet"),
           child: Text(AppLocalizations.of(context).translate('add_quote_list')),
           style: ButtonStyle(
             minimumSize: MaterialStateProperty.all(
@@ -43,6 +45,7 @@ class BottomSheetWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               builder: (context) => AddQuoteListBottomSheet(
+                key: Key("add_quote_list_bottom_sheet"),
                 getQuotesList: getQuotesList,
                 scaffoldContext: scaffoldContext,
               ),
@@ -50,6 +53,7 @@ class BottomSheetWidget extends StatelessWidget {
           },
         ),
         TextButton(
+          key: Key("open_add_quote_bottom_sheet"),
           child:
               Text(AppLocalizations.of(context).translate('add_quote_to_list')),
           style: ButtonStyle(
@@ -67,6 +71,7 @@ class BottomSheetWidget extends StatelessWidget {
             if (list.isEmpty) {
               Scaffold.of(scaffoldContext).showSnackBar(
                 SnackBar(
+                  key: Key("empty_snackbar"),
                   content:
                       Text(AppLocalizations.of(context).translate('no_lists')),
                 ),
@@ -80,6 +85,7 @@ class BottomSheetWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 builder: (context) => AddQuoteBottomSheet(
+                  key: Key("add_quote_bottom_sheet"),
                   list: list,
                   getQuotesList: getQuotesList,
                   scaffoldContext: scaffoldContext,
