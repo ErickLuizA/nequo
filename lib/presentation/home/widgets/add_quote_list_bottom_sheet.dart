@@ -1,34 +1,24 @@
 import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-
-import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 
-class AddQuoteListBottomSheet extends StatefulWidget {
-  final Function getQuotesList;
-  final BuildContext scaffoldContext;
-
-  const AddQuoteListBottomSheet(
-      {Key key, this.getQuotesList, this.scaffoldContext})
-      : super(key: key);
-
-  @override
-  _AddQuoteListBottomSheetState createState() =>
-      _AddQuoteListBottomSheetState();
-}
-
-class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
+// ignore: must_be_immutable
+class AddQuoteListBottomSheet extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
 
-  AddQuoteList _addQuoteList;
-  String quoteListName = "";
+  final Function getQuotesList;
+  final BuildContext scaffoldContext;
+  final AddQuoteList addQuoteList;
 
-  @override
-  void initState() {
-    super.initState();
-    _addQuoteList = getIt<AddQuoteList>();
-  }
+  AddQuoteListBottomSheet({
+    Key key,
+    @required this.getQuotesList,
+    @required this.scaffoldContext,
+    @required this.addQuoteList,
+  }) : super(key: key);
+
+  String quoteListName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +82,19 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
                 if (_formkey.currentState.validate()) {
                   _formkey.currentState.save();
 
-                  final res = await _addQuoteList(
+                  final res = await addQuoteList(
                     QuoteList(name: quoteListName),
                   );
 
                   if (res.isLeft()) {
-                    Scaffold.of(widget.scaffoldContext).showSnackBar(
+                    Scaffold.of(scaffoldContext).showSnackBar(
                       SnackBar(
                         content: Text(AppLocalizations.of(context)
                             .translate('add_quote_list_error')),
                       ),
                     );
                   } else {
-                    widget.getQuotesList();
+                    getQuotesList();
 
                     Navigator.pop(context);
                   }

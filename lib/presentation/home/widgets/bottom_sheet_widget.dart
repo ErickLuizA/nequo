@@ -1,5 +1,7 @@
 import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
+import 'package:NeQuo/domain/usecases/add_quote.dart';
+import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:NeQuo/presentation/home/widgets/add_quote_bottom_sheet.dart';
@@ -9,12 +11,16 @@ class BottomSheetWidget extends StatelessWidget {
   final List<QuoteList> list;
   final BuildContext scaffoldContext;
   final Function getQuotesList;
+  final AddQuoteList addQuoteList;
+  final AddQuote addQuote;
 
   const BottomSheetWidget({
     Key key,
-    this.list,
-    this.scaffoldContext,
-    this.getQuotesList,
+    @required this.list,
+    @required this.scaffoldContext,
+    @required this.getQuotesList,
+    @required this.addQuoteList,
+    @required this.addQuote,
   }) : super(key: key);
 
   @override
@@ -48,6 +54,7 @@ class BottomSheetWidget extends StatelessWidget {
                 key: Key("add_quote_list_bottom_sheet"),
                 getQuotesList: getQuotesList,
                 scaffoldContext: scaffoldContext,
+                addQuoteList: addQuoteList,
               ),
             );
           },
@@ -89,6 +96,7 @@ class BottomSheetWidget extends StatelessWidget {
                   list: list,
                   getQuotesList: getQuotesList,
                   scaffoldContext: scaffoldContext,
+                  addQuote: addQuote,
                 ),
               );
             }

@@ -2,8 +2,6 @@ import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/data/models/quote_model.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-
-import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/quote.dart';
 import 'package:NeQuo/domain/usecases/add_quote.dart';
 
@@ -11,12 +9,14 @@ class AddQuoteBottomSheet extends StatefulWidget {
   final List<QuoteList> list;
   final Function getQuotesList;
   final BuildContext scaffoldContext;
+  final AddQuote addQuote;
 
-  const AddQuoteBottomSheet({
+  AddQuoteBottomSheet({
     Key key,
-    this.list,
-    this.getQuotesList,
-    this.scaffoldContext,
+    @required this.list,
+    @required this.getQuotesList,
+    @required this.scaffoldContext,
+    @required this.addQuote,
   }) : super(key: key);
 
   @override
@@ -25,17 +25,10 @@ class AddQuoteBottomSheet extends StatefulWidget {
 
 class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
   final _formkey = GlobalKey<FormState>();
-  AddQuote _addQuote;
-  Quote quote;
-  QuoteList quoteList;
 
-  @override
-  void initState() {
-    super.initState();
-    _addQuote = getIt<AddQuote>();
-    quote = QuoteModel();
-    quoteList = QuoteList();
-  }
+  Quote quote = QuoteModel();
+
+  QuoteList quoteList = QuoteList();
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +136,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                 if (_formkey.currentState.validate()) {
                   _formkey.currentState.save();
 
-                  final res = await _addQuote(
+                  final res = await widget.addQuote(
                     AddQuoteParams(
                       listId: quoteList.id,
                       author: quote.author,

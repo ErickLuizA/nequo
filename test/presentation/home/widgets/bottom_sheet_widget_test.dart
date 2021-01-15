@@ -1,4 +1,6 @@
 import 'package:NeQuo/domain/entities/quote_list.dart';
+import 'package:NeQuo/domain/usecases/add_quote.dart';
+import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 import 'package:NeQuo/presentation/home/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,8 +15,14 @@ class Methods {
 
 class MethodsMock extends Mock implements Methods {}
 
+class AddQuoteMock extends Mock implements AddQuote {}
+
+class AddQuoteListMock extends Mock implements AddQuoteList {}
+
 void main() {
   final methodsMock = MethodsMock();
+  final addQuoteMock = AddQuoteMock();
+  final addQuoteListMock = AddQuoteListMock();
 
   setUp(() async {
     await sl.setUp(testing: true);
@@ -33,6 +41,8 @@ void main() {
               getQuotesList: methodsMock.getQuotesList,
               scaffoldContext: context,
               list: [QuoteList(id: 1, name: 'name')],
+              addQuote: addQuoteMock,
+              addQuoteList: addQuoteListMock,
             ),
           ),
         ),
@@ -55,6 +65,8 @@ void main() {
               getQuotesList: methodsMock.getQuotesList,
               scaffoldContext: context,
               list: [QuoteList(id: 1, name: 'name')],
+              addQuote: addQuoteMock,
+              addQuoteList: addQuoteListMock,
             ),
           ),
         ),
@@ -80,6 +92,8 @@ void main() {
               getQuotesList: methodsMock.getQuotesList,
               scaffoldContext: context,
               list: [],
+              addQuote: addQuoteMock,
+              addQuoteList: addQuoteListMock,
             ),
           ),
         ),
@@ -105,6 +119,8 @@ void main() {
               getQuotesList: methodsMock.getQuotesList,
               scaffoldContext: context,
               list: [QuoteList(id: 1, name: 'name')],
+              addQuote: addQuoteMock,
+              addQuoteList: addQuoteListMock,
             ),
           ),
         ),

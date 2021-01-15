@@ -1,4 +1,6 @@
 import 'package:NeQuo/app_localizations.dart';
+import 'package:NeQuo/domain/usecases/add_quote.dart';
+import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
 import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
@@ -23,7 +25,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeListBloc _homeListBloc;
   ShareQuote share;
-
+  AddQuoteList _addQuoteList;
+  AddQuote _addQuote;
   List<QuoteList> quoteList;
 
   @override
@@ -31,6 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _homeListBloc = getIt<HomeListBloc>();
     share = getIt<ShareQuote>();
+    _addQuoteList = getIt<AddQuoteList>();
+    _addQuote = getIt<AddQuote>();
 
     getQuotesList();
   }
@@ -138,6 +143,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 list: quoteList ?? List(),
                 scaffoldContext: scaffoldContext,
                 getQuotesList: getQuotesList,
+                addQuoteList: _addQuoteList,
+                addQuote: _addQuote,
               ),
             );
           },
