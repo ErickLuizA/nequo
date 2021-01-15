@@ -25,6 +25,7 @@ class AddQuoteListBottomSheet extends StatelessWidget {
     final insetBottom = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
+      key: Key("add_quote_list_bottom_sheet_container"),
       height: insetBottom == 0
           ? MediaQuery.of(context).size.height / 2
           : MediaQuery.of(context).size.height / 1.1,
@@ -39,6 +40,7 @@ class AddQuoteListBottomSheet extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
+              key: Key("text_input"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.words,
               style: TextStyle(color: Colors.white70),
@@ -65,6 +67,7 @@ class AddQuoteListBottomSheet extends StatelessWidget {
               child: SizedBox(height: 10),
             ),
             TextButton(
+              key: Key("create_button"),
               child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
@@ -89,6 +92,7 @@ class AddQuoteListBottomSheet extends StatelessWidget {
                   if (res.isLeft()) {
                     Scaffold.of(scaffoldContext).showSnackBar(
                       SnackBar(
+                        key: Key("add_quote_list_snackbar"),
                         content: Text(AppLocalizations.of(context)
                             .translate('add_quote_list_error')),
                       ),
