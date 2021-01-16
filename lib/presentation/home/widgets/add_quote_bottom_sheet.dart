@@ -26,9 +26,16 @@ class AddQuoteBottomSheet extends StatefulWidget {
 class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
   final _formkey = GlobalKey<FormState>();
 
-  Quote quote = QuoteModel();
+  Quote quote;
+  QuoteList quoteList;
 
-  QuoteList quoteList = QuoteList();
+  @override
+  void initState() {
+    quote = QuoteModel();
+    quoteList = QuoteList();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +43,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
     final isKeyboardOff = insetBottom == 0;
 
     return Container(
+      key: Key("add_quote_bottom_sheet_container"),
       height: isKeyboardOff
           ? MediaQuery.of(context).size.height / 1.1
           : MediaQuery.of(context).size.height / 1.05,
@@ -50,6 +58,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
         child: ListView(
           children: [
             TextFormField(
+              key: Key("text_input_author"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.words,
               style: TextStyle(color: Colors.white70),
@@ -73,6 +82,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: isKeyboardOff ? 15 : 10),
             TextFormField(
+              key: Key("text_input_quote"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Colors.white70),
@@ -97,13 +107,17 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               },
             ),
             DropdownButtonFormField(
+              key: Key("dropdown"),
               style: TextStyle(color: Colors.white70),
               dropdownColor: Color(0XFF605c65),
               icon: Icon(Icons.arrow_drop_down),
               items: widget.list
                   .map(
                     (item) => DropdownMenuItem(
-                      child: Text(item.name),
+                      key: Key("dropdown_item"),
+                      child: Text(
+                        item.name,
+                      ),
                       value: item,
                     ),
                   )
@@ -119,6 +133,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: isKeyboardOff ? 30 : 10),
             TextButton(
+              key: Key("create_button"),
               child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
@@ -147,6 +162,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                   if (res.isLeft()) {
                     Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
+                        key: Key("add_quote_snackbar"),
                         content: Text(AppLocalizations.of(context)
                             .translate('add_quote_error')),
                       ),
