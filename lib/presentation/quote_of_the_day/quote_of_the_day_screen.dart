@@ -71,7 +71,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
           child: BlocBuilder<QuoteOfTheDayBloc, QuoteOfTheDayState>(
             builder: (_, state) {
               if (state is LoadingState) {
-                return LoadingWidget(Key("loading"));
+                return LoadingWidget(key: Key("loading"));
               } else if (state is SuccessState) {
                 return LoadSuccess(
                   key: Key("load_success"),

@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
             BlocBuilder<HomeListBloc, HomeListState>(
               builder: (context, state) {
                 if (state is LoadingListState) {
-                  return LoadingWidget(Key("loading"));
+                  return LoadingWidget(key: Key("loading"));
                 } else if (state is ErrorListState) {
                   return LoadErrorWidget(
                     key: Key("load_error_widget"),

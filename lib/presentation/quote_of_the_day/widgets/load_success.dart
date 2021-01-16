@@ -67,7 +67,7 @@ class LoadSuccess extends StatelessWidget {
               BlocBuilder<FavoriteBloc, FavoriteState>(
                 builder: (context, favState) {
                   if (favState is FavoriteLoadingState) {
-                    return LoadingWidget(Key("loading_state"));
+                    return LoadingWidget(key: Key("loading_state"));
                   } else if (favState is FavoriteSuccessState) {
                     return ActionButton(
                       key: Key("success_state"),
