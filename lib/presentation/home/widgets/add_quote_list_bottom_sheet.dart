@@ -3,10 +3,7 @@ import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
 import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 
-// ignore: must_be_immutable
-class AddQuoteListBottomSheet extends StatelessWidget {
-  final _formkey = GlobalKey<FormState>();
-
+class AddQuoteListBottomSheet extends StatefulWidget {
   final Function getQuotesList;
   final BuildContext scaffoldContext;
   final AddQuoteList addQuoteList;
@@ -18,7 +15,22 @@ class AddQuoteListBottomSheet extends StatelessWidget {
     @required this.addQuoteList,
   }) : super(key: key);
 
+  @override
+  _AddQuoteListBottomSheetState createState() =>
+      _AddQuoteListBottomSheetState();
+}
+
+class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
+  GlobalKey<FormState> _formkey;
+
   String quoteListName = "";
+
+  @override
+  void initState() {
+    _formkey = GlobalKey<FormState>();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +97,12 @@ class AddQuoteListBottomSheet extends StatelessWidget {
                 if (_formkey.currentState.validate()) {
                   _formkey.currentState.save();
 
-                  final res = await addQuoteList(
+                  final res = await widget.addQuoteList(
                     QuoteList(name: quoteListName),
                   );
 
                   if (res.isLeft()) {
-                    Scaffold.of(scaffoldContext).showSnackBar(
+                    Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
                         key: Key("add_quote_list_snackbar"),
                         content: Text(AppLocalizations.of(context)
@@ -98,7 +110,7 @@ class AddQuoteListBottomSheet extends StatelessWidget {
                       ),
                     );
                   } else {
-                    getQuotesList();
+                    widget.getQuotesList();
 
                     Navigator.pop(context);
                   }
