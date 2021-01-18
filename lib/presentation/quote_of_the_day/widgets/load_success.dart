@@ -23,107 +23,111 @@ class LoadSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      key: Key("load_success_container"),
-      padding: const EdgeInsets.only(
-        right: 20,
-        left: 20,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ActionButton(
-            key: Key("close_button"),
-            icon: Icons.close_outlined,
-            onPress: close,
-            align: Alignment.topRight,
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20,
+    return SafeArea(
+      child: Padding(
+        key: Key("load_success_container"),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ActionButton(
+              key: Key("close_button"),
+              icon: Icons.close_outlined,
+              onPress: close,
+              align: Alignment.topRight,
+            ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Text(
+                    state.quote.content,
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
-                child: Text(
-                  state.quote.content,
-                  style: Theme.of(context).textTheme.bodyText1,
+                SizedBox(
+                  height: 40,
                 ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '-${state.quote.author}',
-                  style: Theme.of(context).textTheme.bodyText1,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '-${state.quote.author}',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              BlocBuilder<FavoriteBloc, FavoriteState>(
-                builder: (context, favState) {
-                  if (favState is FavoriteLoadingState) {
-                    return LoadingWidget(key: Key("loading_state"));
-                  } else if (favState is FavoriteSuccessState) {
-                    return ActionButton(
-                      key: Key("success_state"),
-                      icon: Icons.favorite,
-                      onPress: () {},
-                    );
-                  } else if (favState is FavoriteErrorState) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          key: Key("snackbar"),
-                          content: Text(AppLocalizations.of(context)
-                              .translate('add_fav_error')),
-                        ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BlocBuilder<FavoriteBloc, FavoriteState>(
+                  builder: (context, favState) {
+                    if (favState is FavoriteLoadingState) {
+                      return LoadingWidget(key: Key("loading_state"));
+                    } else if (favState is FavoriteSuccessState) {
+                      return ActionButton(
+                        key: Key("success_state"),
+                        icon: Icons.favorite,
+                        onPress: () {},
                       );
-                    });
+                    } else if (favState is FavoriteErrorState) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            key: Key("snackbar"),
+                            content: Text(AppLocalizations.of(context)
+                                .translate('add_fav_error')),
+                          ),
+                        );
+                      });
 
-                    return ActionButton(
-                      key: Key("error_state"),
-                      icon: Icons.favorite_outline,
-                      onPress: () {
-                        addFavorite(
-                          Favorite(
-                            author: state.quote.author,
-                            content: state.quote.content,
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    return ActionButton(
-                      key: Key("favorite_button"),
-                      icon: Icons.favorite_outline,
-                      onPress: () {
-                        addFavorite(
-                          Favorite(
-                            author: state.quote.author,
-                            content: state.quote.content,
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ActionButton(
-                key: Key("share_button"),
-                icon: Icons.share_outlined,
-                onPress: share,
-              ),
-            ],
-          ),
-        ],
+                      return ActionButton(
+                        key: Key("error_state"),
+                        icon: Icons.favorite_outline,
+                        onPress: () {
+                          addFavorite(
+                            Favorite(
+                              author: state.quote.author,
+                              content: state.quote.content,
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return ActionButton(
+                        key: Key("favorite_button"),
+                        icon: Icons.favorite_outline,
+                        onPress: () {
+                          addFavorite(
+                            Favorite(
+                              author: state.quote.author,
+                              content: state.quote.content,
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                ActionButton(
+                  key: Key("share_button"),
+                  icon: Icons.share_outlined,
+                  onPress: share,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
