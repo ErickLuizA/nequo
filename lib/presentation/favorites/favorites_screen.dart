@@ -1,12 +1,13 @@
 import 'package:NeQuo/app_localizations.dart';
+import 'package:NeQuo/presentation/favorites/widgets/success_widget.dart';
 import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
 import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/usecases/delete_favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_event.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
 import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,6 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   FavoritesBloc _favoritesBloc;
   ShareQuote share;
-
-  int current = 0;
 
   @override
   void initState() {
@@ -43,6 +42,21 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     _favoritesBloc.add(GetFavorites());
   }
 
+  void shareQuote(String text) {
+    share(
+      ShareParams(
+        text: text,
+        subject: 'NeQuo - Quotes app',
+      ),
+    );
+  }
+
+  void deleteFavorite(int id) {
+    _favoritesBloc.add(
+      DeleteFavoriteEvent(params: DeleteFavoriteParams(id: id)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,106 +75,23 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
-                      AppLocalizations.of(context).translate('del_fav_error')),
+                    AppLocalizations.of(context).translate('del_fav_error'),
+                  ),
                 ),
               );
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return LoadingWidget(key: Key("loading_widget_failure"));
             } else if (state is LoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return LoadingWidget(key: Key("loading_widget"));
             } else if (state is SuccessState) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Text("${current + 1}/${state.favorites.length}"),
-                      SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: PageView.builder(
-                        itemCount: state.favorites.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          final quote = state.favorites[index];
-
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            setState(() {
-                              current = index;
-                            });
-                          });
-
-                          return SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              children: [
-                                Text(
-                                  quote.content,
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                SizedBox(height: 20),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text(
-                                    "- ${quote.author}",
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ActionButton(
-                        icon: Icons.share_outlined,
-                        onPress: () {
-                          share(
-                            ShareParams(
-                              text: state.favorites[current].content,
-                              subject: 'NeQuo - Quotes app',
-                            ),
-                          );
-                        },
-                      ),
-                      ActionButton(
-                        icon: Icons.delete_outline,
-                        onPress: () {
-                          _favoritesBloc.add(
-                            DeleteFavoriteEvent(
-                              params: DeleteFavoriteParams(
-                                  id: state.favorites[current].id),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ],
+              return SuccessWidget(
+                key: Key("success_widget"),
+                deleteFavorite: deleteFavorite,
+                shareQuote: shareQuote,
+                state: state,
               );
             } else {
               return LoadErrorWidget(
+                key: Key("load_error_widget"),
                 retry: getFavorites,
                 text: AppLocalizations.of(context).translate("load_fav_error"),
               );
