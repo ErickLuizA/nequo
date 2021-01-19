@@ -14,6 +14,7 @@ class LoadErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("load_error_widget_column"),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
@@ -32,6 +33,7 @@ class LoadErrorWidget extends StatelessWidget {
           ),
         ),
         MaterialButton(
+          key: Key("try_again_button"),
           child: Text(AppLocalizations.of(context).translate("try_again")),
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
