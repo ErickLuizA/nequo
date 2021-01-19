@@ -15,11 +15,13 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
+      key: Key("action_button_align"),
       alignment: align ?? Alignment.center,
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(40)),
         color: Theme.of(context).indicatorColor,
         child: IconButton(
+          key: Key("icon_button"),
           icon: Icon(icon),
           onPressed: onPress,
         ),
