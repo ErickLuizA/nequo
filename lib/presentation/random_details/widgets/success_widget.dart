@@ -30,6 +30,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("success_widget_column"),
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Row(
@@ -97,6 +98,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ActionButton(
+              key: Key("share_button"),
               icon: Icons.share_outlined,
               onPress: () {
                 widget.share(
