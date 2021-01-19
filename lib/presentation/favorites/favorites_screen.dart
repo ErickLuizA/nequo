@@ -1,4 +1,5 @@
 import 'package:NeQuo/app_localizations.dart';
+import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
 import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/usecases/delete_favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
@@ -55,39 +56,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           child: BlocBuilder<FavoritesBloc, FavoritesState>(
               builder: (context, state) {
             if (state is EmptyState) {
-              return SafeArea(
-                child: Container(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back_ios),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.hourglass_empty_outlined,
-                                size: 50,
-                              ),
-                              Text(AppLocalizations.of(context)
-                                  .translate('empty_list')),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return EmptyWidget(key: Key("empty_widget"));
             } else if (state is FailedState) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(

@@ -1,4 +1,4 @@
-import 'package:NeQuo/presentation/random_details/widgets/empty_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

@@ -1,5 +1,5 @@
 import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/random_details/widgets/empty_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
 import 'package:NeQuo/presentation/random_details/widgets/success_widget.dart';
 import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
 import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
