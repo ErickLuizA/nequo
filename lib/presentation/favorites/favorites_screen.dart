@@ -60,6 +60,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("favorites_screen"),
       body: BlocProvider(
         create: (_) => _favoritesBloc,
         child: Padding(
@@ -72,13 +73,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             if (state is EmptyState) {
               return EmptyWidget(key: Key("empty_widget"));
             } else if (state is FailedState) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context).translate('del_fav_error'),
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    key: Key("failed_snackbar"),
+                    content: Text(
+                      AppLocalizations.of(context).translate('del_fav_error'),
+                    ),
                   ),
-                ),
-              );
+                );
+              });
+
               return LoadingWidget(key: Key("loading_widget_failure"));
             } else if (state is LoadingState) {
               return LoadingWidget(key: Key("loading_widget"));
