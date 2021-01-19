@@ -21,6 +21,7 @@ class FavoriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
+      key: Key("favorite_button_bloc_builder"),
       builder: (context, favState) {
         final isFavorite = favState.favIndex.contains(current);
 
@@ -30,6 +31,7 @@ class FavoriteButton extends StatelessWidget {
                 onPress: () {},
               )
             : ActionButton(
+              key: Key("no_fav_button"),
                 icon: Icons.favorite_outline,
                 onPress: () {
                   handleFavorite(

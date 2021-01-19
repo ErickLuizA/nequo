@@ -1,7 +1,7 @@
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
-import 'package:NeQuo/presentation/shared/widgets/favorite_button.dart';
+import 'package:NeQuo/presentation/random_details/widgets/favorite_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
