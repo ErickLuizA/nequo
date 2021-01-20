@@ -32,5 +32,7 @@
 
   "del_quote_list_error": "Error when trying to delete quote list",
   "del_list": "Delete list",
-  "del_quote_error": "Error when trying to delete quote"
+  "del_quote_error": "Error when trying to delete quote",
+
+  "load_quote_error": "Error when trying to load quote"
 }

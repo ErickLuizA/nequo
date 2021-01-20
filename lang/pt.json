@@ -32,5 +32,8 @@
 
   "del_quote_list_error": "Erro ao deletar lista",
   "del_list": "Deletar lista",
-  "del_quote_error": "Erro ao deletar citação"
+  "del_quote_error": "Erro ao deletar citação",
+
+  "load_quote_error": "Erro ao carregar citação"
+
 }
