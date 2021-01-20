@@ -50,7 +50,9 @@ class OptionsMenu extends StatelessWidget {
           getQuotesList();
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pop(context);
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
           });
 
           return Container();
