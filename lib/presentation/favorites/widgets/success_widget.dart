@@ -1,4 +1,3 @@
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
 import 'package:flutter/material.dart';
 
 import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
@@ -87,12 +86,14 @@ class _SuccessWidgetState extends State<SuccessWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ActionButton(
+              key: Key("share_action_button"),
               icon: Icons.share_outlined,
               onPress: () {
                 widget.shareQuote(widget.state.favorites[current].content);
               },
             ),
             ActionButton(
+              key: Key("delete_action_button"),
               icon: Icons.delete_outline,
               onPress: () {
                 widget.deleteFavorite(widget.state.favorites[current].id);
