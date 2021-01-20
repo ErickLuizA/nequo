@@ -114,7 +114,6 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               items: widget.list
                   .map(
                     (item) => DropdownMenuItem(
-                      key: Key("dropdown_item"),
                       child: Text(
                         item.name,
                       ),
