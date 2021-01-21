@@ -26,17 +26,25 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DeleteBloc, DeleteState>(
+      key: Key("delete_button_bloc_builder"),
       builder: (_, state) {
         if (state is DeleteLoadingState) {
-          return LoadingWidget();
-        } else if (state is DeleteErrorState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  AppLocalizations.of(context).translate("del_quote_error")),
-            ),
+          return LoadingWidget(
+            key: Key("delete_loading"),
           );
+        } else if (state is DeleteErrorState) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                key: Key("error_snackbar"),
+                content: Text(
+                    AppLocalizations.of(context).translate("del_quote_error")),
+              ),
+            );
+          });
+
           return ActionButton(
+            key: Key("error_delete_button"),
             icon: Icons.delete_outline,
             onPress: () {
               handleDeleteQuote(
@@ -61,6 +69,7 @@ class DeleteButton extends StatelessWidget {
           );
         } else {
           return ActionButton(
+            key: Key("delete_button"),
             icon: Icons.delete_outline,
             onPress: () {
               handleDeleteQuote(
