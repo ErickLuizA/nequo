@@ -133,9 +133,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   handleDeleteQuoteList: handleDeleteQuoteList,
                 );
               } else if (state is LoadingState) {
-                return LoadingWidget();
+                return LoadingWidget(
+                  key: Key("loading_widget"),
+                );
               } else if (state is SuccessState) {
                 return SuccessWidget(
+                  key: Key("success_widget"),
                   getQuotes: getQuotes,
                   getQuotesList: widget.getQuotesList,
                   handleDeleteQuote: handleDeleteQuote,
@@ -146,6 +149,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 );
               } else {
                 return LoadErrorWidget(
+                  key: Key("load_error_widget"),
                   retry: getQuotes,
                   text: AppLocalizations.of(context)
                       .translate("load_quote_error"),
