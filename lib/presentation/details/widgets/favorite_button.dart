@@ -27,6 +27,7 @@ class FavoriteButton extends StatelessWidget {
 
         return isFavorite
             ? ActionButton(
+                key: Key("yes_fav_button"),
                 icon: Icons.favorite,
                 onPress: () {},
               )
