@@ -18,19 +18,24 @@ class OptionsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DeleteBloc, DeleteState>(
+      key: Key("options_menu_bloc_builder"),
       builder: (_, state) {
         if (state is DeleteListLoadingState) {
-          return LoadingWidget();
+          return LoadingWidget(
+            key: Key("delete_list_loading"),
+          );
         } else if (state is DeleteListErrorState) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Scaffold.of(context).showSnackBar(
               SnackBar(
+                key: Key("delete_list_snackbar"),
                 content: Text(AppLocalizations.of(context)
                     .translate("del_quote_list_error")),
               ),
             );
           });
           return PopupMenuButton<String>(
+            key: Key("delete_popup_menu_button"),
             onSelected: (val) {
               if (val == AppLocalizations.of(context).translate("del_list")) {
                 handleDeleteQuoteList();
@@ -57,7 +62,8 @@ class OptionsMenu extends StatelessWidget {
 
           return Container();
         } else {
-          return PopupMenuButton<String>(
+          return PopupMenuButton(
+            key: Key("popup_menu_button"),
             onSelected: (val) {
               if (val == AppLocalizations.of(context).translate("del_list")) {
                 handleDeleteQuoteList();
@@ -66,7 +72,7 @@ class OptionsMenu extends StatelessWidget {
             itemBuilder: (BuildContext context) {
               return {AppLocalizations.of(context).translate("del_list")}
                   .map((String choice) {
-                return PopupMenuItem<String>(
+                return PopupMenuItem<dynamic>(
                   value: choice,
                   child: Text(choice),
                 );
