@@ -16,6 +16,7 @@ class EmptyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      key: Key("empty_widget_safe_area"),
       child: Container(
         child: Column(
           children: [
