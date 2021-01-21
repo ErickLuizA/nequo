@@ -26,19 +26,22 @@ import 'package:NeQuo/external/services/share.dart';
 import 'package:NeQuo/presentation/details/bloc/details_bloc.dart';
 import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
 import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
 import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:NeQuo/presentation/random_details/bloc/random_details_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:mockito/mockito.dart';
 
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 final getIt = GetIt.instance;
 
-Future<void> setUp() async {
+Future<void> setUp({@required bool testing}) async {
   // Bloc
   getIt.registerFactory(
     () => QuoteOfTheDayBloc(
@@ -173,13 +176,31 @@ Future<void> setUp() async {
   );
 
   // External
-  final sharedPreferences = await SharedPreferences.getInstance();
-  final database = await initDb();
 
-  getIt.registerLazySingleton(() => http.Client());
-  getIt.registerLazySingleton(() => sharedPreferences);
-  getIt.registerLazySingleton(() => database);
-  getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(getIt()));
-  getIt.registerLazySingleton(() => DataConnectionChecker());
-  getIt.registerLazySingleton<Share>(() => ShareImpl());
+  if (testing) {
+    getIt.registerLazySingleton<http.Client>(() => ClientMock());
+    getIt.registerLazySingleton<SharedPreferences>(
+        () => SharedPreferencesMock());
+    getIt.registerLazySingleton<Database>(() => DatabaseMock());
+    getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(getIt()));
+    getIt.registerLazySingleton<DataConnectionChecker>(
+        () => DataConnectionChecker());
+    getIt.registerLazySingleton<Share>(() => ShareImpl());
+  } else {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final database = await initDb();
+
+    getIt.registerLazySingleton(() => http.Client());
+    getIt.registerLazySingleton(() => sharedPreferences);
+    getIt.registerLazySingleton(() => database);
+    getIt.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(getIt()));
+    getIt.registerLazySingleton(() => DataConnectionChecker());
+    getIt.registerLazySingleton<Share>(() => ShareImpl());
+  }
 }
+
+class ClientMock extends Mock implements http.Client {}
+
+class SharedPreferencesMock extends Mock implements SharedPreferences {}
+
+class DatabaseMock extends Mock implements Database {}

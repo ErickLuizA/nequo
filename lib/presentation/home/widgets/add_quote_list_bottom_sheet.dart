@@ -1,16 +1,19 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-
-import 'package:NeQuo/dependency_injection.dart';
 import 'package:NeQuo/domain/usecases/add_quote_list.dart';
 
 class AddQuoteListBottomSheet extends StatefulWidget {
   final Function getQuotesList;
   final BuildContext scaffoldContext;
+  final AddQuoteList addQuoteList;
 
-  const AddQuoteListBottomSheet(
-      {Key key, this.getQuotesList, this.scaffoldContext})
-      : super(key: key);
+  AddQuoteListBottomSheet({
+    Key key,
+    @required this.getQuotesList,
+    @required this.scaffoldContext,
+    @required this.addQuoteList,
+  }) : super(key: key);
 
   @override
   _AddQuoteListBottomSheetState createState() =>
@@ -18,15 +21,15 @@ class AddQuoteListBottomSheet extends StatefulWidget {
 }
 
 class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
-  final _formkey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formkey;
 
-  AddQuoteList _addQuoteList;
   String quoteListName = "";
 
   @override
   void initState() {
+    _formkey = GlobalKey<FormState>();
+
     super.initState();
-    _addQuoteList = getIt<AddQuoteList>();
   }
 
   @override
@@ -34,6 +37,7 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
     final insetBottom = MediaQuery.of(context).viewInsets.bottom;
 
     return Container(
+      key: Key("add_quote_list_bottom_sheet_container"),
       height: insetBottom == 0
           ? MediaQuery.of(context).size.height / 2
           : MediaQuery.of(context).size.height / 1.1,
@@ -48,19 +52,21 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
         child: Column(
           children: [
             TextFormField(
+              key: Key("text_input"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.words,
               style: TextStyle(color: Colors.white70),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Quote list name',
+                labelText:
+                    AppLocalizations.of(context).translate('quote_list_name'),
                 labelStyle: TextStyle(
                   color: Colors.white70,
                 ),
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -73,7 +79,8 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
               child: SizedBox(height: 10),
             ),
             TextButton(
-              child: Text("Create"),
+              key: Key("create_button"),
+              child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(
@@ -90,15 +97,16 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
                 if (_formkey.currentState.validate()) {
                   _formkey.currentState.save();
 
-                  final res = await _addQuoteList(
+                  final res = await widget.addQuoteList(
                     QuoteList(name: quoteListName),
                   );
 
                   if (res.isLeft()) {
                     Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
-                        content:
-                            Text("A error occurred while adding quote list"),
+                        key: Key("add_quote_list_snackbar"),
+                        content: Text(AppLocalizations.of(context)
+                            .translate('add_quote_list_error')),
                       ),
                     );
                   } else {
@@ -111,7 +119,7 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
             ),
             SizedBox(height: 10),
             TextButton(
-              child: Text("Cancel"),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(

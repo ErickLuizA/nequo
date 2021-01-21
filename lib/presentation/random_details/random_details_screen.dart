@@ -1,12 +1,16 @@
-import 'package:NeQuo/dependency_injection.dart';
+import 'package:NeQuo/app_localizations.dart';
+import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
+import 'package:NeQuo/presentation/random_details/widgets/success_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
+import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:NeQuo/service_locator.dart';
 import 'package:NeQuo/domain/entities/favorite.dart';
 import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
 import 'package:NeQuo/domain/usecases/share_quote.dart';
 import 'package:NeQuo/presentation/random_details/bloc/random_details_bloc.dart';
 import 'package:NeQuo/presentation/random_details/bloc/random_details_event.dart';
 import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
-import 'package:NeQuo/presentation/shared/action_button.dart';
-import 'package:NeQuo/presentation/shared/favorite_bloc.dart';
+import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,10 +22,7 @@ class RandomDetailsScreen extends StatefulWidget {
 class _RandomDetailsScreenState extends State<RandomDetailsScreen> {
   RandomDetailsBloc _randomDetailsBloc;
   FavoriteBloc _favoriteBloc;
-
   ShareQuote share;
-
-  int current = 0;
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class _RandomDetailsScreenState extends State<RandomDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key("random_details_screen"),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -80,123 +82,27 @@ class _RandomDetailsScreenState extends State<RandomDetailsScreen> {
           child: BlocBuilder<RandomDetailsBloc, RandomDetailsState>(
             builder: (context, state) {
               if (state is EmptyState) {
-                return Container();
-              } else if (state is LoadingState) {
-                return Center(
-                  child: CircularProgressIndicator(),
+                return EmptyWidget(
+                  key: Key("emtpy_widget"),
                 );
+              } else if (state is LoadingState) {
+                return LoadingWidget(key: Key("loading_widget"));
               } else if (state is SuccessState) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.arrow_back_ios),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Text("${current + 1}/${state.quotes.length}"),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: PageView.builder(
-                          itemCount: state.quotes.length,
-                          scrollDirection: Axis.horizontal,
-                          controller: PageController(
-                            initialPage: state.scrollPos,
-                          ),
-                          itemBuilder: (context, index) {
-                            final quote = state.quotes[index];
-
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              setState(() {
-                                current = index;
-                              });
-                            });
-
-                            if (index == state.quotes.length - 1) {
-                              getRandomQuotes(state.quotes.length, index + 1);
-                            }
-
-                            return SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    quote.content,
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1,
-                                  ),
-                                  SizedBox(height: 20),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "- ${quote.author}",
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ActionButton(
-                          icon: Icons.share_outlined,
-                          onPress: () {
-                            share(
-                              ShareParams(
-                                text: state.quotes[current].content,
-                                subject: 'NeQuo - Quotes app',
-                              ),
-                            );
-                          },
-                        ),
-                        BlocBuilder<FavoriteBloc, FavoriteState>(
-                          builder: (context, favState) {
-                            final isFavorite =
-                                favState.favIndex.contains(current);
-
-                            return isFavorite
-                                ? ActionButton(
-                                    icon: Icons.favorite,
-                                    onPress: () {},
-                                  )
-                                : ActionButton(
-                                    icon: Icons.favorite_outline,
-                                    onPress: () {
-                                      handleFavorite(
-                                        Favorite(
-                                          author: state.quotes[current].author,
-                                          content:
-                                              state.quotes[current].content,
-                                        ),
-                                        current,
-                                      );
-                                    },
-                                  );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
+                return SuccessWidget(
+                  key: Key("success_widget"),
+                  getRandomQuotes: getRandomQuotes,
+                  handleFavorite: handleFavorite,
+                  share: share,
+                  state: state,
                 );
               } else {
-                return Container();
+                return LoadErrorWidget(
+                  key: Key("load_error_widget"),
+                  text: AppLocalizations.of(context).translate("load_ql_error"),
+                  retry: () {
+                    getRandomQuotes(0, 0);
+                  },
+                );
               }
             },
           ),

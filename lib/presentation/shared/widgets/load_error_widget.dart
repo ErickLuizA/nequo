@@ -1,3 +1,4 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoadErrorWidget extends StatelessWidget {
@@ -13,6 +14,7 @@ class LoadErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      key: Key("load_error_widget_column"),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
@@ -31,7 +33,8 @@ class LoadErrorWidget extends StatelessWidget {
           ),
         ),
         MaterialButton(
-          child: Text('Try again'),
+          key: Key("try_again_button"),
+          child: Text(AppLocalizations.of(context).translate("try_again")),
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,

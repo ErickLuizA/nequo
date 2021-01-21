@@ -1,5 +1,6 @@
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:NeQuo/presentation/details/details_screen.dart';
+import 'package:NeQuo/presentation/home/utils/random_id.dart';
 import 'package:flutter/material.dart';
 
 class QuoteListCard extends StatelessWidget {
@@ -17,10 +18,12 @@ class QuoteListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      key: Key("quote_list_card"),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
+        key: Key("list_tile"),
         title: Text(
           name,
           style: TextStyle(
@@ -28,7 +31,7 @@ class QuoteListCard extends StatelessWidget {
           ),
         ),
         onTap: () {
-          name == 'Random Quotes'
+          id == ID
               ? Navigator.of(context).pushNamed('/random_details')
               : Navigator.of(context).push(
                   MaterialPageRoute(

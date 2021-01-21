@@ -1,8 +1,7 @@
+import 'package:NeQuo/app_localizations.dart';
 import 'package:NeQuo/data/models/quote_model.dart';
 import 'package:NeQuo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-
-import 'package:NeQuo/dependency_injection.dart';
 import 'package:NeQuo/domain/entities/quote.dart';
 import 'package:NeQuo/domain/usecases/add_quote.dart';
 
@@ -10,12 +9,14 @@ class AddQuoteBottomSheet extends StatefulWidget {
   final List<QuoteList> list;
   final Function getQuotesList;
   final BuildContext scaffoldContext;
+  final AddQuote addQuote;
 
-  const AddQuoteBottomSheet({
+  AddQuoteBottomSheet({
     Key key,
-    this.list,
-    this.getQuotesList,
-    this.scaffoldContext,
+    @required this.list,
+    @required this.getQuotesList,
+    @required this.scaffoldContext,
+    @required this.addQuote,
   }) : super(key: key);
 
   @override
@@ -24,16 +25,16 @@ class AddQuoteBottomSheet extends StatefulWidget {
 
 class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
   final _formkey = GlobalKey<FormState>();
-  AddQuote _addQuote;
+
   Quote quote;
   QuoteList quoteList;
 
   @override
   void initState() {
-    super.initState();
-    _addQuote = getIt<AddQuote>();
     quote = QuoteModel();
     quoteList = QuoteList();
+
+    super.initState();
   }
 
   @override
@@ -42,6 +43,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
     final isKeyboardOff = insetBottom == 0;
 
     return Container(
+      key: Key("add_quote_bottom_sheet_container"),
       height: isKeyboardOff
           ? MediaQuery.of(context).size.height / 1.1
           : MediaQuery.of(context).size.height / 1.05,
@@ -56,19 +58,20 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
         child: ListView(
           children: [
             TextFormField(
+              key: Key("text_input_author"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.words,
               style: TextStyle(color: Colors.white70),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Author',
+                labelText: AppLocalizations.of(context).translate('author'),
                 labelStyle: TextStyle(
                   color: Colors.white70,
                 ),
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -79,13 +82,14 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: isKeyboardOff ? 15 : 10),
             TextFormField(
+              key: Key("text_input_quote"),
               keyboardType: TextInputType.text,
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(color: Colors.white70),
               maxLines: isKeyboardOff ? 10 : 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Quote',
+                labelText: AppLocalizations.of(context).translate('quote'),
                 alignLabelWithHint: true,
                 labelStyle: TextStyle(
                   color: Colors.white70,
@@ -93,7 +97,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               ),
               validator: (val) {
                 if (val.isEmpty) {
-                  return 'Please fill this field';
+                  return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
@@ -103,13 +107,16 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
               },
             ),
             DropdownButtonFormField(
+              key: Key("dropdown"),
               style: TextStyle(color: Colors.white70),
               dropdownColor: Color(0XFF605c65),
               icon: Icon(Icons.arrow_drop_down),
               items: widget.list
                   .map(
                     (item) => DropdownMenuItem(
-                      child: Text(item.name),
+                      child: Text(
+                        item.name,
+                      ),
                       value: item,
                     ),
                   )
@@ -125,7 +132,8 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: isKeyboardOff ? 30 : 10),
             TextButton(
-              child: Text("Create"),
+              key: Key("create_button"),
+              child: Text(AppLocalizations.of(context).translate('create')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(
@@ -142,7 +150,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                 if (_formkey.currentState.validate()) {
                   _formkey.currentState.save();
 
-                  final res = await _addQuote(
+                  final res = await widget.addQuote(
                     AddQuoteParams(
                       listId: quoteList.id,
                       author: quote.author,
@@ -153,8 +161,9 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                   if (res.isLeft()) {
                     Scaffold.of(widget.scaffoldContext).showSnackBar(
                       SnackBar(
-                        content: Text(
-                            "A error occurred while adding quote to the list"),
+                        key: Key("add_quote_snackbar"),
+                        content: Text(AppLocalizations.of(context)
+                            .translate('add_quote_error')),
                       ),
                     );
                   } else {
@@ -167,7 +176,7 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
             ),
             SizedBox(height: 10),
             TextButton(
-              child: Text("Cancel"),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
               style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
                   Size(
