@@ -27,10 +27,9 @@
   <a href="#clipboard-description">Description</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#building_construction-technologies">Technologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#rocket-getting-started">Getting Started</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-license">License</a>
+  <a href="#memo-license">License</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#framed_picture-screenshots">Screenshots</a>
 </p>
-
-> Under construction
 
 ## :clipboard: Description
 
@@ -92,8 +91,18 @@ $ flutter run
 # or just use your IDE
 ```
 
+
+## :framed_picture: Screenshots
+
+<div>
+  <img alt="Fanarvel image" src="./.github/qotd.png"  width="250"/>
+  <img alt="Fanarvel image" src="./.github/home.png"  width="250"/>
+  <img alt="Fanarvel image" src="./.github/addmodal.png"  width="250"/>
+  <img alt="Fanarvel image" src="./.github/addquote.png"  width="250"/>
+  <img alt="Fanarvel image" src="./.github/quote.png"  width="250"/>
+</div>
+
 ## :information_source: TODO
-  - Widget and Integration Tests
   - Better design
   - Edit option to quote list
   - Go to the end of scroll list
