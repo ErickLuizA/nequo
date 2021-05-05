@@ -1,7 +1,3 @@
-<p align="center"> 
-  <img alt="NeQuo icon" src="./android/app/src/main/ic_launcher-playstore.png"  width="280"/>
-</p>
-
 <h1 align="center"> NeQuo </h1>
 
 <p align="center">
