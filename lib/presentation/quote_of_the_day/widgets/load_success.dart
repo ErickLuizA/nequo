@@ -1,9 +1,9 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,11 +14,11 @@ class LoadSuccess extends StatelessWidget {
   final Function(Favorite favorite) addFavorite;
 
   const LoadSuccess({
-    Key key,
-    @required this.close,
-    @required this.state,
-    @required this.share,
-    @required this.addFavorite,
+    Key? key,
+    required this.close,
+    required this.state,
+    required this.share,
+    required this.addFavorite,
   }) : super(key: key);
 
   @override
@@ -78,12 +78,14 @@ class LoadSuccess extends StatelessWidget {
                         onPress: () {},
                       );
                     } else if (favState is FavoriteErrorState) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Scaffold.of(context).showSnackBar(
+                      WidgetsBinding.instance?.addPostFrameCallback((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             key: Key("snackbar"),
-                            content: Text(AppLocalizations.of(context)
-                                .translate('add_fav_error')),
+                            content: Text(
+                              AppLocalizations.of(context)
+                                  .translate('add_fav_error'),
+                            ),
                           ),
                         );
                       });

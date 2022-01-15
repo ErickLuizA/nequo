@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:NeQuo/data/datasources/quote_local_datasource.dart';
-import 'package:NeQuo/data/models/quote_list_model.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/errors/exceptions.dart';
-import 'package:NeQuo/data/models/quote_model.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/load_quotes.dart';
+import 'package:nequo/data/datasources/quote_local_datasource.dart';
+import 'package:nequo/data/models/quote_list_model.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -19,8 +19,8 @@ class QuoteLocalDatasourceImpl implements QuoteLocalDatasource {
   final Database database;
 
   QuoteLocalDatasourceImpl({
-    @required this.sharedPreferences,
-    @required this.database,
+    required this.sharedPreferences,
+    required this.database,
   });
 
   @override

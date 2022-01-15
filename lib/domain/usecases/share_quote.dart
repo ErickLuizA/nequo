@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/usecases/usecase.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 import 'package:flutter/material.dart';
 
 abstract class Share {
@@ -10,8 +10,8 @@ class ShareParams {
   String subject;
 
   ShareParams({
-    @required this.text,
-    @required this.subject,
+    required this.text,
+    required this.subject,
   });
 }
 
@@ -19,7 +19,7 @@ class ShareQuote extends Usecase<void, ShareParams> {
   Share share;
 
   ShareQuote({
-    @required this.share,
+    required this.share,
   });
 
   @override

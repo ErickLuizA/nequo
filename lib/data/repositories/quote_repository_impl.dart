@@ -1,19 +1,18 @@
-import 'package:NeQuo/data/datasources/quote_local_datasource.dart';
-import 'package:NeQuo/data/datasources/quote_remote_datasource.dart';
-import 'package:NeQuo/data/models/quote_model.dart';
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/errors/exceptions.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/repositories/quote_repository.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/load_quotes.dart';
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
-import 'package:NeQuo/external/services/network_info.dart';
+import 'package:nequo/data/datasources/quote_local_datasource.dart';
+import 'package:nequo/data/datasources/quote_remote_datasource.dart';
+import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/repositories/quote_repository.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/external/services/network_info.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 
 class QuoteRepositoryImpl implements QuoteRepository {
   final QuoteRemoteDatasource remoteDatasource;
@@ -21,9 +20,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   final NetworkInfo networkInfo;
 
   QuoteRepositoryImpl({
-    @required this.remoteDatasource,
-    @required this.localDatasource,
-    @required this.networkInfo,
+    required this.remoteDatasource,
+    required this.localDatasource,
+    required this.networkInfo,
   });
 
   @override
@@ -60,7 +59,7 @@ class QuoteRepositoryImpl implements QuoteRepository {
       }
     } else {
       try {
-        final List<QuoteModel> list = List();
+        final List<QuoteModel> list = [];
 
         final result = await localDatasource.getLastQuote();
 

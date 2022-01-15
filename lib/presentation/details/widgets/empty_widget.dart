@@ -1,16 +1,16 @@
-import 'package:NeQuo/presentation/details/widgets/options_menu.dart';
+import 'package:nequo/presentation/details/widgets/options_menu.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/app_localizations.dart';
+import 'package:nequo/app_localizations.dart';
 
 class EmptyWidget extends StatelessWidget {
   final Function getQuotesList;
   final Function handleDeleteQuoteList;
 
   const EmptyWidget({
-    Key key,
-    @required this.getQuotesList,
-    @required this.handleDeleteQuoteList,
+    Key? key,
+    required this.getQuotesList,
+    required this.handleDeleteQuoteList,
   }) : super(key: key);
 
   @override

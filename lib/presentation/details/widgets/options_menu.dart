@@ -1,7 +1,7 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
+import 'package:nequo/presentation/details/bloc/delete_state.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,9 +10,9 @@ class OptionsMenu extends StatelessWidget {
   final Function handleDeleteQuoteList;
 
   const OptionsMenu({
-    Key key,
-    @required this.getQuotesList,
-    @required this.handleDeleteQuoteList,
+    Key? key,
+    required this.getQuotesList,
+    required this.handleDeleteQuoteList,
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class OptionsMenu extends StatelessWidget {
             key: Key("delete_list_loading"),
           );
         } else if (state is DeleteListErrorState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 key: Key("delete_list_snackbar"),
@@ -54,7 +54,7 @@ class OptionsMenu extends StatelessWidget {
         } else if (state is DeleteListSuccessState) {
           getQuotesList();
 
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
             if (Navigator.canPop(context)) {
               Navigator.pop(context);
             }

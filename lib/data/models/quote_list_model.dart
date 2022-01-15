@@ -1,8 +1,8 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
 
 class QuoteListModel extends QuoteList {
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
   QuoteListModel({
     this.id,
@@ -20,8 +20,6 @@ class QuoteListModel extends QuoteList {
   }
 
   factory QuoteListModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return QuoteListModel(
       id: map['id'],
       name: map['name'],

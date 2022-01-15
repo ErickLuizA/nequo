@@ -1,9 +1,9 @@
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_event.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
+import 'package:nequo/presentation/details/bloc/delete_event.dart';
+import 'package:nequo/presentation/details/bloc/delete_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

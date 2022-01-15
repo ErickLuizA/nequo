@@ -1,15 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/repositories/favorite_repository.dart';
-import 'package:NeQuo/domain/usecases/usecase.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 
 class DeleteFavoriteParams {
   int id;
 
   DeleteFavoriteParams({
-    @required this.id,
+    required this.id,
   });
 }
 
@@ -17,7 +16,7 @@ class DeleteFavorite extends UseCase<void, DeleteFavoriteParams> {
   FavoriteRepository favoriteRepository;
 
   DeleteFavorite({
-    this.favoriteRepository,
+    required this.favoriteRepository,
   });
 
   @override

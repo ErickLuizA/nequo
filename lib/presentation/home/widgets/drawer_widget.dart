@@ -1,4 +1,4 @@
-import 'package:NeQuo/app_localizations.dart';
+import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -6,9 +6,9 @@ class DrawerWidget extends StatelessWidget {
   final Function handleShare;
 
   const DrawerWidget({
-    Key key,
-    @required this.handleNavigateToFavorites,
-    @required this.handleShare,
+    Key? key,
+    required this.handleNavigateToFavorites,
+    required this.handleShare,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,9 @@ class DrawerWidget extends StatelessWidget {
         children: [
           ListTile(
             key: Key("list_tile_navigation"),
-            onTap: handleNavigateToFavorites,
+            onTap: () {
+              handleNavigateToFavorites();
+            },
             title: Text(AppLocalizations.of(context).translate('favorites')),
             leading: Icon(
               Icons.favorite_outline,
@@ -31,7 +33,9 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             key: Key("list_tile_share"),
-            onTap: handleShare,
+            onTap: () {
+              handleShare();
+            },
             title: Text(AppLocalizations.of(context).translate('share')),
             leading: Icon(
               Icons.share,

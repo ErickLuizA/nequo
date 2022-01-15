@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/errors/failures.dart';
+import 'package:nequo/domain/errors/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 

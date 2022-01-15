@@ -1,4 +1,4 @@
-import 'package:NeQuo/app_localizations.dart';
+import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoadError extends StatelessWidget {
@@ -6,9 +6,9 @@ class LoadError extends StatelessWidget {
   final Function retry;
 
   const LoadError({
-    Key key,
-    @required this.navigate,
-    @required this.retry,
+    Key? key,
+    required this.navigate,
+    required this.retry,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,9 @@ class LoadError extends StatelessWidget {
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,
-          onPressed: retry,
+          onPressed: () {
+            retry();
+          },
         ),
         SizedBox(height: 10),
         MaterialButton(
@@ -47,7 +49,9 @@ class LoadError extends StatelessWidget {
           minWidth: MediaQuery.of(context).size.width / 2,
           color: Theme.of(context).indicatorColor,
           textColor: Colors.white,
-          onPressed: navigate,
+          onPressed: () {
+            navigate();
+          },
         ),
       ],
     );

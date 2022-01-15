@@ -1,7 +1,7 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/repositories/favorite_repository.dart';
-import 'package:NeQuo/domain/usecases/add_favorite.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

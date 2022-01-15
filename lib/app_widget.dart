@@ -1,9 +1,9 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/details/details_screen.dart';
-import 'package:NeQuo/presentation/favorites/favorites_screen.dart';
-import 'package:NeQuo/presentation/home/home_screen.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
-import 'package:NeQuo/presentation/random_details/random_details_screen.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/presentation/details/details_screen.dart';
+import 'package:nequo/presentation/favorites/favorites_screen.dart';
+import 'package:nequo/presentation/home/home_screen.dart';
+import 'package:nequo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
+import 'package:nequo/presentation/random_details/random_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,13 +12,12 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NeQuo',
+      title: 'nequo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Color(0xFF6C63FF),
         indicatorColor: Color(0xFF7a72fe),
         canvasColor: Color(0xFF6C63FF),
-        accentColor: Color(0xFF7a72fe),
         iconTheme: IconThemeData(
           color: Colors.white,
           size: 26,

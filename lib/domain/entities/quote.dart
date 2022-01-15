@@ -1,17 +1,16 @@
 import 'package:equatable/equatable.dart';
 
-// ignore: must_be_immutable
 class Quote extends Equatable {
-  int id;
+  int? id;
   String content;
   String author;
 
   Quote({
     this.id,
-    this.content,
-    this.author,
+    required this.content,
+    required this.author,
   });
 
   @override
-  List<Object> get props => [id, content, author];
+  List<Object> get props => [content, author];
 }

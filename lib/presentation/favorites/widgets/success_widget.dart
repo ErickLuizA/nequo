@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_state.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
 
 class SuccessWidget extends StatefulWidget {
   final SuccessState state;
@@ -9,10 +9,10 @@ class SuccessWidget extends StatefulWidget {
   final Function(int id) deleteFavorite;
 
   const SuccessWidget({
-    Key key,
-    @required this.state,
-    @required this.shareQuote,
-    @required this.deleteFavorite,
+    Key? key,
+    required this.state,
+    required this.shareQuote,
+    required this.deleteFavorite,
   }) : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
               itemBuilder: (context, index) {
                 final quote = widget.state.favorites[index];
 
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
                   setState(() {
                     current = index;
                   });
@@ -96,7 +96,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
               key: Key("delete_action_button"),
               icon: Icons.delete_outline,
               onPress: () {
-                widget.deleteFavorite(widget.state.favorites[current].id);
+                widget.deleteFavorite(widget.state.favorites[current].id!);
               },
             ),
           ],

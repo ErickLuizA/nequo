@@ -1,11 +1,11 @@
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/domain/usecases/load_quotes.dart';
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class QuoteRepository {

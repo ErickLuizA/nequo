@@ -1,8 +1,8 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/repositories/quote_repository.dart';
-import 'package:NeQuo/domain/usecases/load_quotes_list.dart';
-import 'package:NeQuo/domain/usecases/usecase.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/repositories/quote_repository.dart';
+import 'package:nequo/domain/usecases/load_quotes_list.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

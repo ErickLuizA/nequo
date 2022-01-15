@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/usecases/share_quote.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

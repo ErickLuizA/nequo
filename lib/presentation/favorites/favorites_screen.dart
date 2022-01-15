@@ -1,14 +1,14 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/favorites/widgets/success_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
-import 'package:NeQuo/service_locator.dart';
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_event.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/presentation/favorites/widgets/success_widget.dart';
+import 'package:nequo/presentation/shared/widgets/empty_widget.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/service_locator.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_bloc.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_event.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_state.dart';
+import 'package:nequo/presentation/shared/widgets/load_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,8 +18,8 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  FavoritesBloc _favoritesBloc;
-  ShareQuote share;
+  late FavoritesBloc _favoritesBloc;
+  late ShareQuote share;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     share(
       ShareParams(
         text: text,
-        subject: 'NeQuo - Quotes app',
+        subject: 'nequo - Quotes app',
       ),
     );
   }
@@ -73,7 +73,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             if (state is EmptyState) {
               return EmptyWidget(key: Key("empty_widget"));
             } else if (state is FailedState) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
+              WidgetsBinding.instance?.addPostFrameCallback((_) {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     key: Key("failed_snackbar"),

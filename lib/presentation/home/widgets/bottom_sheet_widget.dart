@@ -1,11 +1,11 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/add_quote_list.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/presentation/home/widgets/add_quote_bottom_sheet.dart';
-import 'package:NeQuo/presentation/home/widgets/add_quote_list_bottom_sheet.dart';
+import 'package:nequo/presentation/home/widgets/add_quote_bottom_sheet.dart';
+import 'package:nequo/presentation/home/widgets/add_quote_list_bottom_sheet.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   final List<QuoteList> list;
@@ -15,12 +15,12 @@ class BottomSheetWidget extends StatelessWidget {
   final AddQuote addQuote;
 
   const BottomSheetWidget({
-    Key key,
-    @required this.list,
-    @required this.scaffoldContext,
-    @required this.getQuotesList,
-    @required this.addQuoteList,
-    @required this.addQuote,
+    Key? key,
+    required this.list,
+    required this.scaffoldContext,
+    required this.getQuotesList,
+    required this.addQuoteList,
+    required this.addQuote,
   }) : super(key: key);
 
   @override

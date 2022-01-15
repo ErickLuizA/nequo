@@ -1,12 +1,12 @@
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/presentation/details/widgets/delete_button.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/presentation/details/widgets/delete_button.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/presentation/details/bloc/details_state.dart';
-import 'package:NeQuo/presentation/details/widgets/favorite_button.dart';
-import 'package:NeQuo/presentation/details/widgets/options_menu.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/presentation/details/bloc/details_state.dart';
+import 'package:nequo/presentation/details/widgets/favorite_button.dart';
+import 'package:nequo/presentation/details/widgets/options_menu.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
 
 class SuccessWidget extends StatefulWidget {
   final Function getQuotesList;
@@ -18,14 +18,14 @@ class SuccessWidget extends StatefulWidget {
   final Function getQuotes;
 
   const SuccessWidget({
-    Key key,
-    @required this.getQuotesList,
-    @required this.handleDeleteQuoteList,
-    @required this.successState,
-    @required this.shareQuote,
-    @required this.handleFavorite,
-    @required this.handleDeleteQuote,
-    @required this.getQuotes,
+    Key? key,
+    required this.getQuotesList,
+    required this.handleDeleteQuoteList,
+    required this.successState,
+    required this.shareQuote,
+    required this.handleFavorite,
+    required this.handleDeleteQuote,
+    required this.getQuotes,
   }) : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
               itemBuilder: (context, index) {
                 final quote = widget.successState.quotes[index];
 
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
                   setState(() {
                     current = index;
                   });

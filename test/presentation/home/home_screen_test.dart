@@ -1,10 +1,10 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_state.dart';
-import 'package:NeQuo/presentation/home/home_screen.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/presentation/home/bloc/home_list_bloc.dart';
+import 'package:nequo/presentation/home/bloc/home_list_state.dart';
+import 'package:nequo/presentation/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 import 'package:mockito/mockito.dart';
 
 import '../../utils/make_app.dart';

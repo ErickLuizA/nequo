@@ -1,33 +1,35 @@
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_event.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_event.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RandomDetailsBloc extends Bloc<RandomDetailsEvent, RandomDetailsState> {
   LoadRandomQuotes loadRandomQuotes;
 
   RandomDetailsBloc({
-    this.loadRandomQuotes,
-  }) : super(InitialState());
+    required this.loadRandomQuotes,
+  }) : super(InitialState()) {
+    on<GetRandomQuotes>(_onGetRandomQuote);
+  }
 
-  List<Quote> quotes = List<Quote>();
+  List<Quote> quotes = [];
 
-  @override
-  Stream<RandomDetailsState> mapEventToState(RandomDetailsEvent event) async* {
-    if (event is GetRandomQuotes) {
-      yield LoadingState();
+  void _onGetRandomQuote(
+    GetRandomQuotes event,
+    Emitter<RandomDetailsState> emit,
+  ) async {
+    emit(LoadingState());
 
-      final result = await loadRandomQuotes(event.params);
+    final result = await loadRandomQuotes(event.params);
 
-      yield result.fold(
-        (failure) => ErrorState(),
-        (success) {
-          quotes.addAll(success);
+    result.fold(
+      (failure) => emit(ErrorState()),
+      (success) {
+        quotes.addAll(success);
 
-          return SuccessState(quotes: quotes, scrollPos: event.scrollPos);
-        },
-      );
-    }
+        emit(SuccessState(quotes: quotes, scrollPos: event.scrollPos));
+      },
+    );
   }
 }

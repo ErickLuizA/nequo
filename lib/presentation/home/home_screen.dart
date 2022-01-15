@@ -1,18 +1,18 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/add_quote_list.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
-import 'package:NeQuo/service_locator.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_event.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_state.dart';
-import 'package:NeQuo/presentation/home/utils/random_id.dart';
-import 'package:NeQuo/presentation/home/widgets/bottom_sheet_widget.dart';
-import 'package:NeQuo/presentation/home/widgets/drawer_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
-import 'package:NeQuo/presentation/home/widgets/quote_list_card.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/service_locator.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/home/bloc/home_list_bloc.dart';
+import 'package:nequo/presentation/home/bloc/home_list_event.dart';
+import 'package:nequo/presentation/home/bloc/home_list_state.dart';
+import 'package:nequo/presentation/home/utils/random_id.dart';
+import 'package:nequo/presentation/home/widgets/bottom_sheet_widget.dart';
+import 'package:nequo/presentation/home/widgets/drawer_widget.dart';
+import 'package:nequo/presentation/shared/widgets/load_error_widget.dart';
+import 'package:nequo/presentation/home/widgets/quote_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,11 +23,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  HomeListBloc _homeListBloc;
-  ShareQuote share;
-  AddQuoteList _addQuoteList;
-  AddQuote _addQuote;
-  List<QuoteList> quoteList;
+  late HomeListBloc _homeListBloc;
+  late ShareQuote share;
+  late AddQuoteList _addQuoteList;
+  late AddQuote _addQuote;
+  late List<QuoteList> quoteList;
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void handleShare() async {
     await share(ShareParams(
-      subject: 'NeQuo - Quotes App',
+      subject: 'nequo - Quotes App',
       text: AppLocalizations.of(context).translate('find_quotes'),
     ));
   }
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
         title: Text(
-          "NeQuo",
+          "nequo",
           style: GoogleFonts.marckScript(
             fontSize: 32,
           ),
@@ -111,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         final list = state.quoteList[index];
 
                         return QuoteListCard(
-                          id: list.id,
-                          name: list.name,
+                          id: list.id ?? 0,
+                          name: list.name!,
                           getQuotesList: getQuotesList,
                         );
                       },
@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               builder: (context) => BottomSheetWidget(
                 key: Key("bottom_sheet_widget"),
-                list: quoteList ?? List(),
+                list: quoteList,
                 scaffoldContext: scaffoldContext,
                 getQuotesList: getQuotesList,
                 addQuoteList: _addQuoteList,

@@ -1,10 +1,10 @@
-import 'package:NeQuo/data/datasources/favorite_local_datasource.dart';
-import 'package:NeQuo/data/models/favorite_model.dart';
-import 'package:NeQuo/data/repositories/favorite_repository_impl.dart';
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/errors/exceptions.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/data/datasources/favorite_local_datasource.dart';
+import 'package:nequo/data/models/favorite_model.dart';
+import 'package:nequo/data/repositories/favorite_repository_impl.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

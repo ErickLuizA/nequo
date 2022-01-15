@@ -1,7 +1,7 @@
-import 'package:NeQuo/data/models/quote_model.dart';
-import 'package:NeQuo/domain/errors/exceptions.dart';
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
-import 'package:NeQuo/external/datasources/quote_remote_datasource_impl.dart';
+import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/external/datasources/quote_remote_datasource_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';

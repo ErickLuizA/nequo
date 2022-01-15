@@ -1,10 +1,10 @@
-import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
 
 class FavoriteButton extends StatelessWidget {
   final int current;
@@ -12,10 +12,10 @@ class FavoriteButton extends StatelessWidget {
   final SuccessState state;
 
   const FavoriteButton({
-    Key key,
-    @required this.current,
-    @required this.handleFavorite,
-    @required this.state,
+    Key? key,
+    required this.current,
+    required this.handleFavorite,
+    required this.state,
   }) : super(key: key);
 
   @override
@@ -31,7 +31,7 @@ class FavoriteButton extends StatelessWidget {
                 onPress: () {},
               )
             : ActionButton(
-              key: Key("no_fav_button"),
+                key: Key("no_fav_button"),
                 icon: Icons.favorite_outline,
                 onPress: () {
                   handleFavorite(

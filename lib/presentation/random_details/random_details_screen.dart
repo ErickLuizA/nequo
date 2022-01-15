@@ -1,16 +1,16 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/shared/widgets/empty_widget.dart';
-import 'package:NeQuo/presentation/random_details/widgets/success_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
-import 'package:NeQuo/service_locator.dart';
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_bloc.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_event.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/presentation/shared/widgets/empty_widget.dart';
+import 'package:nequo/presentation/random_details/widgets/success_widget.dart';
+import 'package:nequo/presentation/shared/widgets/load_error_widget.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/service_locator.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_bloc.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_event.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,9 +20,9 @@ class RandomDetailsScreen extends StatefulWidget {
 }
 
 class _RandomDetailsScreenState extends State<RandomDetailsScreen> {
-  RandomDetailsBloc _randomDetailsBloc;
-  FavoriteBloc _favoriteBloc;
-  ShareQuote share;
+  late RandomDetailsBloc _randomDetailsBloc;
+  late FavoriteBloc _favoriteBloc;
+  late ShareQuote share;
 
   @override
   void initState() {

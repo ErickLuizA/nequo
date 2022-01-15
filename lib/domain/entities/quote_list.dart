@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 class QuoteList extends Equatable {
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
 
   QuoteList({
     this.id,
@@ -10,5 +10,5 @@ class QuoteList extends Equatable {
   });
 
   @override
-  List<Object> get props => [id, name];
+  List<Object> get props => [];
 }

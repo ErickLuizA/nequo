@@ -1,23 +1,20 @@
-import 'package:NeQuo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
-// ignore: must_be_immutable
 class QuoteModel extends Quote {
-  final int listId;
+  final int? listId;
 
   QuoteModel({
-    int id,
-    String content,
-    String author,
+    int? id,
+    String? content,
+    String? author,
     this.listId,
   }) : super(
           id: id,
-          content: content,
-          author: author,
+          content: content ?? '',
+          author: author ?? '',
         );
 
   factory QuoteModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return QuoteModel(
       id: map['id'],
       content: map['content'],

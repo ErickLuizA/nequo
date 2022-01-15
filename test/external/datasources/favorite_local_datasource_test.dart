@@ -1,8 +1,8 @@
-import 'package:NeQuo/data/models/favorite_model.dart';
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/errors/exceptions.dart';
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
-import 'package:NeQuo/external/datasources/favorite_local_datasource_impl.dart';
+import 'package:nequo/data/models/favorite_model.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/external/datasources/favorite_local_datasource_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sqflite/sqflite.dart';

@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
 abstract class DetailsState {}
 
@@ -10,7 +10,7 @@ class SuccessState extends DetailsState {
   List<Quote> quotes;
 
   SuccessState({
-    this.quotes,
+    required this.quotes,
   });
 }
 

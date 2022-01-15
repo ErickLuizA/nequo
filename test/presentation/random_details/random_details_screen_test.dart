@@ -1,12 +1,12 @@
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
-import 'package:NeQuo/presentation/random_details/bloc/random_details_bloc.dart';
-import 'package:NeQuo/presentation/random_details/random_details_screen.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_bloc.dart';
+import 'package:nequo/presentation/random_details/random_details_screen.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 import 'package:mockito/mockito.dart';
 
 import '../../utils/make_app.dart';

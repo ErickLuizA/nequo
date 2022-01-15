@@ -1,9 +1,8 @@
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
-import 'package:NeQuo/domain/usecases/load_favorites.dart';
-import 'package:NeQuo/domain/usecases/usecase.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_event.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:flutter/material.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/domain/usecases/load_favorites.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_event.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
@@ -11,38 +10,46 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   DeleteFavorite deleteFavorite;
 
   FavoritesBloc({
-    @required this.loadFavorites,
-    @required this.deleteFavorite,
-  }) : super(InitialState());
+    required this.loadFavorites,
+    required this.deleteFavorite,
+  }) : super(InitialState()) {
+    on<GetFavorites>(_onGetFavorites);
+    on<DeleteFavoriteEvent>(_onDeleteFavoriteEvent);
+  }
 
-  @override
-  Stream<FavoritesState> mapEventToState(FavoritesEvent event) async* {
-    if (event is GetFavorites) {
-      yield LoadingState();
+  _onGetFavorites(
+    GetFavorites event,
+    Emitter<FavoritesState> emit,
+  ) async {
+    emit(LoadingState());
 
-      final result = await loadFavorites(NoParams());
+    final result = await loadFavorites(NoParams());
 
-      yield result.fold(
-        (failure) => ErrorState(),
-        (success) {
-          if (success.isEmpty) {
-            return EmptyState();
-          } else {
-            return SuccessState(favorites: success);
-          }
-        },
-      );
-    } else if (event is DeleteFavoriteEvent) {
-      yield LoadingState();
+    emit(result.fold(
+      (failure) => ErrorState(),
+      (success) {
+        if (success.isEmpty) {
+          return EmptyState();
+        } else {
+          return SuccessState(favorites: success);
+        }
+      },
+    ));
+  }
 
-      final result = await deleteFavorite(event.params);
+  _onDeleteFavoriteEvent(
+    DeleteFavoriteEvent event,
+    Emitter<FavoritesState> emit,
+  ) async {
+    emit(LoadingState());
 
-      if (result.isLeft()) {
-        yield FailedState();
-        add(GetFavorites());
-      } else {
-        add(GetFavorites());
-      }
+    final result = await deleteFavorite(event.params);
+
+    if (result.isLeft()) {
+      emit(FailedState());
+      add(GetFavorites());
+    } else {
+      add(GetFavorites());
     }
   }
 }

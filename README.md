@@ -1,7 +1,7 @@
-<h1 align="center"> NeQuo </h1>
+<h1 align="center"> nequo </h1>
 
 <p align="center">
-  <a href="https://github.com/ErickLuizA/NeQuo/graphs/commit-activity" alt="Maintenance">
+  <a href="https://github.com/ErickLuizA/nequo/graphs/commit-activity" alt="Maintenance">
     <img src="https://img.shields.io/badge/Maintained%3F-yes-1EAE72.svg" />
   </a>
 
@@ -11,12 +11,12 @@
 
 <br/>
 
-<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/ErickLuizA/NeQuo?color=blue">
+<img alt="GitHub language count" src="https://img.shields.io/github/languages/count/ErickLuizA/nequo?color=blue">
 
-<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ErickLuizA/NeQuo">
+<img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/ErickLuizA/nequo">
 
-<a href="https://github.com/ErickLuizA/NeQuo/stargazers">
-  <img alt="GitHub stars" src="https://img.shields.io/github/stars/ErickLuizA/NeQuo?style=social">
+<a href="https://github.com/ErickLuizA/nequo/stargazers">
+  <img alt="GitHub stars" src="https://img.shields.io/github/stars/ErickLuizA/nequo?style=social">
 </a>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 ## :clipboard: Description
 
-NeQuo is a app built with flutter for you to see and add quotes
+nequo is a app built with flutter for you to see and add quotes
 
 <a href="https://play.google.com/store/apps/details?id=com.deverick.com.deverick.com.deverick.nequo">
   <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100">
@@ -60,18 +60,18 @@ NeQuo is a app built with flutter for you to see and add quotes
 ## 1. Download the repository
 
 ```shell
- $ git clone https://github.com/ErickLuizA/NeQuo.git
+ $ git clone https://github.com/ErickLuizA/nequo.git
   
   or 
 
- $ gh repo clone ErickLuizA/NeQuo
+ $ gh repo clone ErickLuizA/nequo
 ```
 
 ## 2. Installation
 
 ```shell
 # Go into the repository
-$ cd NeQuo
+$ cd nequo
 
 # Install dependencies
 $ flutter pub get 

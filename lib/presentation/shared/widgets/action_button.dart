@@ -6,24 +6,26 @@ class ActionButton extends StatelessWidget {
   final AlignmentGeometry align;
 
   const ActionButton({
-    Key key,
-    @required this.icon,
-    @required this.onPress,
-    this.align,
+    Key? key,
+    required this.icon,
+    required this.onPress,
+    this.align = Alignment.center,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Align(
       key: Key("action_button_align"),
-      alignment: align ?? Alignment.center,
+      alignment: align,
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(40)),
         color: Theme.of(context).indicatorColor,
         child: IconButton(
           key: Key("icon_button"),
           icon: Icon(icon),
-          onPressed: onPress,
+          onPressed: () {
+            onPress();
+          },
         ),
       ),
     );

@@ -1,10 +1,10 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
-import 'package:NeQuo/domain/usecases/load_favorites.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_bloc.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_event.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/domain/usecases/load_favorites.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_bloc.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_event.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

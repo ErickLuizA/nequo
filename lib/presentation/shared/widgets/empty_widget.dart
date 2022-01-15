@@ -1,8 +1,8 @@
-import 'package:NeQuo/app_localizations.dart';
+import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class EmptyWidget extends StatelessWidget {
-  EmptyWidget({Key key}) : super(key: key);
+  EmptyWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

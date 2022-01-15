@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
+import 'package:nequo/domain/entities/favorite.dart';
 
 abstract class FavoritesState {}
 
@@ -10,7 +10,7 @@ class SuccessState extends FavoritesState {
   List<Favorite> favorites;
 
   SuccessState({
-    this.favorites,
+    required this.favorites,
   });
 }
 

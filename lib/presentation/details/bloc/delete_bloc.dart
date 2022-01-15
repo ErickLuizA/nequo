@@ -1,36 +1,44 @@
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_event.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/presentation/details/bloc/delete_event.dart';
+import 'package:nequo/presentation/details/bloc/delete_state.dart';
 import 'package:bloc/bloc.dart';
 
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
 
 class DeleteBloc extends Bloc<DeleteEvent, DeleteState> {
   DeleteQuote deleteQuote;
   DeleteQuoteList deleteQuoteList;
 
   DeleteBloc({
-    this.deleteQuote,
-    this.deleteQuoteList,
-  }) : super(DeleteInitialState());
+    required this.deleteQuote,
+    required this.deleteQuoteList,
+  }) : super(DeleteInitialState()) {
+    on<DeleteQuoteEvent>(_onDeleteQuoteEvent);
+    on<DeleteQuoteListEvent>(_onDeleteQuoteListEvent);
+  }
 
-  @override
-  Stream<DeleteState> mapEventToState(DeleteEvent event) async* {
-    if (event is DeleteQuoteEvent) {
-      yield DeleteLoadingState();
+  _onDeleteQuoteEvent(
+    DeleteQuoteEvent event,
+    Emitter<DeleteState> emit,
+  ) async {
+    emit(DeleteLoadingState());
 
-      final result = await deleteQuote(event.params);
+    final result = await deleteQuote(event.params);
 
-      yield result.fold((l) => DeleteErrorState(), (r) => DeleteSuccessState());
-    } else if (event is DeleteQuoteListEvent) {
-      yield DeleteListLoadingState();
+    emit(result.fold((l) => DeleteErrorState(), (r) => DeleteSuccessState()));
+  }
 
-      final result = await deleteQuoteList(event.params);
+  _onDeleteQuoteListEvent(
+    DeleteQuoteListEvent event,
+    Emitter<DeleteState> emit,
+  ) async {
+    emit(DeleteListLoadingState());
 
-      yield result.fold(
-        (l) => DeleteListErrorState(),
-        (r) => DeleteListSuccessState(),
-      );
-    }
+    final result = await deleteQuoteList(event.params);
+
+    emit(result.fold(
+      (l) => DeleteListErrorState(),
+      (r) => DeleteListSuccessState(),
+    ));
   }
 }

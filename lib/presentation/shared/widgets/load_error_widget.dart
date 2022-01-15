@@ -1,13 +1,13 @@
-import 'package:NeQuo/app_localizations.dart';
+import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LoadErrorWidget extends StatelessWidget {
   final String text;
-  final Function retry;
+  final void Function()? retry;
 
-  const LoadErrorWidget({
-    Key key,
-    this.text,
+  LoadErrorWidget({
+    Key? key,
+    required this.text,
     this.retry,
   }) : super(key: key);
 

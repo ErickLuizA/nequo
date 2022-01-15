@@ -1,23 +1,20 @@
-import 'package:NeQuo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/repositories/quote_repository.dart';
-import 'package:NeQuo/domain/usecases/usecase.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/repositories/quote_repository.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 
-// ignore: must_be_immutable
-class AddQuoteParams extends Quote {
-  final int id;
+class AddQuoteParams {
   final String content;
   final String author;
   final int listId;
 
-  AddQuoteParams({
-    this.id,
-    this.content,
-    this.author,
-    this.listId,
+  const AddQuoteParams({
+    required this.content,
+    required this.author,
+    required this.listId,
   });
 }
 
@@ -25,7 +22,7 @@ class AddQuote implements UseCase<void, AddQuoteParams> {
   QuoteRepository quoteRepository;
 
   AddQuote({
-    @required this.quoteRepository,
+    required this.quoteRepository,
   });
 
   @override

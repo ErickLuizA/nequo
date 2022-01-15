@@ -1,15 +1,15 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_error.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/widgets/load_success.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/presentation/quote_of_the_day/widgets/load_error.dart';
+import 'package:nequo/presentation/quote_of_the_day/widgets/load_success.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:NeQuo/service_locator.dart';
+import 'package:nequo/service_locator.dart';
 
 class QuoteOfTheDayScreen extends StatefulWidget {
   @override
@@ -17,9 +17,9 @@ class QuoteOfTheDayScreen extends StatefulWidget {
 }
 
 class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
-  QuoteOfTheDayBloc _quoteOfTheDayBloc;
-  FavoriteBloc _favoriteBloc;
-  ShareQuote share;
+  late QuoteOfTheDayBloc _quoteOfTheDayBloc;
+  late FavoriteBloc _favoriteBloc;
+  late ShareQuote share;
 
   @override
   void initState() {
@@ -81,7 +81,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
                     share(
                       ShareParams(
                         text: state.quote.content,
-                        subject: 'NeQuo - Quotes app',
+                        subject: 'nequo - Quotes app',
                       ),
                     );
                   },

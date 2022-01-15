@@ -1,10 +1,10 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/presentation/home/widgets/quote_list_card.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/presentation/home/widgets/quote_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 
 void getQuoteList() {}
 

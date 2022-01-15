@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
 abstract class RandomDetailsState {}
 
@@ -11,8 +11,8 @@ class SuccessState extends RandomDetailsState {
   int scrollPos;
 
   SuccessState({
-    this.quotes,
-    this.scrollPos,
+    required this.quotes,
+    required this.scrollPos,
   });
 }
 

@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/entities/quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:flutter/material.dart';
 
 abstract class QuoteOfTheDayState {}
@@ -11,7 +11,7 @@ class SuccessState extends QuoteOfTheDayState {
   final Quote quote;
 
   SuccessState({
-    @required this.quote,
+    required this.quote,
   });
 }
 

@@ -1,10 +1,10 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/presentation/favorites/bloc/favorites_state.dart';
-import 'package:NeQuo/presentation/favorites/widgets/success_widget.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/presentation/favorites/bloc/favorites_state.dart';
+import 'package:nequo/presentation/favorites/widgets/success_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 
 import '../../../utils/make_app.dart';
 

@@ -1,17 +1,17 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/presentation/details/details_screen.dart';
-import 'package:NeQuo/presentation/home/utils/random_id.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/presentation/details/details_screen.dart';
+import 'package:nequo/presentation/home/utils/random_id.dart';
 import 'package:flutter/material.dart';
 
 class QuoteListCard extends StatelessWidget {
   final int id;
   final String name;
-  final Function getQuotesList;
+  final Function? getQuotesList;
 
   const QuoteListCard({
-    Key key,
-    this.id,
-    this.name,
+    Key? key,
+    required this.id,
+    required this.name,
     this.getQuotesList,
   }) : super(key: key);
 
@@ -41,7 +41,9 @@ class QuoteListCard extends StatelessWidget {
                           id: id,
                           name: name,
                         ),
-                        getQuotesList: getQuotesList,
+                        getQuotesList: () {
+                          getQuotesList?.call();
+                        },
                       );
                     },
                   ),

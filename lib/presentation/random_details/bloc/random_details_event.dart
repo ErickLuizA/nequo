@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/domain/usecases/load_random_quotes.dart';
 
 abstract class RandomDetailsEvent {}
 
@@ -7,7 +7,7 @@ class GetRandomQuotes extends RandomDetailsEvent {
   int scrollPos;
 
   GetRandomQuotes({
-    this.params,
-    this.scrollPos,
+    required this.params,
+    required this.scrollPos,
   });
 }

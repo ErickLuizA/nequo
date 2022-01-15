@@ -1,7 +1,7 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-import 'package:NeQuo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/domain/usecases/add_quote_list.dart';
 
 class AddQuoteListBottomSheet extends StatefulWidget {
   final Function getQuotesList;
@@ -9,10 +9,10 @@ class AddQuoteListBottomSheet extends StatefulWidget {
   final AddQuoteList addQuoteList;
 
   AddQuoteListBottomSheet({
-    Key key,
-    @required this.getQuotesList,
-    @required this.scaffoldContext,
-    @required this.addQuoteList,
+    Key? key,
+    required this.getQuotesList,
+    required this.scaffoldContext,
+    required this.addQuoteList,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class AddQuoteListBottomSheet extends StatefulWidget {
 }
 
 class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
-  GlobalKey<FormState> _formkey;
+  late GlobalKey<FormState> _formkey;
 
   String quoteListName = "";
 
@@ -65,14 +65,14 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
                 ),
               ),
               validator: (val) {
-                if (val.isEmpty) {
+                if (val != null && val.isEmpty) {
                   return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
               },
               onSaved: (val) {
-                quoteListName = val;
+                quoteListName = val ?? '';
               },
             ),
             Expanded(
@@ -94,8 +94,9 @@ class _AddQuoteListBottomSheetState extends State<AddQuoteListBottomSheet> {
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
               onPressed: () async {
-                if (_formkey.currentState.validate()) {
-                  _formkey.currentState.save();
+                if (_formkey.currentState != null &&
+                    _formkey.currentState!.validate()) {
+                  _formkey.currentState?.save();
 
                   final res = await widget.addQuoteList(
                     QuoteList(name: quoteListName),

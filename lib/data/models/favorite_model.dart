@@ -1,22 +1,19 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
+import 'package:nequo/domain/entities/favorite.dart';
 
-// ignore: must_be_immutable
 class FavoriteModel extends Favorite {
   FavoriteModel({
-    int id,
-    String content,
-    String author,
+    int? id,
+    required String content,
+    required String author,
   }) : super(
-          id: id,
+          id: id ?? 0,
           content: content,
           author: author,
         );
 
   factory FavoriteModel.fromMap(Map<String, dynamic> map) {
-    if (map == null) return null;
-
     return FavoriteModel(
-      id: map['id'],
+      id: map['id'] ?? 0,
       content: map['content'],
       author: map['author'],
     );

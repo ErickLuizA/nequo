@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_state.dart';
-import 'package:NeQuo/presentation/details/bloc/details_state.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
+import 'package:nequo/presentation/details/bloc/delete_state.dart';
+import 'package:nequo/presentation/details/bloc/details_state.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
 
 class DeleteButton extends StatelessWidget {
   final Function(DeleteQuoteParams params) handleDeleteQuote;
@@ -16,11 +16,11 @@ class DeleteButton extends StatelessWidget {
   final int current;
 
   const DeleteButton({
-    Key key,
-    @required this.handleDeleteQuote,
-    @required this.getQuotes,
-    @required this.successState,
-    @required this.current,
+    Key? key,
+    required this.handleDeleteQuote,
+    required this.getQuotes,
+    required this.successState,
+    required this.current,
   }) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class DeleteButton extends StatelessWidget {
             key: Key("delete_loading"),
           );
         } else if (state is DeleteErrorState) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 key: Key("error_snackbar"),
@@ -49,7 +49,7 @@ class DeleteButton extends StatelessWidget {
             onPress: () {
               handleDeleteQuote(
                 DeleteQuoteParams(
-                  id: successState.quotes[current].id,
+                  id: successState.quotes[current].id!,
                 ),
               );
             },
@@ -62,7 +62,7 @@ class DeleteButton extends StatelessWidget {
             onPress: () {
               handleDeleteQuote(
                 DeleteQuoteParams(
-                  id: successState.quotes[current].id,
+                  id: successState.quotes[current].id!,
                 ),
               );
             },
@@ -74,7 +74,7 @@ class DeleteButton extends StatelessWidget {
             onPress: () {
               handleDeleteQuote(
                 DeleteQuoteParams(
-                  id: successState.quotes[current].id,
+                  id: successState.quotes[current].id!,
                 ),
               );
             },

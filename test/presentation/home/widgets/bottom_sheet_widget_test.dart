@@ -1,11 +1,11 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/add_quote_list.dart';
-import 'package:NeQuo/presentation/home/widgets/bottom_sheet_widget.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/presentation/home/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 
 import '../../../utils/make_app.dart';
 

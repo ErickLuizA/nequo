@@ -1,30 +1,30 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_bloc.dart';
-import 'package:NeQuo/presentation/details/bloc/delete_event.dart';
-import 'package:NeQuo/presentation/details/widgets/empty_widget.dart';
-import 'package:NeQuo/presentation/details/widgets/success_widget.dart';
-import 'package:NeQuo/presentation/shared/bloc/favorite_bloc.dart';
-import 'package:NeQuo/presentation/shared/widgets/load_error_widget.dart';
-import 'package:NeQuo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
+import 'package:nequo/presentation/details/bloc/delete_event.dart';
+import 'package:nequo/presentation/details/widgets/empty_widget.dart';
+import 'package:nequo/presentation/details/widgets/success_widget.dart';
+import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/shared/widgets/load_error_widget.dart';
+import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:NeQuo/service_locator.dart';
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/usecases/load_quotes.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/details/bloc/details_bloc.dart';
-import 'package:NeQuo/presentation/details/bloc/details_event.dart';
-import 'package:NeQuo/presentation/details/bloc/details_state.dart';
+import 'package:nequo/service_locator.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/details/bloc/details_bloc.dart';
+import 'package:nequo/presentation/details/bloc/details_event.dart';
+import 'package:nequo/presentation/details/bloc/details_state.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final QuoteList quoteList;
-  final Function getQuotesList;
+  final QuoteList? quoteList;
+  final Function? getQuotesList;
 
   const DetailsScreen({
-    Key key,
+    Key? key,
     this.quoteList,
     this.getQuotesList,
   }) : super(key: key);
@@ -34,11 +34,11 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  DetailsBloc _detailsBloc;
-  FavoriteBloc _favoriteBloc;
-  DeleteBloc _deleteBloc;
+  late DetailsBloc _detailsBloc;
+  late FavoriteBloc _favoriteBloc;
+  late DeleteBloc _deleteBloc;
 
-  ShareQuote share;
+  late ShareQuote share;
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void getQuotes() {
     _detailsBloc.add(
       GetQuotes(
-        params: LoadQuotesParams(id: widget.quoteList.id),
+        params: LoadQuotesParams(id: widget.quoteList!.id!),
       ),
     );
   }
@@ -89,7 +89,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void handleDeleteQuoteList() async {
     _deleteBloc.add(
       DeleteQuoteListEvent(
-        params: DeleteQuoteListParams(id: widget.quoteList.id),
+        params: DeleteQuoteListParams(id: widget.quoteList!.id!),
       ),
     );
   }
@@ -98,7 +98,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     share(
       ShareParams(
         text: text,
-        subject: 'NeQuo - Quotes app',
+        subject: 'nequo - Quotes app',
       ),
     );
   }
@@ -129,7 +129,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               if (state is EmptyState) {
                 return EmptyWidget(
                   key: Key("empty_widget"),
-                  getQuotesList: widget.getQuotesList,
+                  getQuotesList: widget.getQuotesList!,
                   handleDeleteQuoteList: handleDeleteQuoteList,
                 );
               } else if (state is LoadingState) {
@@ -140,7 +140,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 return SuccessWidget(
                   key: Key("success_widget"),
                   getQuotes: getQuotes,
-                  getQuotesList: widget.getQuotesList,
+                  getQuotesList: widget.getQuotesList!,
                   handleDeleteQuote: handleDeleteQuote,
                   handleDeleteQuoteList: handleDeleteQuoteList,
                   handleFavorite: handleFavorite,

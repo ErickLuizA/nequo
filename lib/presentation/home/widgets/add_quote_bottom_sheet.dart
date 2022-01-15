@@ -1,9 +1,9 @@
-import 'package:NeQuo/app_localizations.dart';
-import 'package:NeQuo/data/models/quote_model.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
 import 'package:flutter/material.dart';
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
 
 class AddQuoteBottomSheet extends StatefulWidget {
   final List<QuoteList> list;
@@ -12,11 +12,11 @@ class AddQuoteBottomSheet extends StatefulWidget {
   final AddQuote addQuote;
 
   AddQuoteBottomSheet({
-    Key key,
-    @required this.list,
-    @required this.getQuotesList,
-    @required this.scaffoldContext,
-    @required this.addQuote,
+    Key? key,
+    required this.list,
+    required this.getQuotesList,
+    required this.scaffoldContext,
+    required this.addQuote,
   }) : super(key: key);
 
   @override
@@ -26,8 +26,8 @@ class AddQuoteBottomSheet extends StatefulWidget {
 class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
   final _formkey = GlobalKey<FormState>();
 
-  Quote quote;
-  QuoteList quoteList;
+  late Quote quote;
+  late QuoteList quoteList;
 
   @override
   void initState() {
@@ -70,14 +70,14 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                 ),
               ),
               validator: (val) {
-                if (val.isEmpty) {
+                if (val!.isEmpty) {
                   return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
               },
               onSaved: (val) {
-                quote.author = val;
+                quote.author = val!;
               },
             ),
             SizedBox(height: isKeyboardOff ? 15 : 10),
@@ -96,14 +96,14 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                 ),
               ),
               validator: (val) {
-                if (val.isEmpty) {
+                if (val!.isEmpty) {
                   return AppLocalizations.of(context).translate('fill_field');
                 }
 
                 return null;
               },
               onSaved: (val) {
-                quote.content = val;
+                quote.content = val!;
               },
             ),
             DropdownButtonFormField(
@@ -115,18 +115,18 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                   .map(
                     (item) => DropdownMenuItem(
                       child: Text(
-                        item.name,
+                        item.name!,
                       ),
                       value: item,
                     ),
                   )
                   .toList(),
               onSaved: (val) {
-                quoteList = val;
+                quoteList = val as dynamic;
               },
               onChanged: (val) {
                 setState(() {
-                  quoteList = val;
+                  quoteList = val as dynamic;
                 });
               },
             ),
@@ -147,12 +147,12 @@ class _AddQuoteBottomSheetState extends State<AddQuoteBottomSheet> {
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               ),
               onPressed: () async {
-                if (_formkey.currentState.validate()) {
-                  _formkey.currentState.save();
+                if (_formkey.currentState!.validate()) {
+                  _formkey.currentState!.save();
 
                   final res = await widget.addQuote(
                     AddQuoteParams(
-                      listId: quoteList.id,
+                      listId: quoteList.id!,
                       author: quote.author,
                       content: quote.content,
                     ),

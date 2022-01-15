@@ -1,10 +1,10 @@
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:NeQuo/service_locator.dart' as sl;
+import 'package:nequo/service_locator.dart' as sl;
 import 'package:mockito/mockito.dart';
 
 import '../../utils/make_app.dart';

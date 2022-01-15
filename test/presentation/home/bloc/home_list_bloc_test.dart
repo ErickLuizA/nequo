@@ -1,9 +1,9 @@
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/load_quotes_list.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_bloc.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_event.dart';
-import 'package:NeQuo/presentation/home/bloc/home_list_state.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/load_quotes_list.dart';
+import 'package:nequo/presentation/home/bloc/home_list_bloc.dart';
+import 'package:nequo/presentation/home/bloc/home_list_event.dart';
+import 'package:nequo/presentation/home/bloc/home_list_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

@@ -1,6 +1,6 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class FavoriteRepository {

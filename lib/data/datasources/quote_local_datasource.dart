@@ -1,10 +1,10 @@
-import 'package:NeQuo/data/models/quote_list_model.dart';
-import 'package:NeQuo/data/models/quote_model.dart';
-import 'package:NeQuo/domain/entities/quote_list.dart';
-import 'package:NeQuo/domain/usecases/add_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote.dart';
-import 'package:NeQuo/domain/usecases/delete_quote_list.dart';
-import 'package:NeQuo/domain/usecases/load_quotes.dart';
+import 'package:nequo/data/models/quote_list_model.dart';
+import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
 
 abstract class QuoteLocalDatasource {
   Future<QuoteModel> getLastQuote();

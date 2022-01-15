@@ -1,10 +1,10 @@
-import 'package:NeQuo/domain/entities/favorite.dart';
-import 'package:NeQuo/domain/usecases/share_quote.dart';
-import 'package:NeQuo/presentation/shared/widgets/action_button.dart';
-import 'package:NeQuo/presentation/random_details/widgets/favorite_button.dart';
+import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/shared/widgets/action_button.dart';
+import 'package:nequo/presentation/random_details/widgets/favorite_button.dart';
 import 'package:flutter/material.dart';
 
-import 'package:NeQuo/presentation/random_details/bloc/random_details_state.dart';
+import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
 
 class SuccessWidget extends StatefulWidget {
   final SuccessState state;
@@ -13,11 +13,11 @@ class SuccessWidget extends StatefulWidget {
   final Function(Favorite fav, int index) handleFavorite;
 
   const SuccessWidget({
-    Key key,
-    @required this.state,
-    @required this.share,
-    @required this.getRandomQuotes,
-    @required this.handleFavorite,
+    Key? key,
+    required this.state,
+    required this.share,
+    required this.getRandomQuotes,
+    required this.handleFavorite,
   }) : super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
               itemBuilder: (context, index) {
                 final quote = widget.state.quotes[index];
 
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                WidgetsBinding.instance?.addPostFrameCallback((_) {
                   setState(() {
                     current = index;
                   });
@@ -104,7 +104,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
                 widget.share(
                   ShareParams(
                     text: widget.state.quotes[current].content,
-                    subject: 'NeQuo - Quotes app',
+                    subject: 'nequo - Quotes app',
                   ),
                 );
               },

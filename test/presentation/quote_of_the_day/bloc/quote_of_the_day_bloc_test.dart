@@ -1,9 +1,9 @@
-import 'package:NeQuo/domain/entities/quote.dart';
-import 'package:NeQuo/domain/errors/failures.dart';
-import 'package:NeQuo/domain/usecases/load_random_quote.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.dart';
-import 'package:NeQuo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/domain/errors/failures.dart';
+import 'package:nequo/domain/usecases/load_random_quote.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_event.dart';
+import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

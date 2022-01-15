@@ -1,4 +1,4 @@
-import 'package:NeQuo/domain/usecases/share_quote.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:share/share.dart' as FlutterShare;
 
 class ShareImpl implements Share {
