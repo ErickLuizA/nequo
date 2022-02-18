@@ -1,7 +1,7 @@
 import 'package:nequo/domain/entities/favorite.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -19,7 +19,7 @@ void main() {
     );
   });
 
-  final favoriteParams = Favorite(author: 'author', content: 'content');
+  final favoriteParams = Quote(author: 'author', content: 'content');
 
   group('AddFavoriteEvent', () {
     test('should emit  Success  when use case returns Right', () async {

@@ -1,12 +1,16 @@
-import 'package:nequo/data/models/favorite_model.dart';
-import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/data/mappers/local/local_favorite_mapper.dart';
+import 'package:nequo/data/mappers/local/local_quote_mapper.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 
-import 'package:nequo/data/datasources/favorite_local_datasource.dart';
+import 'package:nequo/data/datasources/favorites_local_datasource.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-class FavoriteLocalDatasourceImpl implements FavoriteLocalDatasource {
+const FavoritesTable = 'Favorites';
+
+class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
   final Database database;
 
   FavoriteLocalDatasourceImpl({
@@ -14,39 +18,73 @@ class FavoriteLocalDatasourceImpl implements FavoriteLocalDatasource {
   });
 
   @override
-  Future<void> addFavorite(Favorite params) async {
+  Future<List<Quote>> findAll() async {
     try {
-      await database.insert(
-        'Favorites',
-        FavoriteModel(
-          author: params.author,
-          content: params.content,
-        ).toMap(),
+      final result = await database.rawQuery(
+        '''
+       SELECT
+          Quotes.*,
+          Favorites.id as favorite_id,
+          Categories.id as category_id,
+          Categories.name as category_name
+        FROM Favorites
+        JOIN Quotes ON Quotes.id = Favorites.quote_id
+        LEFT JOIN Categories ON Categories.id = Quotes.category_id
+        ''',
+      );
+
+      return result.map((e) => LocalQuoteMapper.toEntity(e)).toList();
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<Quote> findOne({required int id}) async {
+    try {
+      final result = await database.rawQuery(
+        '''
+       SELECT
+          Quotes.*,
+          Favorites.id as favorite_id,
+          Categories.id as category_id,
+          Categories.name as category_name
+        FROM Favorites
+        JOIN Quotes ON Quotes.id = Favorites.quote_id
+        LEFT JOIN Categories ON Categories.id = Quotes.category_id
+        WHERE Favorites.quote_id = ?
+        ''',
+        [id],
+      );
+
+      if (result.isEmpty) throw CacheException();
+
+      return LocalQuoteMapper.toEntity(result[0]);
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<Quote> save(AddFavoriteParams params) async {
+    try {
+      final id = await database.insert(
+        FavoritesTable,
+        LocalFavoriteMapper.toMap(quoteId: params.quoteId),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
+
+      return findOne(id: id);
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<List<FavoriteModel>> getFavorites() async {
-    try {
-      final result = await database.query('Favorites');
-
-      return List.generate(result.length, (i) {
-        return FavoriteModel.fromMap(result[i]);
-      });
-    } catch (e) {
-      throw CacheException();
-    }
-  }
-
-  @override
-  Future<void> deleteFavorite(DeleteFavoriteParams params) async {
+  Future<void> delete(DeleteFavoriteParams params) async {
     try {
       await database.delete(
-        'Favorites',
+        FavoritesTable,
         where: "id = ?",
         whereArgs: [params.id],
       );

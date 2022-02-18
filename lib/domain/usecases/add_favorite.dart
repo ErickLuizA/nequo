@@ -1,19 +1,25 @@
 import 'package:dartz/dartz.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
-import 'package:nequo/domain/entities/favorite.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
-class AddFavorite implements UseCase<void, Favorite> {
-  final FavoriteRepository favoriteRepository;
+class AddFavoriteParams {
+  final int quoteId;
+
+  AddFavoriteParams({required this.quoteId});
+}
+
+class AddFavorite implements UseCase<void, AddFavoriteParams> {
+  final FavoritesRepository favoritesRepository;
 
   AddFavorite({
-    required this.favoriteRepository,
+    required this.favoritesRepository,
   });
 
   @override
-  Future<Either<Failure, void>> call(Favorite params) async {
-    return await favoriteRepository.addFavorite(params);
+  Future<Either<Failure, Quote>> call(AddFavoriteParams params) async {
+    return await favoritesRepository.save(params);
   }
 }

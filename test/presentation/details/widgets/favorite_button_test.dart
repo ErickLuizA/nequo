@@ -2,7 +2,7 @@ import 'package:nequo/domain/entities/favorite.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/presentation/details/bloc/details_state.dart';
 import 'package:nequo/presentation/details/widgets/favorite_button.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +12,7 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void handleFavorite(Favorite fav, int index) {}
+  void handleFavorite(Quote fav, int index) {}
 }
 
 class MethodsMock extends Mock implements Methods {}
@@ -90,7 +90,7 @@ void main() {
     expect(find.byKey(Key("yes_fav_button")), findsOneWidget);
   });
 
-  testWidgets('render no_fav_button when is not Favorite', (tester) async {
+  testWidgets('render no_fav_button when is not Quote', (tester) async {
     when(favoriteBlocMock.state)
         .thenAnswer((_) => FavoriteSuccessState(favIndex: [1]));
 

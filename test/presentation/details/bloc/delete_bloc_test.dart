@@ -1,6 +1,6 @@
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/delete_category.dart';
 import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
 import 'package:nequo/presentation/details/bloc/delete_event.dart';
 import 'package:nequo/presentation/details/bloc/delete_state.dart';
@@ -10,24 +10,24 @@ import 'package:mockito/mockito.dart';
 
 class MockDeleteQuote extends Mock implements DeleteQuote {}
 
-class MockDeleteQuoteList extends Mock implements DeleteQuoteList {}
+class MockDeleteCategory extends Mock implements DeleteCategory {}
 
 void main() {
   DeleteBloc deleteBloc;
   MockDeleteQuote mockDeleteQuote;
-  MockDeleteQuoteList mockDeleteQuoteList;
+  MockDeleteCategory mockDeleteCategory;
 
   setUp(() {
     mockDeleteQuote = MockDeleteQuote();
-    mockDeleteQuoteList = MockDeleteQuoteList();
+    mockDeleteCategory = MockDeleteCategory();
     deleteBloc = DeleteBloc(
       deleteQuote: mockDeleteQuote,
-      deleteQuoteList: mockDeleteQuoteList,
+      deleteCategory: mockDeleteCategory,
     );
   });
 
   final deleteQuoteParams = DeleteQuoteParams(id: 1);
-  final deleteQuoteListParams = DeleteQuoteListParams(id: 1);
+  final deleteCategoryParams = DeleteCategoryParams(id: 1);
 
   group('DeleteQuoteEvent', () {
     test('should emit Loading and Success in order when use case returns Right',
@@ -69,10 +69,10 @@ void main() {
     });
   });
 
-  group('DeleteQuoteListEvent', () {
+  group('DeleteCategoryEvent', () {
     test('should emit Loading and Success in order when use case returns Right',
         () async {
-      when(mockDeleteQuoteList(any)).thenAnswer((_) async => Right(null));
+      when(mockDeleteCategory(any)).thenAnswer((_) async => Right(null));
 
       expect(
         deleteBloc,
@@ -83,15 +83,15 @@ void main() {
       );
 
       deleteBloc.add(
-        DeleteQuoteListEvent(
-          params: deleteQuoteListParams,
+        DeleteCategoryEvent(
+          params: deleteCategoryParams,
         ),
       );
     });
 
     test('should emit Loading and Error in order when usecase returns left',
         () async {
-      when(mockDeleteQuoteList(any))
+      when(mockDeleteCategory(any))
           .thenAnswer((_) async => Left(CacheFailure()));
 
       expect(
@@ -103,8 +103,8 @@ void main() {
       );
 
       deleteBloc.add(
-        DeleteQuoteListEvent(
-          params: deleteQuoteListParams,
+        DeleteCategoryEvent(
+          params: deleteCategoryParams,
         ),
       );
     });

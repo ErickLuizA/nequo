@@ -1,33 +1,34 @@
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockFavoriteRepository extends Mock implements FavoriteRepository {}
+class MockFavoritesRepository extends Mock implements FavoritesRepository {}
 
 void main() {
   DeleteFavorite deleteFavorite;
-  MockFavoriteRepository mockFavoriteRepository;
+  MockFavoritesRepository mockFavoritesRepository;
 
   setUp(() {
-    mockFavoriteRepository = MockFavoriteRepository();
-    deleteFavorite = DeleteFavorite(favoriteRepository: mockFavoriteRepository);
+    mockFavoritesRepository = MockFavoritesRepository();
+    deleteFavorite =
+        DeleteFavorite(favoritesRepository: mockFavoritesRepository);
   });
 
   final params = DeleteFavoriteParams(id: 1);
 
-  test('should call FavoriteRepository.deleteFavorite with given params',
+  test('should call FavoritesRepository.deleteFavorite with given params',
       () async {
     await deleteFavorite(params);
 
-    verify(mockFavoriteRepository.deleteFavorite(params));
-    verifyNoMoreInteractions(mockFavoriteRepository);
+    verify(mockFavoritesRepository.deleteFavorite(params));
+    verifyNoMoreInteractions(mockFavoritesRepository);
   });
 
   test('should return a Failure from repository', () async {
-    when(mockFavoriteRepository.deleteFavorite(params))
+    when(mockFavoritesRepository.deleteFavorite(params))
         .thenAnswer((_) async => Left(CacheFailure()));
 
     final result = await deleteFavorite(params);

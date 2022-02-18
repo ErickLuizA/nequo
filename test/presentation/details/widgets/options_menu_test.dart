@@ -10,8 +10,8 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
-  void handleDeleteQuoteList() {}
+  void getCategories() {}
+  void handleDeleteCategory() {}
 }
 
 class MethodsMock extends Mock implements Methods {}
@@ -44,8 +44,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: OptionsMenu(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),
@@ -68,8 +68,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: OptionsMenu(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),
@@ -92,8 +92,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: OptionsMenu(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),
@@ -110,7 +110,7 @@ void main() {
   });
 
   testWidgets(
-      'should call getQuotesList when DeleteListSuccessState is returned from bloc',
+      'should call getCategories when DeleteListSuccessState is returned from bloc',
       (tester) async {
     when(deleteBlocMock.state).thenAnswer((_) => DeleteListSuccessState());
 
@@ -120,8 +120,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: OptionsMenu(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),
@@ -130,11 +130,11 @@ void main() {
 
     await tester.pump();
 
-    verify(methodsMock.getQuotesList()).called(1);
+    verify(methodsMock.getCategories()).called(1);
   });
 
   testWidgets(
-      'should call handleDeleteQuoteList when PopupMenuButton is pressed',
+      'should call handleDeleteCategory when PopupMenuButton is pressed',
       (tester) async {
     when(deleteBlocMock.state).thenAnswer((_) => DeleteInitialState());
 
@@ -144,8 +144,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: OptionsMenu(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),
@@ -160,6 +160,6 @@ void main() {
 
     await tester.tap(find.byType(PopupMenuItem));
 
-    verify(methodsMock.handleDeleteQuoteList()).called(1);
+    verify(methodsMock.handleDeleteCategory()).called(1);
   });
 }

@@ -1,20 +1,17 @@
-import 'dart:convert';
-import 'package:nequo/data/datasources/quote_local_datasource.dart';
-import 'package:nequo/data/models/quote_list_model.dart';
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/data/datasources/quotes_local_datasource.dart';
+import 'package:nequo/data/mappers/local/local_quote_mapper.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
-import 'package:nequo/data/models/quote_model.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote_list.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:flutter/material.dart';
+import 'package:nequo/domain/usecases/update_quote.dart';
+import 'package:nequo/external/services/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-const CACHE_QUOTE = 'CACHE_QUOTE';
+const QUOTE_OF_THE_DAY = 'QUOTE_OF_THE_DAY';
 
-class QuoteLocalDatasourceImpl implements QuoteLocalDatasource {
+class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
   final SharedPreferences sharedPreferences;
   final Database database;
 
@@ -24,98 +21,150 @@ class QuoteLocalDatasourceImpl implements QuoteLocalDatasource {
   });
 
   @override
-  Future<void> cacheQuote(QuoteModel quoteModel) {
-    return sharedPreferences.setString(
-        CACHE_QUOTE, jsonEncode(quoteModel.toMap()));
-  }
-
-  @override
-  Future<QuoteModel> getLastQuote() {
-    final jsonString = sharedPreferences.getString(CACHE_QUOTE);
-
-    if (jsonString != null) {
-      return Future.value(QuoteModel.fromMap(jsonDecode(jsonString)));
-    } else {
-      throw CacheException();
-    }
-  }
-
-  @override
-  Future<List<QuoteListModel>> getCachedQuoteList() async {
+  Future<Quote> findQuoteOfTheDay() async {
     try {
-      final result = await database.query('QuoteList');
+      final quoteOfTheDayId = sharedPreferences.getInt(QUOTE_OF_THE_DAY);
 
-      return List.generate(result.length, (i) {
-        return QuoteListModel.fromMap(result[i]);
-      });
-    } catch (e) {
-      throw CacheException();
-    }
-  }
+      if (quoteOfTheDayId == null) throw CacheException();
 
-  @override
-  Future<List<QuoteModel>> getCachedQuotes(LoadQuotesParams params) async {
-    try {
-      final result = await database
-          .query('Quotes', where: 'listId = ?', whereArgs: [params.id]);
-
-      return List.generate(result.length, (i) {
-        return QuoteModel.fromMap(result[i]);
-      });
-    } catch (e) {
-      throw CacheException();
-    }
-  }
-
-  @override
-  Future<void> addQuoteList(QuoteList params) async {
-    try {
-      await database.insert(
-        'QuoteList',
-        QuoteListModel(name: params.name).toMap(),
-        conflictAlgorithm: ConflictAlgorithm.ignore,
+      final quoteOfTheDay = await database.query(
+        QuotesTable,
+        where: 'id = ?',
+        whereArgs: [quoteOfTheDayId],
       );
+
+      return LocalQuoteMapper.toEntity(quoteOfTheDay[0]);
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<void> addQuote(AddQuoteParams params) async {
+  Future<void> saveQuoteOfTheDay({
+    int? serverId,
+    required AddQuoteParams params,
+  }) async {
     try {
-      await database.insert(
-        'Quotes',
-        QuoteModel(
-          listId: params.listId,
+      final result = await database.query(
+        QuotesTable,
+        where: 'server_id = ?',
+        whereArgs: [serverId],
+      );
+
+      if (result.isNotEmpty) return;
+
+      final id = await database.insert(
+        QuotesTable,
+        LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
-        ).toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+          categoryId: params.categoryId,
+          serverId: serverId,
+        ),
       );
+
+      await sharedPreferences.setInt(QUOTE_OF_THE_DAY, id);
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<void> deleteQuote(DeleteQuoteParams params) async {
+  Future<List<Quote>> findAll() async {
     try {
-      await database.delete(
-        'Quotes',
-        where: "id = ?",
-        whereArgs: [params.id],
+      final result = await database.rawQuery(
+        '''
+        select quotes.*, 
+          Favorites.id as favorite_id, 
+            Categories.id as category_id,
+            Categories.name as category_name 
+            from Quotes 
+        left join Favorites 
+        on Quotes.id = Favorites.quote_id
+        left join Categories 
+        on Quotes.category_id = Categories.id;
+        ''',
       );
+
+      return result.map((e) => LocalQuoteMapper.toEntity(e)).toList();
     } catch (e) {
       throw CacheException();
     }
   }
 
   @override
-  Future<void> deleteQuoteList(DeleteQuoteListParams params) async {
+  Future<Quote> findOne({required int id}) async {
+    try {
+      final result = await database.rawQuery('''
+        select quotes.*, 
+          Favorites.id as favorite_id, 
+            Categories.id as category_id,
+            Categories.name as category_name 
+            from Quotes 
+        left join Favorites 
+        on Quotes.id = Favorites.quote_id
+        left join Categories 
+        on Quotes.category_id = Categories.id
+        where Quotes.id = ?;
+        ''', [id]);
+
+      return LocalQuoteMapper.toEntity(result[0]);
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<Quote> save({int? serverId, required AddQuoteParams params}) async {
+    try {
+      final result = await database.query(
+        QuotesTable,
+        where: 'server_id = ?',
+        whereArgs: [serverId],
+      );
+
+      if (result.isNotEmpty) return LocalQuoteMapper.toEntity(result[0]);
+
+      final id = await database.insert(
+        QuotesTable,
+        LocalQuoteMapper.toMap(
+          content: params.content,
+          author: params.author,
+          categoryId: params.categoryId,
+          serverId: serverId,
+        ),
+      );
+
+      return findOne(id: id);
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<Quote> update(UpdateQuoteParams params) async {
+    try {
+      final id = await database.update(
+        QuotesTable,
+        LocalQuoteMapper.toMap(
+          content: params.content,
+          author: params.author,
+          categoryId: params.categoryId,
+        ),
+      );
+
+      return findOne(id: id);
+    } catch (e) {
+      throw CacheException();
+    }
+  }
+
+  @override
+  Future<void> delete(DeleteQuoteParams params) async {
     try {
       await database.delete(
-        'QuoteList',
-        where: "id = ?",
+        QuotesTable,
+        where: 'id = ?',
         whereArgs: [params.id],
       );
     } catch (e) {

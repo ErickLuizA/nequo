@@ -1,4 +1,4 @@
-import 'package:nequo/presentation/quote_of_the_day/widgets/load_error.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/widgets/load_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

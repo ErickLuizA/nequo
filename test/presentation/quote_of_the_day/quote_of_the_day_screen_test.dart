@@ -1,7 +1,7 @@
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
-import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:nequo/presentation/quote_of_the_day/quote_of_the_day_screen.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/quote_of_the_day_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nequo/service_locator.dart' as sl;

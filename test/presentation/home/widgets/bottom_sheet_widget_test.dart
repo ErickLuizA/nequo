@@ -1,6 +1,6 @@
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/domain/usecases/add_category.dart';
 import 'package:nequo/presentation/home/widgets/bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,19 +10,19 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
+  void getCategories() {}
 }
 
 class MethodsMock extends Mock implements Methods {}
 
 class AddQuoteMock extends Mock implements AddQuote {}
 
-class AddQuoteListMock extends Mock implements AddQuoteList {}
+class AddCategoryMock extends Mock implements AddCategory {}
 
 void main() {
   final methodsMock = MethodsMock();
   final addQuoteMock = AddQuoteMock();
-  final addQuoteListMock = AddQuoteListMock();
+  final addCategoryMock = AddCategoryMock();
 
   setUp(() async {
     await sl.setUp(testing: true);
@@ -38,11 +38,11 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => BottomSheetWidget(
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
               scaffoldContext: context,
-              list: [QuoteList(id: 1, name: 'name')],
+              list: [Category(id: 1, name: 'name')],
               addQuote: addQuoteMock,
-              addQuoteList: addQuoteListMock,
+              addCategory: addCategoryMock,
             ),
           ),
         ),
@@ -55,18 +55,18 @@ void main() {
   });
 
   testWidgets(
-      'should render AddQuoteListBottomSheet when open_add_quote_list button is tapped',
+      'should render AddCategoryBottomSheet when open_add_quote_list button is tapped',
       (tester) async {
     await tester.pumpWidget(
       makeApp(
         Scaffold(
           body: Builder(
             builder: (context) => BottomSheetWidget(
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
               scaffoldContext: context,
-              list: [QuoteList(id: 1, name: 'name')],
+              list: [Category(id: 1, name: 'name')],
               addQuote: addQuoteMock,
-              addQuoteList: addQuoteListMock,
+              addCategory: addCategoryMock,
             ),
           ),
         ),
@@ -89,11 +89,11 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => BottomSheetWidget(
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
               scaffoldContext: context,
               list: [],
               addQuote: addQuoteMock,
-              addQuoteList: addQuoteListMock,
+              addCategory: addCategoryMock,
             ),
           ),
         ),
@@ -116,11 +116,11 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => BottomSheetWidget(
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
               scaffoldContext: context,
-              list: [QuoteList(id: 1, name: 'name')],
+              list: [Category(id: 1, name: 'name')],
               addQuote: addQuoteMock,
-              addQuoteList: addQuoteListMock,
+              addCategory: addCategoryMock,
             ),
           ),
         ),

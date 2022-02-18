@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nequo/service_locator.dart' as sl;
 
-void getQuoteList() {}
+void getCategory() {}
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
@@ -26,9 +26,9 @@ void main() {
       MaterialApp(
         navigatorObservers: [mockObserver],
         home: Scaffold(
-          body: QuoteListCard(
+          body: CategoryCard(
             id: 1,
-            getQuotesList: getQuoteList,
+            getCategories: getCategory,
             name: 'name',
           ),
         ),
@@ -44,9 +44,9 @@ void main() {
       MaterialApp(
         navigatorObservers: [mockObserver],
         home: Scaffold(
-          body: QuoteListCard(
+          body: CategoryCard(
             id: 1,
-            getQuotesList: getQuoteList,
+            getCategories: getCategory,
             name: 'name',
           ),
         ),
@@ -81,9 +81,9 @@ void main() {
         },
         navigatorObservers: [mockObserver],
         home: Scaffold(
-          body: QuoteListCard(
+          body: CategoryCard(
             id: 1,
-            getQuotesList: getQuoteList,
+            getCategories: getCategory,
             name: 'name',
           ),
         ),

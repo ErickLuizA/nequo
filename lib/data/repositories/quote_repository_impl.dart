@@ -1,36 +1,41 @@
-import 'package:nequo/data/datasources/quote_local_datasource.dart';
-import 'package:nequo/data/datasources/quote_remote_datasource.dart';
-import 'package:nequo/data/models/quote_model.dart';
+import 'package:nequo/data/datasources/quotes_local_datasource.dart';
+import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/domain/entities/quote_list.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/quote_repository.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
+import 'package:nequo/domain/services/network_info_service.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote_list.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:nequo/domain/usecases/load_random_quotes.dart';
-import 'package:nequo/external/services/network_info.dart';
 import 'package:dartz/dartz.dart';
+import 'package:nequo/domain/usecases/load_quote.dart';
+import 'package:nequo/domain/usecases/update_quote.dart';
 
 class QuoteRepositoryImpl implements QuoteRepository {
-  final QuoteRemoteDatasource remoteDatasource;
-  final QuoteLocalDatasource localDatasource;
-  final NetworkInfo networkInfo;
+  final QuotesRemoteDatasource quotesRemoteDatasource;
+  final QuotesLocalDatasource quotesLocalDatasource;
+  final NetworkInfoService networkInfoService;
 
   QuoteRepositoryImpl({
-    required this.remoteDatasource,
-    required this.localDatasource,
-    required this.networkInfo,
+    required this.quotesRemoteDatasource,
+    required this.quotesLocalDatasource,
+    required this.networkInfoService,
   });
 
   @override
-  Future<Either<Failure, Quote>> getRandom() async {
-    if (await networkInfo.isConnected) {
+  Future<Either<Failure, Quote>> findQuoteOfTheDay() async {
+    if (await networkInfoService.isConnected) {
       try {
-        final result = await remoteDatasource.getRandom();
-        await localDatasource.cacheQuote(result);
+        final result = await quotesRemoteDatasource.findQuoteOfTheDay();
+
+        await quotesLocalDatasource.saveQuoteOfTheDay(
+          serverId: result.id,
+          params: AddQuoteParams(
+            content: result.content,
+            author: result.author,
+            categoryId: result.category?.id,
+          ),
+        );
 
         return Right(result);
       } on ServerException {
@@ -38,7 +43,8 @@ class QuoteRepositoryImpl implements QuoteRepository {
       }
     } else {
       try {
-        final result = await localDatasource.getLastQuote();
+        final result = await quotesLocalDatasource.findQuoteOfTheDay();
+
         return Right(result);
       } on CacheException {
         return Left(CacheFailure());
@@ -47,36 +53,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, List<Quote>>> getRandomQuotes(
-      LoadRandomQuotesParams params) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await remoteDatasource.getQuotes(params);
-
-        return Right(result);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    } else {
-      try {
-        final List<QuoteModel> list = [];
-
-        final result = await localDatasource.getLastQuote();
-
-        list.add(result);
-
-        return Right(list);
-      } on CacheException {
-        return Left(CacheFailure());
-      }
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Quote>>> getQuotes(
-      LoadQuotesParams params) async {
+  Future<Either<Failure, Quote>> findOne(LoadQuoteParams params) async {
     try {
-      final result = await localDatasource.getCachedQuotes(params);
+      final result = await quotesLocalDatasource.findOne(id: params.id);
 
       return Right(result);
     } on CacheException {
@@ -85,9 +64,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, List<QuoteList>>> getQuotesList() async {
+  Future<Either<Failure, List<Quote>>> findAll() async {
     try {
-      final result = await localDatasource.getCachedQuoteList();
+      final result = await quotesLocalDatasource.findAll();
 
       return Right(result);
     } on CacheException {
@@ -96,9 +75,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addQuoteList(QuoteList params) async {
+  Future<Either<Failure, Quote>> save(AddQuoteParams params) async {
     try {
-      final result = await localDatasource.addQuoteList(params);
+      final result = await quotesLocalDatasource.save(params: params);
 
       return Right(result);
     } on CacheException {
@@ -107,9 +86,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addQuote(AddQuoteParams params) async {
+  Future<Either<Failure, Quote>> update(UpdateQuoteParams params) async {
     try {
-      final result = await localDatasource.addQuote(params);
+      final result = await quotesLocalDatasource.update(params);
 
       return Right(result);
     } on CacheException {
@@ -118,21 +97,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteQuote(DeleteQuoteParams params) async {
+  Future<Either<Failure, void>> delete(DeleteQuoteParams params) async {
     try {
-      final result = await localDatasource.deleteQuote(params);
-
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> deleteQuoteList(
-      DeleteQuoteListParams params) async {
-    try {
-      final result = await localDatasource.deleteQuoteList(params);
+      final result = await quotesLocalDatasource.delete(params);
 
       return Right(result);
     } on CacheException {

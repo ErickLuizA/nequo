@@ -1,7 +1,7 @@
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/quote_repository.dart';
-import 'package:nequo/domain/usecases/add_quote_list.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
+import 'package:nequo/domain/usecases/add_category.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -9,32 +9,32 @@ import 'package:mockito/mockito.dart';
 class MockQuoteRepository extends Mock implements QuoteRepository {}
 
 void main() {
-  AddQuoteList addQuoteList;
+  AddCategory addCategory;
   MockQuoteRepository mockQuoteRepository;
 
   setUp(() {
     mockQuoteRepository = MockQuoteRepository();
-    addQuoteList = AddQuoteList(quoteListRepository: mockQuoteRepository);
+    addCategory = AddCategory(quoteListRepository: mockQuoteRepository);
   });
 
-  final quoteListParams = QuoteList(
+  final quoteListParams = Category(
     name: 'name',
   );
 
-  test('should call addQuoteList method in the repository with given params',
+  test('should call addCategory method in the repository with given params',
       () async {
-    await addQuoteList(quoteListParams);
+    await addCategory(quoteListParams);
 
-    verify(mockQuoteRepository.addQuoteList(quoteListParams));
+    verify(mockQuoteRepository.addCategory(quoteListParams));
     verifyNoMoreInteractions(mockQuoteRepository);
   });
 
   test('should return CacheFailure when repository returns CacheFailure',
       () async {
-    when(mockQuoteRepository.addQuoteList(quoteListParams))
+    when(mockQuoteRepository.addCategory(quoteListParams))
         .thenAnswer((_) async => Left(CacheFailure()));
 
-    final result = await addQuoteList(quoteListParams);
+    final result = await addCategory(quoteListParams);
 
     expect(result, equals(Left(CacheFailure())));
   });

@@ -34,7 +34,7 @@ void main() {
         'should emit Loading and Empty in order when data gotten successfully but is Empty',
         () async {
       when(mockLoadFavorites(any))
-          .thenAnswer((_) async => Right(List<Favorite>()));
+          .thenAnswer((_) async => Right(List<Quote>()));
 
       expect(
         favoritesBloc,
@@ -52,8 +52,8 @@ void main() {
     test(
         'should emit Loading and Success in order when data gotten successfully',
         () async {
-      when(mockLoadFavorites(any)).thenAnswer(
-          (_) async => Right([Favorite(author: 'a', content: 'a')]));
+      when(mockLoadFavorites(any))
+          .thenAnswer((_) async => Right([Quote(author: 'a', content: 'a')]));
 
       expect(
         favoritesBloc,
@@ -92,8 +92,8 @@ void main() {
         'should emit Loading, Loading and Success in order when returns is Right',
         () async {
       when(mockDeleteFavorite(any)).thenAnswer((_) async => Right(null));
-      when(mockLoadFavorites(any)).thenAnswer(
-          (_) async => Right([Favorite(author: 'a', content: 'a')]));
+      when(mockLoadFavorites(any))
+          .thenAnswer((_) async => Right([Quote(author: 'a', content: 'a')]));
 
       expect(
         favoritesBloc,

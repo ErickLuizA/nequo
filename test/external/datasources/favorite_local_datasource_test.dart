@@ -19,7 +19,7 @@ void main() {
         FavoriteLocalDatasourceImpl(database: mockDatabase);
   });
 
-  final params = Favorite(author: 'author', content: 'content');
+  final params = Quote(author: 'author', content: 'content');
   final delParams = DeleteFavoriteParams(id: 1);
 
   group('AddFavorite', () {
@@ -28,7 +28,7 @@ void main() {
 
       verify(mockDatabase.insert(
         'Favorites',
-        FavoriteModel(
+        Quote(
           author: params.author,
           content: params.content,
         ).toMap(),
@@ -61,14 +61,13 @@ void main() {
       verifyNoMoreInteractions(mockDatabase);
     });
 
-    test('should return List<FavoriteModel> if query is successfull ',
-        () async {
+    test('should return List<Quote> if query is successfull ', () async {
       when(mockDatabase.query('Favorites'))
           .thenAnswer((_) async => List<Map<String, dynamic>>());
 
       final result = await favoriteLocalDatasourceImpl.getFavorites();
 
-      expect(result, isA<List<FavoriteModel>>());
+      expect(result, isA<List<Quote>>());
     });
 
     test('should throw CacheException if database fails to return data',

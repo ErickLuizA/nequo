@@ -1,10 +1,6 @@
-abstract class NetworkInfo {
-  Future<bool> get isConnected;
-}
+import 'package:nequo/domain/services/network_info_service.dart';
 
-class NetworkInfoImpl implements NetworkInfo {
-  NetworkInfoImpl();
-
+class NetworkInfoServiceImpl implements NetworkInfoService {
   @override
-  Future<bool> get isConnected => Future.value(true);
+  Future<bool> get isConnected => Future.value(false);
 }

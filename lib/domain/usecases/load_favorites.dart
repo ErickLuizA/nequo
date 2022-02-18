@@ -1,20 +1,17 @@
-import 'package:nequo/domain/entities/favorite.dart';
 import 'package:dartz/dartz.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
-import 'package:flutter/material.dart';
 
-class LoadFavorites implements UseCase<List<Favorite>, NoParams> {
-  final FavoriteRepository favoriteRepository;
+class LoadFavorites implements UseCase<List<Quote>, NoParams> {
+  final FavoritesRepository favoritesRepository;
 
-  LoadFavorites({
-    required this.favoriteRepository,
-  });
+  LoadFavorites({required this.favoritesRepository});
 
   @override
-  Future<Either<Failure, List<Favorite>>> call(NoParams params) async {
-    return await favoriteRepository.getFavorites();
+  Future<Either<Failure, List<Quote>>> call(NoParams params) async {
+    return await favoritesRepository.findAll();
   }
 }

@@ -1,26 +1,24 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
 class DeleteFavoriteParams {
   int id;
 
-  DeleteFavoriteParams({
-    required this.id,
-  });
+  DeleteFavoriteParams({required this.id});
 }
 
 class DeleteFavorite extends UseCase<void, DeleteFavoriteParams> {
-  FavoriteRepository favoriteRepository;
+  FavoritesRepository favoritesRepository;
 
   DeleteFavorite({
-    required this.favoriteRepository,
+    required this.favoritesRepository,
   });
 
   @override
   Future<Either<Failure, void>> call(DeleteFavoriteParams params) async {
-    return await favoriteRepository.deleteFavorite(params);
+    return await favoritesRepository.delete(params);
   }
 }

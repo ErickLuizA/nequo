@@ -1,4 +1,4 @@
-import 'package:nequo/data/datasources/favorite_local_datasource.dart';
+import 'package:nequo/data/datasources/favorites_local_datasource.dart';
 import 'package:nequo/data/models/favorite_model.dart';
 import 'package:nequo/data/repositories/favorite_repository_impl.dart';
 import 'package:nequo/domain/entities/favorite.dart';
@@ -13,16 +13,16 @@ class MockFavoriteLocalDatasource extends Mock
     implements FavoriteLocalDatasource {}
 
 void main() {
-  FavoriteRepositoryImpl favoriteRepositoryImpl;
+  FavoritesRepositoryImpl favoritesRepositoryImpl;
   MockFavoriteLocalDatasource mockFavoriteLocalDatasource;
 
   setUp(() {
     mockFavoriteLocalDatasource = MockFavoriteLocalDatasource();
-    favoriteRepositoryImpl = FavoriteRepositoryImpl(
+    favoritesRepositoryImpl = FavoritesRepositoryImpl(
         favoriteLocalDatasource: mockFavoriteLocalDatasource);
   });
 
-  final favParams = Favorite(
+  final favParams = Quote(
     content: 'content',
     author: 'author',
   );
@@ -31,7 +31,7 @@ void main() {
 
   group('AddFavorite', () {
     test('should call the local datasource with given params', () async {
-      await favoriteRepositoryImpl.addFavorite(favParams);
+      await favoritesRepositoryImpl.addFavorite(favParams);
 
       verify(mockFavoriteLocalDatasource.addFavorite(favParams));
       verifyNoMoreInteractions(mockFavoriteLocalDatasource);
@@ -42,7 +42,7 @@ void main() {
       when(mockFavoriteLocalDatasource.addFavorite(any))
           .thenThrow(CacheException());
 
-      final result = await favoriteRepositoryImpl.addFavorite(favParams);
+      final result = await favoritesRepositoryImpl.addFavorite(favParams);
 
       expect(result, isA<Left<Failure, void>>());
     });
@@ -51,11 +51,11 @@ void main() {
   group('GetFavorites', () {
     test('should return Right on succes', () async {
       when(mockFavoriteLocalDatasource.getFavorites())
-          .thenAnswer((_) async => List<FavoriteModel>());
+          .thenAnswer((_) async => List<Quote>());
 
-      final result = await favoriteRepositoryImpl.getFavorites();
+      final result = await favoritesRepositoryImpl.getFavorites();
 
-      expect(result, isA<Right<Failure, List<Favorite>>>());
+      expect(result, isA<Right<Failure, List<Quote>>>());
     });
 
     test('should throw a Failure when datasource throws cacheException',
@@ -63,15 +63,15 @@ void main() {
       when(mockFavoriteLocalDatasource.getFavorites())
           .thenThrow(CacheException());
 
-      final result = await favoriteRepositoryImpl.getFavorites();
+      final result = await favoritesRepositoryImpl.getFavorites();
 
-      expect(result, isA<Left<Failure, List<Favorite>>>());
+      expect(result, isA<Left<Failure, List<Quote>>>());
     });
   });
 
   group('DeleteFavorite', () {
     test('should call the local datasource with given params', () async {
-      await favoriteRepositoryImpl.deleteFavorite(delParams);
+      await favoritesRepositoryImpl.deleteFavorite(delParams);
 
       verify(mockFavoriteLocalDatasource.deleteFavorite(delParams));
       verifyNoMoreInteractions(mockFavoriteLocalDatasource);
@@ -82,7 +82,7 @@ void main() {
       when(mockFavoriteLocalDatasource.deleteFavorite(delParams))
           .thenThrow(CacheException());
 
-      final result = await favoriteRepositoryImpl.deleteFavorite(delParams);
+      final result = await favoritesRepositoryImpl.deleteFavorite(delParams);
 
       expect(result, isA<Left<Failure, void>>());
     });

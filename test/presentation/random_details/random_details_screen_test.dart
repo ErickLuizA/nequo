@@ -3,7 +3,7 @@ import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_bloc.dart';
 import 'package:nequo/presentation/random_details/random_details_screen.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nequo/service_locator.dart' as sl;

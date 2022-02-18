@@ -1,8 +1,8 @@
 import 'package:nequo/domain/entities/favorite.dart';
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/presentation/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:nequo/presentation/quote_of_the_day/widgets/load_success.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_state.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/widgets/load_success.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +14,7 @@ import '../../../utils/make_app.dart';
 class Methods {
   void close() {}
   void share() {}
-  void addFavorite(Favorite favorite) {}
+  void addFavorite(Quote favorite) {}
 }
 
 class MethodsMock extends Mock implements Methods {}

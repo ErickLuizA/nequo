@@ -1,6 +1,6 @@
 import 'package:nequo/data/models/quote_model.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
-import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/external/datasources/quote_remote_datasource_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +27,7 @@ void main() {
 
     final result = await quoteRemoteDatasourceImpl.getRandom();
 
-    expect(result, isA<QuoteModel>());
+    expect(result, isA<Quote>());
   });
 
   test('should return a exception when response code is not 200', () async {
@@ -44,7 +44,7 @@ void main() {
 
     final result = await quoteRemoteDatasourceImpl.getQuotes(params);
 
-    expect(result, isA<List<QuoteModel>>());
+    expect(result, isA<List<Quote>>());
   });
 
   test('should return a exception when response code is not 200', () async {

@@ -74,7 +74,7 @@ void main() {
       (tester) async {
     when(favoritesBlocMock.state).thenAnswer(
       (_) => SuccessState(
-          favorites: [Favorite(author: 'author', content: 'content', id: 1)]),
+          favorites: [Quote(author: 'author', content: 'content', id: 1)]),
     );
 
     await tester.pumpWidget(makeApp(FavoritesScreen()));

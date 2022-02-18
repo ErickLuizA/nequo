@@ -1,9 +1,5 @@
+import 'package:nequo/domain/services/share_service.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
-import 'package:flutter/material.dart';
-
-abstract class Share {
-  Future<void> share(ShareParams params);
-}
 
 class ShareParams {
   String text;
@@ -16,12 +12,10 @@ class ShareParams {
 }
 
 class ShareQuote extends Usecase<void, ShareParams> {
-  Share share;
+  ShareService shareService;
 
-  ShareQuote({
-    required this.share,
-  });
+  ShareQuote({required this.shareService});
 
   @override
-  Future<void> call(ShareParams params) => this.share.share(params);
+  Future<void> call(ShareParams params) => shareService.share(params);
 }

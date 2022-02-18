@@ -1,23 +1,23 @@
-import 'package:nequo/data/datasources/favorite_local_datasource.dart';
-import 'package:nequo/domain/entities/favorite.dart';
+import 'package:nequo/data/datasources/favorites_local_datasource.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/favorite_repository.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
+import 'package:nequo/domain/usecases/load_quote.dart';
 
-class FavoriteRepositoryImpl implements FavoriteRepository {
-  FavoriteLocalDatasource favoriteLocalDatasource;
+class FavoritesRepositoryImpl implements FavoritesRepository {
+  FavoritesLocalDatasource favoritesLocalDatasource;
 
-  FavoriteRepositoryImpl({
-    required this.favoriteLocalDatasource,
-  });
+  FavoritesRepositoryImpl({required this.favoritesLocalDatasource});
 
   @override
-  Future<Either<Failure, void>> addFavorite(Favorite params) async {
+  Future<Either<Failure, List<Quote>>> findAll() async {
     try {
-      final result = await favoriteLocalDatasource.addFavorite(params);
+      final result = await favoritesLocalDatasource.findAll();
 
       return Right(result);
     } on CacheException {
@@ -26,9 +26,9 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<Either<Failure, List<Favorite>>> getFavorites() async {
+  Future<Either<Failure, Quote>> findOne(LoadQuoteParams params) async {
     try {
-      final result = await favoriteLocalDatasource.getFavorites();
+      final result = await favoritesLocalDatasource.findOne(id: params.id);
 
       return Right(result);
     } on CacheException {
@@ -37,10 +37,20 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<Either<Failure, void>> deleteFavorite(
-      DeleteFavoriteParams params) async {
+  Future<Either<Failure, Quote>> save(AddFavoriteParams params) async {
     try {
-      final result = await favoriteLocalDatasource.deleteFavorite(params);
+      final result = await favoritesLocalDatasource.save(params);
+
+      return Right(result);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> delete(DeleteFavoriteParams params) async {
+    try {
+      final result = await favoritesLocalDatasource.delete(params);
 
       return Right(result);
     } on CacheException {

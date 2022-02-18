@@ -42,3 +42,5 @@ app.*.map.json
 
 # Android Signing
 **/android/key.properties
+
+thinking.md

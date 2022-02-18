@@ -1,6 +1,5 @@
-import 'package:nequo/domain/repositories/quote_repository.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
@@ -8,9 +7,7 @@ import 'package:nequo/domain/usecases/usecase.dart';
 class DeleteQuoteParams {
   int id;
 
-  DeleteQuoteParams({
-    required this.id,
-  });
+  DeleteQuoteParams({required this.id});
 }
 
 class DeleteQuote extends UseCase<void, DeleteQuoteParams> {
@@ -22,6 +19,6 @@ class DeleteQuote extends UseCase<void, DeleteQuoteParams> {
 
   @override
   Future<Either<Failure, void>> call(DeleteQuoteParams params) async {
-    return await quoteRepository.deleteQuote(params);
+    return await quoteRepository.delete(params);
   }
 }

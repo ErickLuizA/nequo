@@ -1,4 +1,4 @@
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/presentation/home/bloc/home_list_bloc.dart';
 import 'package:nequo/presentation/home/bloc/home_list_state.dart';
 import 'package:nequo/presentation/home/home_screen.dart';
@@ -9,22 +9,22 @@ import 'package:mockito/mockito.dart';
 
 import '../../utils/make_app.dart';
 
-class HomeListBlocMock extends Mock implements HomeListBloc {}
+class HomeBlocMock extends Mock implements HomeBloc {}
 
 void main() {
-  HomeListBlocMock homeListBlocMock;
+  HomeBlocMock homeBlocMock;
 
   setUp(() async {
-    homeListBlocMock = HomeListBlocMock();
+    homeBlocMock = HomeBlocMock();
 
     await sl.setUp(testing: true);
 
     sl.getIt.allowReassignment = true;
-    sl.getIt.registerLazySingleton<HomeListBloc>(() => homeListBlocMock);
+    sl.getIt.registerLazySingleton<HomeBloc>(() => homeBlocMock);
   });
 
   tearDown(() async {
-    homeListBlocMock.close();
+    homeBlocMock.close();
     await sl.getIt.reset();
   });
 
@@ -37,7 +37,7 @@ void main() {
 
   testWidgets('renders loading when LoadingState is returned from bloc',
       (tester) async {
-    when(homeListBlocMock.state).thenAnswer((_) => LoadingListState());
+    when(homeBlocMock.state).thenAnswer((_) => LoadingListState());
 
     await tester.pumpWidget(makeApp(HomeScreen()));
     await tester.pump();
@@ -47,7 +47,7 @@ void main() {
 
   testWidgets('renders load_error widget when ErrorState is returned from bloc',
       (tester) async {
-    when(homeListBlocMock.state).thenAnswer((_) => ErrorListState());
+    when(homeBlocMock.state).thenAnswer((_) => ErrorListState());
 
     await tester.pumpWidget(makeApp(HomeScreen()));
     await tester.pumpAndSettle();
@@ -58,8 +58,8 @@ void main() {
   testWidgets(
       'renders success_list_state widget when SuccessState is returned from bloc',
       (tester) async {
-    when(homeListBlocMock.state).thenAnswer(
-      (_) => SuccessListState(quoteList: [QuoteList(id: 11, name: '22')]),
+    when(homeBlocMock.state).thenAnswer(
+      (_) => SuccessListState(quoteList: [Category(id: 11, name: '22')]),
     );
 
     await tester.pumpWidget(makeApp(HomeScreen()));
@@ -71,7 +71,7 @@ void main() {
   testWidgets(
       'renders empty list container when EmptyListState is returned from bloc',
       (tester) async {
-    when(homeListBlocMock.state).thenAnswer((_) => EmptyListState());
+    when(homeBlocMock.state).thenAnswer((_) => EmptyListState());
 
     await tester.pumpWidget(makeApp(HomeScreen()));
     await tester.pumpAndSettle();

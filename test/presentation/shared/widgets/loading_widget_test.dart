@@ -1,4 +1,4 @@
-import 'package:nequo/presentation/shared/widgets/loading_widget.dart';
+import 'package:nequo/presentation/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

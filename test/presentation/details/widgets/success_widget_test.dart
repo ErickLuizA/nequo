@@ -4,7 +4,7 @@ import 'package:nequo/domain/usecases/delete_quote.dart';
 import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
 import 'package:nequo/presentation/details/bloc/details_state.dart';
 import 'package:nequo/presentation/details/widgets/success_widget.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,10 +14,10 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
-  void handleDeleteQuoteList() {}
+  void getCategories() {}
+  void handleDeleteCategory() {}
   void shareQuote(String text) {}
-  void handleFavorite(Favorite fav, int index) {}
+  void handleFavorite(Quote fav, int index) {}
   void handleDeleteQuote(DeleteQuoteParams params) {}
   void getQuotes() {}
 }
@@ -71,8 +71,8 @@ void main() {
               ),
             ],
             child: SuccessWidget(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
               successState: state,
               shareQuote: methodsMock.shareQuote,
               handleFavorite: methodsMock.handleFavorite,
@@ -106,8 +106,8 @@ void main() {
               ),
             ],
             child: SuccessWidget(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
               successState: state,
               shareQuote: methodsMock.shareQuote,
               handleFavorite: methodsMock.handleFavorite,
@@ -142,8 +142,8 @@ void main() {
               ),
             ],
             child: SuccessWidget(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
               successState: state,
               shareQuote: methodsMock.shareQuote,
               handleFavorite: methodsMock.handleFavorite,

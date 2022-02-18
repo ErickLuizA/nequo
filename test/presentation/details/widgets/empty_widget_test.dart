@@ -9,8 +9,8 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
-  void handleDeleteQuoteList() {}
+  void getCategories() {}
+  void handleDeleteCategory() {}
 }
 
 class MethodsMock extends Mock implements Methods {}
@@ -43,8 +43,8 @@ void main() {
           body: BlocProvider(
             create: (context) => sl.getIt<DeleteBloc>(),
             child: EmptyWidget(
-              getQuotesList: methodsMock.getQuotesList,
-              handleDeleteQuoteList: methodsMock.handleDeleteQuoteList,
+              getCategories: methodsMock.getCategories,
+              handleDeleteCategory: methodsMock.handleDeleteCategory,
             ),
           ),
         ),

@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:nequo/data/models/quote_list_model.dart';
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/data/models/category_model.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/data/models/quote_model.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote_list.dart';
-import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/delete_category.dart';
+import 'package:nequo/domain/usecases/load_quote.dart';
 import 'package:nequo/external/datasources/quote_local_datasource_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -33,16 +33,16 @@ void main() {
     );
   });
 
-  final randomQuoteModel = QuoteModel(
+  final randomQuoteModel = Quote(
     author: 'author',
     content: 'content',
   );
   final quotesParams = LoadQuotesParams(id: 1);
-  final quoteListParams = QuoteList(name: 'name');
+  final quoteListParams = Category(name: 'name');
   final addQuoteParams =
-      AddQuoteParams(listId: 1, author: 'author', content: 'content');
+      AddQuoteParams(categoryId: 1, author: 'author', content: 'content');
   final deleteQuoteParams = DeleteQuoteParams(id: 1);
-  final deleteQuoteListParams = DeleteQuoteListParams(id: 1);
+  final deleteCategoryParams = DeleteCategoryParams(id: 1);
 
   test('should call SharedPreferences to cache the data', () async {
     await quoteLocalDatasourceImpl.cacheQuote(randomQuoteModel);
@@ -59,8 +59,7 @@ void main() {
       final result = await quoteLocalDatasourceImpl.getLastQuote();
 
       verify(mockSharedPreferences.getString(CACHE_QUOTE));
-      expect(
-          result, equals(QuoteModel.fromMap(jsonDecode(randomJsonResponse))));
+      expect(result, equals(Quote.fromMap(jsonDecode(randomJsonResponse))));
     });
 
     test('should throw cacheException when there is no local data', () async {
@@ -71,62 +70,65 @@ void main() {
     });
   });
 
-  group('GetCachedQuoteList', () {
+  group('GetCachedCategory', () {
     test('should call database with the given params', () async {
-      when(mockDatabase.query('QuoteList'))
+      when(mockDatabase.query('Category'))
           .thenAnswer((_) async => List<Map<String, dynamic>>());
 
-      await quoteLocalDatasourceImpl.getCachedQuoteList();
+      await quoteLocalDatasourceImpl.getCachedCategory();
 
-      verify(mockDatabase.query('QuoteList'));
+      verify(mockDatabase.query('Category'));
       verifyNoMoreInteractions(mockDatabase);
     });
 
-    test('should return a QuoteList if database successfully get it', () async {
-      when(mockDatabase.query('QuoteList'))
+    test('should return a Category if database successfully get it', () async {
+      when(mockDatabase.query('Category'))
           .thenAnswer((_) async => List<Map<String, dynamic>>());
 
-      final result = await quoteLocalDatasourceImpl.getCachedQuoteList();
+      final result = await quoteLocalDatasourceImpl.getCachedCategory();
 
-      expect(result, isA<List<QuoteListModel>>());
+      expect(result, isA<List<Category>>());
     });
   });
 
   group('GetCachedQuotes', () {
     test('should call database with the given params', () async {
-      when(mockDatabase.query('Quotes', where: 'listId = ?', whereArgs: [1]))
+      when(mockDatabase
+              .query('Quotes', where: 'categoryId = ?', whereArgs: [1]))
           .thenAnswer((realInvocation) async => List<Map<String, dynamic>>());
 
       await quoteLocalDatasourceImpl.getCachedQuotes(quotesParams);
 
-      verify(mockDatabase.query('Quotes', where: 'listId = ?', whereArgs: [1]));
+      verify(mockDatabase
+          .query('Quotes', where: 'categoryId = ?', whereArgs: [1]));
       verifyNoMoreInteractions(mockDatabase);
     });
 
-    test('should return a QuoteList if database successfully get it', () async {
-      when(mockDatabase.query('Quotes', where: 'listId = ?', whereArgs: [1]))
+    test('should return a Category if database successfully get it', () async {
+      when(mockDatabase
+              .query('Quotes', where: 'categoryId = ?', whereArgs: [1]))
           .thenAnswer((_) async => List<Map<String, dynamic>>());
 
       final result =
           await quoteLocalDatasourceImpl.getCachedQuotes(quotesParams);
 
-      expect(result, isA<List<QuoteModel>>());
+      expect(result, isA<List<Quote>>());
     });
   });
 
-  group('AddQuoteList', () {
+  group('AddCategory', () {
     test('should call database with the given  params', () async {
       when(mockDatabase.insert(
-        'QuoteList',
-        QuoteListModel(name: 'name').toMap(),
+        'Category',
+        Category(name: 'name').toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore,
       )).thenReturn(null);
 
-      await quoteLocalDatasourceImpl.addQuoteList(quoteListParams);
+      await quoteLocalDatasourceImpl.addCategory(quoteListParams);
 
       verify(mockDatabase.insert(
-        'QuoteList',
-        QuoteListModel(name: 'name').toMap(),
+        'Category',
+        Category(name: 'name').toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore,
       ));
 
@@ -136,12 +138,12 @@ void main() {
     test('should throw CacheException if database fails to insert data',
         () async {
       when(mockDatabase.insert(
-        'QuoteList',
-        QuoteListModel(name: 'name').toMap(),
+        'Category',
+        Category(name: 'name').toMap(),
         conflictAlgorithm: ConflictAlgorithm.ignore,
       )).thenThrow(Exception());
 
-      expect(() => quoteLocalDatasourceImpl.addQuoteList(quoteListParams),
+      expect(() => quoteLocalDatasourceImpl.addCategory(quoteListParams),
           throwsA(isA<CacheException>()));
     });
   });
@@ -150,8 +152,8 @@ void main() {
     test('should call database with the given  params', () async {
       when(mockDatabase.insert(
         'Quotes',
-        QuoteModel(
-          listId: addQuoteParams.listId,
+        Quote(
+          categoryId: addQuoteParams.categoryId,
           content: addQuoteParams.content,
           author: addQuoteParams.author,
         ).toMap(),
@@ -162,8 +164,8 @@ void main() {
 
       verify(mockDatabase.insert(
         'Quotes',
-        QuoteModel(
-          listId: addQuoteParams.listId,
+        Quote(
+          categoryId: addQuoteParams.categoryId,
           content: addQuoteParams.content,
           author: addQuoteParams.author,
         ).toMap(),
@@ -177,8 +179,8 @@ void main() {
         () async {
       when(mockDatabase.insert(
         'Quotes',
-        QuoteModel(
-          listId: addQuoteParams.listId,
+        Quote(
+          categoryId: addQuoteParams.categoryId,
           content: addQuoteParams.content,
           author: addQuoteParams.author,
         ).toMap(),
@@ -222,18 +224,18 @@ void main() {
     });
   });
 
-  group('DeleteQuoteList', () {
+  group('DeleteCategory', () {
     test('should call database with the given  params', () async {
       when(mockDatabase.delete(
-        'QuoteList',
+        'Category',
         where: "id = ?",
         whereArgs: [1],
       )).thenReturn(null);
 
-      await quoteLocalDatasourceImpl.deleteQuoteList(deleteQuoteListParams);
+      await quoteLocalDatasourceImpl.deleteCategory(deleteCategoryParams);
 
       verify(mockDatabase.delete(
-        'QuoteList',
+        'Category',
         where: "id = ?",
         whereArgs: [1],
       ));
@@ -244,13 +246,13 @@ void main() {
     test('should throw CacheException if database fails to insert data',
         () async {
       when(mockDatabase.delete(
-        'QuoteList',
+        'Category',
         where: "id = ?",
         whereArgs: [1],
       )).thenThrow(Exception());
 
       expect(
-          () => quoteLocalDatasourceImpl.deleteQuoteList(deleteQuoteListParams),
+          () => quoteLocalDatasourceImpl.deleteCategory(deleteCategoryParams),
           throwsA(isA<CacheException>()));
     });
   });

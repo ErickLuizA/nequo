@@ -1,7 +1,7 @@
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/repositories/quote_repository.dart';
-import 'package:nequo/domain/usecases/load_random_quote.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
+import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,12 +10,12 @@ import 'package:mockito/mockito.dart';
 class MockQuoteRepository extends Mock implements QuoteRepository {}
 
 void main() {
-  LoadRandomQuote loadRandomQuote;
+  LoadQuoteOfTheDay loadRandomQuote;
   MockQuoteRepository mockQuoteRepository;
 
   setUp(() {
     mockQuoteRepository = MockQuoteRepository();
-    loadRandomQuote = LoadRandomQuote(quoteRepository: mockQuoteRepository);
+    loadRandomQuote = LoadQuoteOfTheDay(quoteRepository: mockQuoteRepository);
   });
 
   final randomQuote = Quote(

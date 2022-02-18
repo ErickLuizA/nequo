@@ -1,6 +1,6 @@
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/usecases/load_random_quotes.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_bloc.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_event.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';

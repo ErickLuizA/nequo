@@ -1,9 +1,9 @@
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/presentation/details/bloc/details_bloc.dart';
 import 'package:nequo/presentation/details/bloc/details_state.dart';
 import 'package:nequo/presentation/details/details_screen.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -12,7 +12,7 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
+  void getCategories() {}
 }
 
 class MethodsMock extends Mock implements Methods {}
@@ -25,13 +25,13 @@ void main() {
   MethodsMock methodsMock;
   FavoriteBlocMock favoriteBlocMock;
   DetailsBlocMock detailsBlocMock;
-  QuoteList quoteList;
+  Category quoteList;
 
   setUp(() async {
     methodsMock = MethodsMock();
     favoriteBlocMock = FavoriteBlocMock();
     detailsBlocMock = DetailsBlocMock();
-    quoteList = QuoteList(id: 1, name: 'name');
+    quoteList = Category(id: 1, name: 'name');
 
     await sl.setUp(testing: true);
 
@@ -49,7 +49,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         DetailsScreen(
-          getQuotesList: methodsMock.getQuotesList,
+          getCategories: methodsMock.getCategories,
           quoteList: quoteList,
         ),
       ),
@@ -67,7 +67,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         DetailsScreen(
-          getQuotesList: methodsMock.getQuotesList,
+          getCategories: methodsMock.getCategories,
           quoteList: quoteList,
         ),
       ),
@@ -86,7 +86,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         DetailsScreen(
-          getQuotesList: methodsMock.getQuotesList,
+          getCategories: methodsMock.getCategories,
           quoteList: quoteList,
         ),
       ),
@@ -109,7 +109,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         DetailsScreen(
-          getQuotesList: methodsMock.getQuotesList,
+          getCategories: methodsMock.getCategories,
           quoteList: quoteList,
         ),
       ),
@@ -128,7 +128,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         DetailsScreen(
-          getQuotesList: methodsMock.getQuotesList,
+          getCategories: methodsMock.getCategories,
           quoteList: quoteList,
         ),
       ),

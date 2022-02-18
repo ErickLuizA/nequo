@@ -1,43 +1,87 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+const CategoriesTable = 'Categories';
+const QuotesTable = 'Quotes';
+const FavoritesTable = 'Favorites';
+
 Future<Database> initDb() async {
   final database = openDatabase(
     join(await getDatabasesPath(), 'nequo_database.db'),
     onCreate: (db, version) async {
+      await db.execute('PRAGMA foreign_keys = ON;');
+
       await db.execute("""
-        CREATE TABLE Favorites(
-          id INTEGER PRIMARY KEY, 
+        create table $CategoriesTable(
+          id integer primary key, 
+          server_id integer null,
+          name varchar(50) unique,
+        
+          created_at timestamp default current_timestamp,
+          updated_at timestamp default current_timestamp
+        );
+      """);
+
+      await db.execute("""
+        create trigger categories_on_update
+            after update on Categories
+            begin
+              update Categories set updated_at = current_timestamp where id = old.id;
+            end;
+      """);
+
+      await db.execute("""
+        create table $QuotesTable(
+          id integer primary key, 
+          server_id integer null,
+          category_id integer null,
+        
           content TEXT,
-          author TEXT
-          )
-        """);
+          author varchar(50),
+        
+          created_at timestamp default current_timestamp,
+          updated_at timestamp default current_timestamp,
+                
+          foreign key(category_id) references Categories(id)
+        );
+      """);
 
       await db.execute("""
-        CREATE TABLE QuoteList(
-          id INTEGER PRIMARY KEY, 
-          name TEXT
-          )
-        """);
+        create trigger quotes_on_update
+          after update on Quotes
+          begin
+            update Quotes set updated_at = current_timestamp where id = old.id;
+          end;
+      """);
 
       await db.execute("""
-        CREATE TABLE Quotes(
-          id INTEGER PRIMARY KEY, 
-          listId INTEGER,
-          content TEXT,
-          author TEXT,
-          
-          FOREIGN KEY(listId) REFERENCES QuoteList(id)
-          )
-        """);
+        create trigger quotes_on_category_delete
+          after delete on Categories
+            for each row
+            begin
+              delete from Quotes where category_id = old.id;
+            end;
+      """);
 
       await db.execute("""
-        CREATE TRIGGER DeleteQuotes
-        AFTER DELETE ON QuoteList
-        FOR EACH ROW
-        BEGIN
-            DELETE FROM Quotes WHERE listId = OLD.id;
-        END
+        create table $FavoritesTable(
+          id integer primary key, 
+          server_id integer null,
+          quote_id integer unique,
+        
+          created_at timestamp default current_timestamp,
+          updated_at timestamp default current_timestamp,
+        
+          foreign key(quote_id) references Quotes(id)
+        );
+      """);
+
+      await db.execute("""
+        create trigger favorites_on_update
+          after update on Favorites
+            begin
+              update Favorites set updated_at = current_timestamp where id = old.id;
+            end;
       """);
     },
     version: 1,

@@ -1,4 +1,4 @@
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/presentation/home/widgets/add_quote_bottom_sheet.dart';
@@ -11,7 +11,7 @@ import 'package:nequo/service_locator.dart' as sl;
 import '../../../utils/make_app.dart';
 
 class Methods {
-  void getQuotesList() {}
+  void getCategories() {}
 }
 
 class MethodsMock extends Mock implements Methods {}
@@ -36,10 +36,10 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => AddQuoteBottomSheet(
-              list: [QuoteList(id: 1, name: 'hello')],
+              list: [Category(id: 1, name: 'hello')],
               scaffoldContext: context,
               addQuote: addQuoteMock,
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
             ),
           ),
         ),
@@ -59,10 +59,10 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => AddQuoteBottomSheet(
-              list: [QuoteList(id: 1, name: 'hello')],
+              list: [Category(id: 1, name: 'hello')],
               scaffoldContext: context,
               addQuote: addQuoteMock,
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
             ),
           ),
         ),
@@ -85,10 +85,10 @@ void main() {
         Scaffold(
           body: Builder(
             builder: (context) => AddQuoteBottomSheet(
-              list: [QuoteList(id: 1, name: 'hello')],
+              list: [Category(id: 1, name: 'hello')],
               scaffoldContext: context,
               addQuote: addQuoteMock,
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
             ),
           ),
         ),
@@ -115,17 +115,17 @@ void main() {
     expect(find.byKey(Key("add_quote_snackbar")), findsOneWidget);
   });
 
-  testWidgets('should call getQuotesList if addQuote succeds', (tester) async {
+  testWidgets('should call getCategories if addQuote succeds', (tester) async {
     when(addQuoteMock(any)).thenAnswer((_) async => Right(null));
     await tester.pumpWidget(
       makeApp(
         Scaffold(
           body: Builder(
             builder: (context) => AddQuoteBottomSheet(
-              list: [QuoteList(id: 1, name: 'hello')],
+              list: [Category(id: 1, name: 'hello')],
               scaffoldContext: context,
               addQuote: addQuoteMock,
-              getQuotesList: methodsMock.getQuotesList,
+              getCategories: methodsMock.getCategories,
             ),
           ),
         ),
@@ -149,6 +149,6 @@ void main() {
 
     await tester.pump();
 
-    verify(methodsMock.getQuotesList()).called(1);
+    verify(methodsMock.getCategories()).called(1);
   });
 }

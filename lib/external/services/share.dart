@@ -1,9 +1,10 @@
+import 'package:nequo/domain/services/share_service.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
-import 'package:share/share.dart' as FlutterShare;
+import 'package:share/share.dart';
 
-class ShareImpl implements Share {
+class ShareServiceImpl implements ShareService {
   @override
   Future<void> share(ShareParams params) {
-    return FlutterShare.Share.share(params.text, subject: params.subject);
+    return Share.share(params.text, subject: params.subject);
   }
 }

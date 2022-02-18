@@ -3,7 +3,7 @@ import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/random_details/bloc/random_details_state.dart';
 import 'package:nequo/presentation/random_details/widgets/success_widget.dart';
-import 'package:nequo/presentation/shared/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,7 +14,7 @@ import '../../../utils/make_app.dart';
 
 class Methods {
   void getRandomQuotes(int skip, int scrollPos) {}
-  void handleFavorite(Favorite fav, int index) {}
+  void handleFavorite(Quote fav, int index) {}
 }
 
 class ShareQuoteMock extends Mock implements ShareQuote {}

@@ -22,7 +22,7 @@ void main() {
   setUp(() async {
     methodsMock = MethodsMock();
     state = SuccessState(
-        favorites: [Favorite(author: 'author', content: 'content', id: 1)]);
+        favorites: [Quote(author: 'author', content: 'content', id: 1)]);
 
     await sl.setUp(testing: true);
   });

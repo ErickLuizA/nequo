@@ -1,6 +1,6 @@
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/errors/failures.dart';
-import 'package:nequo/domain/usecases/load_quotes_list.dart';
+import 'package:nequo/domain/usecases/load_categories.dart';
 import 'package:nequo/presentation/home/bloc/home_list_bloc.dart';
 import 'package:nequo/presentation/home/bloc/home_list_event.dart';
 import 'package:nequo/presentation/home/bloc/home_list_state.dart';
@@ -8,86 +8,86 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockLoadQuotesList extends Mock implements LoadQuotesList {}
+class MockLoadCategories extends Mock implements LoadCategories {}
 
 void main() {
-  HomeListBloc homeListBloc;
-  MockLoadQuotesList mockLoadQuotesList;
+  HomeBloc homeBloc;
+  MockLoadCategories mockLoadCategories;
 
   setUp(() {
-    mockLoadQuotesList = MockLoadQuotesList();
-    homeListBloc = HomeListBloc(
-      loadQuotesList: mockLoadQuotesList,
+    mockLoadCategories = MockLoadCategories();
+    homeBloc = HomeBloc(
+      loadCategories: mockLoadCategories,
     );
   });
 
-  group('GetQuotesList', () {
-    test('should get data from LoadQuotesList usecase', () async {
-      when(mockLoadQuotesList(any))
-          .thenAnswer((_) async => Right(List<QuoteList>()));
+  group('GetCategories', () {
+    test('should get data from LoadCategories usecase', () async {
+      when(mockLoadCategories(any))
+          .thenAnswer((_) async => Right(List<Category>()));
 
-      homeListBloc.add(
-        GetQuotesList(),
+      homeBloc.add(
+        GetCategories(),
       );
 
-      await untilCalled(mockLoadQuotesList(any));
+      await untilCalled(mockLoadCategories(any));
 
-      verify(mockLoadQuotesList(any));
+      verify(mockLoadCategories(any));
     });
 
     test(
         'should emit Loading and Empty in order when data gotten successfully but is Empty',
         () async {
-      when(mockLoadQuotesList(any))
-          .thenAnswer((_) async => Right(List<QuoteList>()));
+      when(mockLoadCategories(any))
+          .thenAnswer((_) async => Right(List<Category>()));
 
       expect(
-        homeListBloc,
+        homeBloc,
         emitsInOrder([
           isA<LoadingListState>(),
           isA<EmptyListState>(),
         ]),
       );
 
-      homeListBloc.add(
-        GetQuotesList(),
+      homeBloc.add(
+        GetCategories(),
       );
     });
 
     test(
         'should emit Loading and Success in order when data gotten successfully',
         () async {
-      when(mockLoadQuotesList(any))
-          .thenAnswer((_) async => Right([QuoteList(name: 'name')]));
+      when(mockLoadCategories(any))
+          .thenAnswer((_) async => Right([Category(name: 'name')]));
 
       expect(
-        homeListBloc,
+        homeBloc,
         emitsInOrder([
           isA<LoadingListState>(),
           isA<SuccessListState>(),
         ]),
       );
 
-      homeListBloc.add(
-        GetQuotesList(),
+      homeBloc.add(
+        GetCategories(),
       );
     });
 
     test('should emit Loading and Error in order when getting data fails',
         () async {
-      when(mockLoadQuotesList(any))
+      when(mockLoadCategories(any))
           .thenAnswer((_) async => Left(ServerFailure()));
 
       expect(
-        homeListBloc,
+        homeBloc,
         emitsInOrder([
           isA<LoadingListState>(),
           isA<ErrorListState>(),
         ]),
       );
 
-      homeListBloc.add(
-        GetQuotesList(),
+      homeBloc.add(
+        GetCategories(),
       );
     });
   });

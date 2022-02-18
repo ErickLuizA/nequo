@@ -1,17 +1,17 @@
-import 'package:nequo/data/datasources/quote_local_datasource.dart';
-import 'package:nequo/data/datasources/quote_remote_datasource.dart';
-import 'package:nequo/data/models/quote_list_model.dart';
+import 'package:nequo/data/datasources/quotes_local_datasource.dart';
+import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
+import 'package:nequo/data/models/category_model.dart';
 import 'package:nequo/data/repositories/quote_repository_impl.dart';
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/domain/entities/quote_list.dart';
+import 'package:nequo/domain/entities/category.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/data/models/quote_model.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote_list.dart';
+import 'package:nequo/domain/usecases/delete_category.dart';
+import 'package:nequo/domain/usecases/load_quote.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:nequo/domain/usecases/load_random_quotes.dart';
 import 'package:nequo/external/services/network_info.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -60,7 +60,7 @@ void main() {
     });
   }
 
-  final randomQuoteModel = QuoteModel(
+  final randomQuoteModel = Quote(
     author: 'author',
     content: 'content',
   );
@@ -73,7 +73,7 @@ void main() {
 
   final quoteParams = LoadQuotesParams(id: 1);
 
-  final addQuoteListParams = QuoteList(id: 1, name: 'name');
+  final addCategoryParams = Category(id: 1, name: 'name');
 
   final addQuoteParams = AddQuoteParams(
     content: 'content',
@@ -82,7 +82,7 @@ void main() {
 
   final deleteQuoteParams = DeleteQuoteParams(id: 1);
 
-  final deleteQuoteListParams = DeleteQuoteListParams(id: 1);
+  final deleteCategoryParams = DeleteCategoryParams(id: 1);
 
   test(
     'should check if the device is online',
@@ -131,7 +131,7 @@ void main() {
         'should return a list of random quotes when remote datasource calls getQuotes is successfull',
         () async {
       when(mockRemoteDatasource.getQuotes(randomQuoteParams))
-          .thenAnswer((_) async => List<QuoteModel>());
+          .thenAnswer((_) async => List<Quote>());
 
       final result = await quoteRepository.getRandomQuotes(randomQuoteParams);
 
@@ -177,7 +177,7 @@ void main() {
       'should return a list of Quote when local datasource getCachedQuotes is successfull',
       () async {
     when(mockLocalDatasource.getCachedQuotes(quoteParams))
-        .thenAnswer((_) async => List<QuoteModel>());
+        .thenAnswer((_) async => List<Quote>());
 
     final result = await quoteRepository.getQuotes(quoteParams);
 
@@ -194,37 +194,37 @@ void main() {
   });
 
   test(
-      'should return a list of QuoteList when local datasource getCachedQuoteList is successfull',
+      'should return a list of Category when local datasource getCachedCategory is successfull',
       () async {
-    when(mockLocalDatasource.getCachedQuoteList())
-        .thenAnswer((_) async => List<QuoteListModel>());
+    when(mockLocalDatasource.getCachedCategory())
+        .thenAnswer((_) async => List<Category>());
 
-    final result = await quoteRepository.getQuotesList();
+    final result = await quoteRepository.getCategories();
 
-    expect(result, isA<Right<Failure, List<QuoteList>>>());
+    expect(result, isA<Right<Failure, List<Category>>>());
   });
 
   test('should return cacheFailure on local datasource exception', () async {
-    when(mockLocalDatasource.getCachedQuoteList()).thenThrow(CacheException());
+    when(mockLocalDatasource.getCachedCategory()).thenThrow(CacheException());
 
-    final result = await quoteRepository.getQuotesList();
+    final result = await quoteRepository.getCategories();
 
-    expect(result, isA<Left<Failure, List<QuoteList>>>());
+    expect(result, isA<Left<Failure, List<Category>>>());
   });
 
-  test('should call addQuoteList in the localDatasource with given params',
+  test('should call addCategory in the localDatasource with given params',
       () async {
-    await quoteRepository.addQuoteList(addQuoteListParams);
+    await quoteRepository.addCategory(addCategoryParams);
 
-    verify(mockLocalDatasource.addQuoteList(addQuoteListParams));
+    verify(mockLocalDatasource.addCategory(addCategoryParams));
     verifyNoMoreInteractions(mockLocalDatasource);
   });
 
   test('should return a Failure when localDatasource throws CacheException',
       () async {
-    when(mockLocalDatasource.addQuoteList(any)).thenThrow(CacheException());
+    when(mockLocalDatasource.addCategory(any)).thenThrow(CacheException());
 
-    final result = await quoteRepository.addQuoteList(addQuoteListParams);
+    final result = await quoteRepository.addCategory(addCategoryParams);
 
     expect(result, isA<Left<Failure, void>>());
   });
@@ -264,20 +264,20 @@ void main() {
     expect(result, isA<Left<Failure, void>>());
   });
 
-  test('should call deleteQuoteList in the localDatasource with given params',
+  test('should call deleteCategory in the localDatasource with given params',
       () async {
-    await quoteRepository.deleteQuoteList(deleteQuoteListParams);
+    await quoteRepository.deleteCategory(deleteCategoryParams);
 
-    verify(mockLocalDatasource.deleteQuoteList(deleteQuoteListParams));
+    verify(mockLocalDatasource.deleteCategory(deleteCategoryParams));
     verifyNoMoreInteractions(mockLocalDatasource);
   });
 
   test('should return a Failure when localDatasource throws CacheException',
       () async {
-    when(mockLocalDatasource.deleteQuoteList(deleteQuoteListParams))
+    when(mockLocalDatasource.deleteCategory(deleteCategoryParams))
         .thenThrow(CacheException());
 
-    final result = await quoteRepository.deleteQuoteList(deleteQuoteListParams);
+    final result = await quoteRepository.deleteCategory(deleteCategoryParams);
 
     expect(result, isA<Left<Failure, void>>());
   });
