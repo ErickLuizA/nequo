@@ -31,7 +31,7 @@ class Quote extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, content, author, category];
+  List<Object?> get props => [id, content, author, category?.name];
 
   Quote copyWith({
     int? id,

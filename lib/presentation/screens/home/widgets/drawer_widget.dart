@@ -3,43 +3,54 @@ import 'package:flutter/material.dart';
 
 class DrawerWidget extends StatelessWidget {
   final Function handleNavigateToFavorites;
+  final Function navigateToQuoteOfTheDay;
   final Function handleShare;
 
   const DrawerWidget({
     Key? key,
     required this.handleNavigateToFavorites,
+    required this.navigateToQuoteOfTheDay,
     required this.handleShare,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      key: Key("drawer"),
+      backgroundColor: Theme.of(context).colorScheme.background,
       child: ListView(
         children: [
           ListTile(
-            key: Key("list_tile_navigation"),
+            textColor: Theme.of(context).colorScheme.onBackground,
+            iconColor: Theme.of(context).colorScheme.onBackground,
+            onTap: () {
+              navigateToQuoteOfTheDay();
+            },
+            title: Text(
+                AppLocalizations.of(context).translate('quote_of_the_day')),
+            leading: Icon(
+              Icons.format_quote,
+            ),
+          ),
+          ListTile(
+            textColor: Theme.of(context).colorScheme.onBackground,
+            iconColor: Theme.of(context).colorScheme.onBackground,
             onTap: () {
               handleNavigateToFavorites();
             },
             title: Text(AppLocalizations.of(context).translate('favorites')),
             leading: Icon(
               Icons.favorite_outline,
-              color: Colors.white,
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
           ListTile(
-            key: Key("list_tile_share"),
+            textColor: Theme.of(context).colorScheme.onBackground,
+            iconColor: Theme.of(context).colorScheme.onBackground,
             onTap: () {
               handleShare();
             },
             title: Text(AppLocalizations.of(context).translate('share')),
             leading: Icon(
               Icons.share,
-              color: Colors.white,
             ),
           ),
         ],

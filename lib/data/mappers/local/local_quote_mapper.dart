@@ -11,7 +11,7 @@ class LocalQuoteMapper {
       id: map['id'],
       content: map['content'],
       author: map['author'],
-      isFavorited: map['favorite_id'] ? true : false,
+      isFavorited: map['favorite_id'] != null ? true : false,
       category: category,
     );
   }

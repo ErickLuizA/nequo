@@ -21,7 +21,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
         isFavorited: false,
       );
     } catch (e) {
-      throw ServerException();
+      throw ServerException(message: e.toString());
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:nequo/domain/entities/category.dart';
 
 class LocalCategoryMapper {
   static Category? toEntity(Map<String, dynamic> map) {
-    if (!map['category_id']) return null;
+    if (map['category_id'] == null) return null;
 
     return Category(
       id: map['category_id'],

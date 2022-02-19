@@ -6,9 +6,8 @@ import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 
 import 'package:nequo/data/datasources/favorites_local_datasource.dart';
+import 'package:nequo/external/services/database.dart';
 import 'package:sqflite/sqlite_api.dart';
-
-const FavoritesTable = 'Favorites';
 
 class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
   final Database database;

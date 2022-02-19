@@ -2,8 +2,8 @@ import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class QuoteOfTheDayErrorWidget extends StatelessWidget {
-  final Function navigate;
-  final Function retry;
+  final void Function() navigate;
+  final void Function() retry;
 
   const QuoteOfTheDayErrorWidget({
     Key? key,
@@ -17,8 +17,8 @@ class QuoteOfTheDayErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
-          Icons.warning,
-          color: Colors.orange[700],
+          Icons.warning_amber_outlined,
+          color: Colors.deepOrangeAccent,
           size: 50,
         ),
         Padding(
@@ -28,27 +28,27 @@ class QuoteOfTheDayErrorWidget extends StatelessWidget {
           ),
           child: Text(
             AppLocalizations.of(context).translate('load_qod_error'),
-            style: Theme.of(context).textTheme.bodyText2,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
+              fontSize: 18,
+            ),
           ),
         ),
-        MaterialButton(
-          child: Text(AppLocalizations.of(context).translate('try_again')),
-          minWidth: MediaQuery.of(context).size.width / 2,
-          color: Theme.of(context).indicatorColor,
-          textColor: Colors.white,
-          onPressed: () {
-            retry();
-          },
+        TextButton(
+          child: Text(
+            AppLocalizations.of(context).translate('try_again'),
+          ),
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).colorScheme.onBackground,
+          ),
+          onPressed: retry,
         ),
-        SizedBox(height: 10),
-        MaterialButton(
+        TextButton(
           child: Text(AppLocalizations.of(context).translate('continue')),
-          minWidth: MediaQuery.of(context).size.width / 2,
-          color: Theme.of(context).indicatorColor,
-          textColor: Colors.white,
-          onPressed: () {
-            navigate();
-          },
+          style: TextButton.styleFrom(
+            primary: Theme.of(context).colorScheme.onBackground,
+          ),
+          onPressed: navigate,
         ),
       ],
     );

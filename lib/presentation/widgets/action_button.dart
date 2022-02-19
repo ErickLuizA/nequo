@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
   final IconData icon;
-  final Function onPress;
+  final void Function() onPress;
   final AlignmentGeometry align;
 
   const ActionButton({
@@ -15,17 +15,14 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      key: Key("action_button_align"),
       alignment: align,
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(40)),
-        color: Theme.of(context).indicatorColor,
+        color: Theme.of(context).colorScheme.surface,
         child: IconButton(
-          key: Key("icon_button"),
+          color: Theme.of(context).colorScheme.onSurface,
           icon: Icon(icon),
-          onPressed: () {
-            onPress();
-          },
+          onPressed: onPress,
         ),
       ),
     );

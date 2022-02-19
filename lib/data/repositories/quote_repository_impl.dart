@@ -38,16 +38,18 @@ class QuoteRepositoryImpl implements QuoteRepository {
         );
 
         return Right(result);
-      } on ServerException {
-        return Left(ServerFailure());
+      } on ServerException catch (e) {
+        return Left(ServerFailure(message: e.message));
+      } on CacheException catch (e) {
+        return Left(CacheFailure(message: e.message));
       }
     } else {
       try {
         final result = await quotesLocalDatasource.findQuoteOfTheDay();
 
         return Right(result);
-      } on CacheException {
-        return Left(CacheFailure());
+      } on CacheException catch (e) {
+        return Left(CacheFailure(message: e.message));
       }
     }
   }

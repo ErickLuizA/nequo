@@ -1,3 +1,4 @@
+import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_event.dart';
@@ -25,10 +26,10 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
   void initState() {
     super.initState();
 
-    handleLoadRandomQuote();
+    handleGetQuoteOfTheDay();
   }
 
-  void handleLoadRandomQuote() {
+  void handleGetQuoteOfTheDay() {
     context.read<QuoteOfTheDayBloc>().add(GetQuoteOfTheDay());
   }
 
@@ -55,9 +56,30 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Theme.of(context).primaryColor,
+        width: double.infinity,
         child: BlocConsumer<QuoteOfTheDayBloc, QuoteOfTheDayState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state.actionStatus == QuoteOfTheDayActionStatus.favoriteError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context).translate('add_fav_error'),
+                  ),
+                ),
+              );
+            }
+
+            if (state.actionStatus ==
+                QuoteOfTheDayActionStatus.unfavoriteError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context).translate('del_fav_error'),
+                  ),
+                ),
+              );
+            }
+          },
           builder: (context, state) {
             if (state.isLoading) {
               return LoadingWidget();
@@ -66,7 +88,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
             if (state.hasError) {
               return QuoteOfTheDayErrorWidget(
                 navigate: handleClose,
-                retry: handleLoadRandomQuote,
+                retry: handleGetQuoteOfTheDay,
               );
             }
 

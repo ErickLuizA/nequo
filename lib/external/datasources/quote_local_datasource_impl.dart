@@ -25,17 +25,14 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
     try {
       final quoteOfTheDayId = sharedPreferences.getInt(QUOTE_OF_THE_DAY);
 
-      if (quoteOfTheDayId == null) throw CacheException();
+      if (quoteOfTheDayId == null)
+        throw CacheException(
+          message: 'Quote of the day not found',
+        );
 
-      final quoteOfTheDay = await database.query(
-        QuotesTable,
-        where: 'id = ?',
-        whereArgs: [quoteOfTheDayId],
-      );
-
-      return LocalQuoteMapper.toEntity(quoteOfTheDay[0]);
+      return await findOne(id: quoteOfTheDayId);
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -65,7 +62,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
       await sharedPreferences.setInt(QUOTE_OF_THE_DAY, id);
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -88,7 +85,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
       return result.map((e) => LocalQuoteMapper.toEntity(e)).toList();
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -110,7 +107,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
       return LocalQuoteMapper.toEntity(result[0]);
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -137,7 +134,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
       return findOne(id: id);
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -155,7 +152,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
       return findOne(id: id);
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 
@@ -168,7 +165,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         whereArgs: [params.id],
       );
     } catch (e) {
-      throw CacheException();
+      throw CacheException(message: e.toString());
     }
   }
 }

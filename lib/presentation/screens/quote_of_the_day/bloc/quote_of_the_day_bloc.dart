@@ -50,24 +50,17 @@ class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
     emit(
       state.copyWith(
         quote: state.quote!.copyWith(isFavorited: true),
-        uiStatus: QuoteOfTheDayUIStatus.success,
       ),
     );
 
     final result = await addFavorite(AddFavoriteParams(quoteId: event.quoteId));
 
-    emit(
-      result.fold(
-        (failure) => state.copyWith(
-          error: 'unknow error',
-          uiStatus: QuoteOfTheDayUIStatus.favoriteError,
-        ),
-        (quote) => state.copyWith(
-          quote: quote,
-          uiStatus: QuoteOfTheDayUIStatus.success,
-        ),
-      ),
-    );
+    if (result.isLeft()) {
+      emit(state.copyWith(
+        quote: state.quote!.copyWith(isFavorited: false),
+        actionStatus: QuoteOfTheDayActionStatus.favoriteError,
+      ));
+    }
   }
 
   void _onDeleteFromFavorites(
@@ -77,7 +70,6 @@ class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
     emit(
       state.copyWith(
         quote: state.quote!.copyWith(isFavorited: false),
-        uiStatus: QuoteOfTheDayUIStatus.success,
       ),
     );
 
@@ -85,17 +77,11 @@ class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
       DeleteFavoriteParams(id: event.quoteId),
     );
 
-    emit(
-      result.fold(
-        (failure) => state.copyWith(
-          error: 'unknow error',
-          uiStatus: QuoteOfTheDayUIStatus.unfavoriteError,
-        ),
-        (success) => state.copyWith(
-          quote: state.quote!.copyWith(isFavorited: false),
-          uiStatus: QuoteOfTheDayUIStatus.success,
-        ),
-      ),
-    );
+    if (result.isLeft()) {
+      emit(state.copyWith(
+        quote: state.quote!.copyWith(isFavorited: true),
+        actionStatus: QuoteOfTheDayActionStatus.unfavoriteError,
+      ));
+    }
   }
 }

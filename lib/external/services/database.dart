@@ -6,11 +6,12 @@ const QuotesTable = 'Quotes';
 const FavoritesTable = 'Favorites';
 
 Future<Database> initDb() async {
-  final database = openDatabase(
+  final database = await openDatabase(
     join(await getDatabasesPath(), 'nequo_database.db'),
-    onCreate: (db, version) async {
+    onConfigure: (db) async {
       await db.execute('PRAGMA foreign_keys = ON;');
-
+    },
+    onCreate: (db, version) async {
       await db.execute("""
         create table $CategoriesTable(
           id integer primary key, 
