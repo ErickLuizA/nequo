@@ -32,6 +32,10 @@ class HomeScreen extends StatelessWidget {
     Navigator.of(context).pushNamed('/favorites');
   }
 
+  void handleNavigateToQuoteOfTheDay(BuildContext context) {
+    Navigator.of(context).pushNamed('/quote_of_the_day');
+  }
+
   void handleShare(BuildContext context) async {
     await share(ShareParams(
       subject: 'nequo - Quotes App',
@@ -42,41 +46,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
       endDrawer: DrawerWidget(
-        handleNavigateToFavorites: handleNavigateToFavorites,
-        handleShare: handleShare,
+        handleNavigateToFavorites: () {
+          handleNavigateToFavorites(context);
+        },
+        navigateToQuoteOfTheDay: () {
+          handleNavigateToQuoteOfTheDay(context);
+        },
+        handleShare: () {
+          handleShare(context);
+        },
       ),
       appBar: AppBar(
-        title: Text(
-          "nequo",
-          style: GoogleFonts.marckScript(
-            fontSize: 32,
-          ),
-        ),
-        centerTitle: true,
+        title: Text('Nequo'),
+        elevation: 0,
       ),
       body: Column(
-        key: Key("home_screen"),
         mainAxisSize: MainAxisSize.min,
         children: [],
-      ),
-      floatingActionButton: Builder(
-        builder: (scaffoldContext) => FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            showModalBottomSheet(
-              context: scaffoldContext,
-              backgroundColor: Color(0XFF605c65),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              builder: (context) {
-                return Text("hello");
-              },
-            );
-          },
-        ),
       ),
     );
   }
