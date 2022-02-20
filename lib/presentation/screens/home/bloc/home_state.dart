@@ -9,7 +9,7 @@ class HomeState {
 
   HomeState({
     required this.uiStatus,
-    required this.error,
+    this.error = '',
     required this.quotes,
   });
 

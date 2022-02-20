@@ -6,34 +6,23 @@ class EmptyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      key: Key("empty_widget_safe_area"),
-      child: Center(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.hourglass_empty_outlined,
+            size: 50,
+            color: Theme.of(context).colorScheme.onBackground,
+          ),
+          SizedBox(height: 10),
+          Text(
+            AppLocalizations.of(context).translate("empty_list"),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onBackground,
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.hourglass_empty_outlined,
-                    size: 50,
-                  ),
-                  Text(AppLocalizations.of(context).translate("empty_list")),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -7,7 +7,6 @@ import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_da
 import 'package:nequo/presentation/widgets/favorite_buton.dart';
 import 'package:nequo/presentation/widgets/action_button.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class QuoteOfTheDaySuccessWidget extends StatelessWidget {
   final void Function() close;

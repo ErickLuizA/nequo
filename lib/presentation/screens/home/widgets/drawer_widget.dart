@@ -27,7 +27,7 @@ class _DrawerWidgetState extends State<DrawerWidget>
   void initState() {
     controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: Duration(milliseconds: 300),
     );
 
     final curveAnimation = CurvedAnimation(

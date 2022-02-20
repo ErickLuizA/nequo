@@ -11,7 +11,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({
     required this.loadQuotes,
-  }) : super(HomeState(error: '', quotes: [], uiStatus: HomeUIStatus.initial)) {
+  }) : super(HomeState(quotes: [], uiStatus: HomeUIStatus.initial)) {
     on<GetQuotesEvent>(_onGetQuotes);
   }
 
