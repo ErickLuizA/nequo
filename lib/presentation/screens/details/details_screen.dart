@@ -7,12 +7,10 @@ import 'bloc/details_bloc.dart';
 import 'bloc/details_state.dart';
 
 class DetailsScreen extends StatelessWidget {
-  final DetailsBloc detailsBloc;
   final ShareQuote share;
 
   const DetailsScreen({
     Key? key,
-    required this.detailsBloc,
     required this.share,
   }) : super(key: key);
 

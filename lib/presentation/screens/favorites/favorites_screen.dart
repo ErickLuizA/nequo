@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/quote.dart';
 
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/widgets/empty_widget.dart';
+import 'package:nequo/presentation/widgets/load_error_widget.dart';
+import 'package:nequo/presentation/widgets/loading_widget.dart';
 
 import 'bloc/favorites_bloc.dart';
 import 'bloc/favorites_event.dart';
 import 'bloc/favorites_state.dart';
+import 'widgets/success_widget.dart';
 
 class FavoritesScreen extends StatefulWidget {
-  final FavoritesBloc favoritesBloc;
   final ShareQuote share;
 
   const FavoritesScreen({
     Key? key,
-    required this.favoritesBloc,
     required this.share,
   }) : super(key: key);
 
@@ -25,13 +29,13 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   void initState() {
-    super.initState();
-
     getFavorites();
+
+    super.initState();
   }
 
   void getFavorites() {
-    widget.favoritesBloc.add(GetFavorites());
+    context.read<FavoritesBloc>().add(GetFavorites());
   }
 
   void shareQuote(String text) {
@@ -43,59 +47,62 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  void deleteFavorite(int id) {
-    widget.favoritesBloc.add(
-      DeleteFavoriteEvent(params: DeleteFavoriteParams(id: id)),
-    );
+  void deleteFavorite(int id,
+      {bool isPermanent = false, List<Quote> quotes = const []}) {
+    if (isPermanent) {
+      context
+          .read<FavoritesBloc>()
+          .add(PermanentDeleteFavoriteEvent(id: id, quotes: quotes));
+    } else {
+      context.read<FavoritesBloc>().add(DeleteFavoriteEvent(id: id));
+    }
+  }
+
+  void undoDeleteFavorite(int id, List<Quote> quotes) {
+    context
+        .read<FavoritesBloc>()
+        .add(UndoDeleteFavoriteEvent(id: id, quotes: quotes));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: Key("favorites_screen"),
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(AppLocalizations.of(context).translate('favorites')),
+      ),
       body: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
+        padding: const EdgeInsets.all(20),
         child: BlocConsumer<FavoritesBloc, FavoritesState>(
-            listener: (context, state) {},
-            builder: (context, state) {
-              // if (state is EmptyState) {
-              //   return EmptyWidget(key: Key("empty_widget"));
-              // } else if (state is FailedState) {
-              //   WidgetsBinding.instance?.addPostFrameCallback((_) {
-              //     Scaffold.of(context).showSnackBar(
-              //       SnackBar(
-              //         key: Key("failed_snackbar"),
-              //         content: Text(
-              //           AppLocalizations.of(context).translate('del_fav_error'),
-              //         ),
-              //       ),
-              //     );
-              //   });
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state.isLoading) {
+              return LoadingWidget();
+            }
 
-              //   return LoadingWidget(key: Key("loading_widget_failure"));
-              // } else if (state is LoadingState) {
-              //   return LoadingWidget(key: Key("loading_widget"));
-              // } else if (state is SuccessState) {
-              //   return SuccessWidget(
-              //     key: Key("success_widget"),
-              //     deleteFavorite: deleteFavorite,
-              //     shareQuote: shareQuote,
-              //     state: state,
-              //   );
-              // } else {
-              //   return LoadErrorWidget(
-              //     key: Key("load_error_widget"),
-              //     retry: getFavorites,
-              //     text:
-              //         AppLocalizations.of(context).translate("load_fav_error"),
-              //   );
-              // }
+            if (state.isEmpty) {
+              return EmptyWidget();
+            }
 
-              return Text("Favorites");
-            }),
+            if (state.hasError) {
+              return LoadErrorWidget(
+                text: AppLocalizations.of(context).translate(
+                  "load_fav_error",
+                ),
+              );
+            }
+
+            if (state.hasData) {
+              return SuccessWidget(
+                favorites: state.favorites,
+                deleteFavorite: deleteFavorite,
+                undoDeleteFavorite: undoDeleteFavorite,
+              );
+            }
+
+            return Container();
+          },
+        ),
       ),
     );
   }

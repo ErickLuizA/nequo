@@ -55,7 +55,6 @@ Future<void> setUp({bool testing = false}) async {
       loadQuotes: getIt(),
     ),
   );
-
   getIt.registerFactory(
     () => DetailsBloc(
       loadQuote: getIt(),
@@ -137,9 +136,10 @@ Future<void> setUp({bool testing = false}) async {
     ),
   );
   getIt.registerLazySingleton<CategoriesRepository>(
-    () => CategoriesRepositoryImpl(categoriesLocalDatasource: getIt()),
+    () => CategoriesRepositoryImpl(
+      categoriesLocalDatasource: getIt(),
+    ),
   );
-
   getIt.registerLazySingleton<FavoritesRepository>(
     () => FavoritesRepositoryImpl(
       favoritesLocalDatasource: getIt(),

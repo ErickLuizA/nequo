@@ -1,107 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/presentation/widgets/quote_card.dart';
 
-import 'package:nequo/presentation/widgets/action_button.dart';
-
-class SuccessWidget extends StatefulWidget {
+class SuccessWidget extends StatelessWidget {
   final List<Quote> favorites;
-  final Function(String text) shareQuote;
-  final Function(int id) deleteFavorite;
+  final Function(int id, {bool isPermanent, List<Quote> quotes}) deleteFavorite;
+  final Function(int id, List<Quote> quotes) undoDeleteFavorite;
 
   const SuccessWidget({
     Key? key,
     required this.favorites,
-    required this.shareQuote,
     required this.deleteFavorite,
+    required this.undoDeleteFavorite,
   }) : super(key: key);
 
   @override
-  _SuccessWidgetState createState() => _SuccessWidgetState();
-}
-
-class _SuccessWidgetState extends State<SuccessWidget> {
-  int current = 0;
-
-  @override
   Widget build(BuildContext context) {
-    return Column(
-      key: Key("success_widget_column"),
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            Text("${current + 1}/${widget.favorites.length}"),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 2,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: PageView.builder(
-              itemCount: widget.favorites.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final quote = widget.favorites[index];
+    return ListView.builder(
+      itemCount: favorites.length,
+      itemBuilder: (context, index) {
+        final quote = favorites[index];
 
-                WidgetsBinding.instance?.addPostFrameCallback((_) {
-                  setState(() {
-                    current = index;
-                  });
-                });
+        return Dismissible(
+          key: Key(quote.id.toString()),
+          direction: DismissDirection.endToStart,
+          onDismissed: (_) async {
+            deleteFavorite(quote.id);
 
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    children: [
-                      Text(
-                        quote.content,
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                      SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "- ${quote.author}",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+            final controller = ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Favorito deletado com sucesso!'),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  textColor: Theme.of(context).colorScheme.onSurface,
+                  onPressed: () {
+                    undoDeleteFavorite(quote.id, favorites);
+                  },
+                ),
+                duration: Duration(seconds: 2, milliseconds: 500),
+                dismissDirection: DismissDirection.endToStart,
+              ),
+            );
+
+            final reason = await controller.closed;
+
+            if (reason != SnackBarClosedReason.action) {
+              deleteFavorite(quote.id, isPermanent: true, quotes: favorites);
+            }
+          },
+          background: Container(
+            alignment: AlignmentDirectional.centerEnd,
+            color: Colors.red.shade400,
+            child: Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.delete_sweep_outlined,
+                size: 40,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ActionButton(
-              key: Key("share_action_button"),
-              icon: Icons.share_outlined,
-              onPress: () {
-                widget.shareQuote(widget.favorites[current].content);
-              },
+          child: Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: QuoteCard(
+              quote: quote,
             ),
-            ActionButton(
-              key: Key("delete_action_button"),
-              icon: Icons.delete_outline,
-              onPress: () {
-                widget.deleteFavorite(widget.favorites[current].id);
-              },
-            ),
-          ],
-        ),
-      ],
+          ),
+        );
+      },
     );
   }
 }

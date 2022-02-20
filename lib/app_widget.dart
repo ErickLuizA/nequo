@@ -3,7 +3,6 @@ import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/quote_of_the_day_screen.dart';
 import 'package:nequo/service_locator.dart';
@@ -28,7 +27,7 @@ class App extends StatelessWidget {
         Locale('pt', 'BR'),
       ],
       localizationsDelegates: [
-        LocalizationDelegate(isTest: false),
+        LocalizationDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -66,7 +65,6 @@ class App extends StatelessWidget {
                 child: HomeScreen(
                   addCategory: getIt(),
                   addQuote: getIt(),
-                  homeBloc: getIt(),
                   share: getIt(),
                 ),
               );
@@ -80,7 +78,6 @@ class App extends StatelessWidget {
               return BlocProvider(
                 create: (_) => getIt<DetailsBloc>(),
                 child: DetailsScreen(
-                  detailsBloc: getIt(),
                   share: getIt(),
                 ),
               );
@@ -95,7 +92,6 @@ class App extends StatelessWidget {
                 create: (_) => getIt<FavoritesBloc>(),
                 child: FavoritesScreen(
                   share: getIt(),
-                  favoritesBloc: getIt(),
                 ),
               );
             },
