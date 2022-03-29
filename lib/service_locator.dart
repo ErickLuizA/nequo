@@ -1,28 +1,24 @@
-import 'package:nequo/data/datasources/categories_local_datasource.dart';
-import 'package:nequo/data/repositories/categories_repository_impl.dart';
-import 'package:nequo/domain/repositories/categories_repository.dart';
-import 'package:nequo/domain/services/network_info_service.dart';
-import 'package:nequo/domain/services/share_service.dart';
-import 'package:nequo/domain/usecases/add_favorite.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/add_category.dart';
-import 'package:nequo/domain/usecases/delete_favorite.dart';
-import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/delete_category.dart';
-import 'package:nequo/domain/usecases/load_favorites.dart';
-import 'package:nequo/domain/usecases/load_categories.dart';
-import 'package:nequo/domain/usecases/load_quote.dart';
-import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
-import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:nequo/domain/usecases/share_quote.dart';
-import 'package:nequo/domain/repositories/quotes_repository.dart';
-import 'package:nequo/domain/repositories/favorites_repository.dart';
+import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 import 'package:nequo/data/datasources/favorites_local_datasource.dart';
 import 'package:nequo/data/datasources/quotes_local_datasource.dart';
 import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
 import 'package:nequo/data/repositories/favorite_repository_impl.dart';
 import 'package:nequo/data/repositories/quote_repository_impl.dart';
-import 'package:nequo/external/datasources/categories_local_datasource_impl.dart';
+import 'package:nequo/domain/repositories/favorites_repository.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
+import 'package:nequo/domain/services/network_info_service.dart';
+import 'package:nequo/domain/services/share_service.dart';
+import 'package:nequo/domain/usecases/add_favorite.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
+import 'package:nequo/domain/usecases/delete_quote.dart';
+import 'package:nequo/domain/usecases/load_favorites.dart';
+import 'package:nequo/domain/usecases/load_quote.dart';
+import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/external/datasources/favorite_local_datasource_impl.dart';
 import 'package:nequo/external/datasources/quote_local_datasource_impl.dart';
 import 'package:nequo/external/datasources/quote_remote_datasource_impl.dart';
@@ -33,12 +29,8 @@ import 'package:nequo/presentation/screens/details/bloc/details_bloc.dart';
 import 'package:nequo/presentation/screens/favorites/bloc/favorites_bloc.dart';
 import 'package:nequo/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
-
-import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:mockito/mockito.dart';
 
 final getIt = GetIt.instance;
 
@@ -57,6 +49,8 @@ Future<void> setUp({bool testing = false}) async {
   );
   getIt.registerFactory(
     () => DetailsBloc(
+      addFavorite: getIt(),
+      deleteFavorite: getIt(),
       loadQuote: getIt(),
     ),
   );
@@ -75,11 +69,6 @@ Future<void> setUp({bool testing = false}) async {
   getIt.registerLazySingleton(
     () => LoadQuote(
       quoteRepository: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton(
-    () => LoadCategories(
-      categoriesRepository: getIt(),
     ),
   );
   getIt.registerLazySingleton(
@@ -113,16 +102,6 @@ Future<void> setUp({bool testing = false}) async {
     ),
   );
   getIt.registerLazySingleton(
-    () => DeleteCategory(
-      categoriesRepository: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton(
-    () => AddCategory(
-      categoriesRepository: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton(
     () => AddQuote(
       quoteRepository: getIt(),
     ),
@@ -133,11 +112,6 @@ Future<void> setUp({bool testing = false}) async {
       quotesLocalDatasource: getIt(),
       quotesRemoteDatasource: getIt(),
       networkInfoService: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton<CategoriesRepository>(
-    () => CategoriesRepositoryImpl(
-      categoriesLocalDatasource: getIt(),
     ),
   );
   getIt.registerLazySingleton<FavoritesRepository>(
@@ -159,11 +133,6 @@ Future<void> setUp({bool testing = false}) async {
   );
   getIt.registerLazySingleton<FavoritesLocalDatasource>(
     () => FavoriteLocalDatasourceImpl(
-      database: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton<CategoriesLocalDatasource>(
-    () => CategoriesLocalDatasourceImpl(
       database: getIt(),
     ),
   );

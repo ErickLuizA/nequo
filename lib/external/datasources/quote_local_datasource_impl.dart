@@ -55,7 +55,6 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
-          categoryId: params.categoryId,
           serverId: serverId,
         ),
       );
@@ -72,14 +71,10 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
       final result = await database.rawQuery(
         '''
         select quotes.*, 
-          Favorites.id as favorite_id, 
-            Categories.id as category_id,
-            Categories.name as category_name 
-            from Quotes 
+        Favorites.id as favorite_id, 
+        from Quotes 
         left join Favorites 
         on Quotes.id = Favorites.quote_id
-        left join Categories 
-        on Quotes.category_id = Categories.id;
         ''',
       );
 
@@ -94,14 +89,10 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
     try {
       final result = await database.rawQuery('''
         select quotes.*, 
-          Favorites.id as favorite_id, 
-            Categories.id as category_id,
-            Categories.name as category_name 
-            from Quotes 
+        Favorites.id as favorite_id, 
+        from Quotes 
         left join Favorites 
         on Quotes.id = Favorites.quote_id
-        left join Categories 
-        on Quotes.category_id = Categories.id
         where Quotes.id = ?;
         ''', [id]);
 
@@ -127,7 +118,6 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
-          categoryId: params.categoryId,
           serverId: serverId,
         ),
       );
@@ -146,7 +136,6 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
-          categoryId: params.categoryId,
         ),
       );
 

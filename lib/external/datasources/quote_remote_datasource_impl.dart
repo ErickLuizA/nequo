@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
+import 'package:nequo/data/mappers/local/remote_quote_mapper.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:http/http.dart' as http;
+
+const BASE_URL = 'http://localhost/api';
 
 class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   final http.Client client;
@@ -13,64 +18,19 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   @override
   Future<Quote> findQuoteOfTheDay() async {
     try {
-      return Quote(
-        id: 1,
-        author: 'Author',
-        content:
-            "Many of life's failures are people who did not realize how close they were to success when they gave up.",
-        isFavorited: false,
+      final response = await client.get(
+        Uri.parse(BASE_URL + '/quote_of_the_day'),
       );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        return RemoteQuoteMapper.toEntity(data);
+      } else {
+        throw ServerException(message: response.body);
+      }
     } catch (e) {
       throw ServerException(message: e.toString());
     }
   }
-
-  // @override
-  // Future<Quote> getRandom() async {
-  //   return Quote(
-  //     id: 1,
-  //     author: 'Author',
-  //     content:
-  //         "Many of life's failures are people who did not realize how close they were to success when they gave up.",
-  //     isFavorited: false,
-  //   );
-
-  //   // if (response.statusCode == 200) {
-  //   //   return Quote.fromJson(response.body).toEntity();
-  //   // } else {
-  //   //   throw ServerException();
-  //   // }
-  // }
-
-  // @override
-  // Future<List<Quote>> getQuotes(LoadRandomQuotesParams params) async {
-  //   return [
-  //     Quote(
-  //         id: 1,
-  //         author: 'Author',
-  //         content:
-  //             "Many of life's failures are people who did not realize how close they were to success when they gave up.",
-  //         isFavorited: false),
-  //     Quote(
-  //         id: 2,
-  //         author: 'Author 2',
-  //         content:
-  //             "Don’t settle for what life gives you; make life better and build something.",
-  //         isFavorited: false),
-  //   ];
-
-  //   // final response = await this
-  //   //     .client
-  //   //     .get(Uri.parse('http://api.quotable.io/quotes?skip=${params.skip}'));
-
-  //   // if (response.statusCode == 200) {
-  //   //   final data = jsonDecode(response.body);
-
-  //   //   final Iterable list = data['results'];
-
-  //   //   return list.map((item) => Quote.fromMap(item).toEntity()).toList();
-  //   // } else {
-  //   //   throw ServerException();
-  //   // }
-  // }
 }

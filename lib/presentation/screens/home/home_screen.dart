@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:nequo/app_localizations.dart';
-import 'package:nequo/domain/usecases/add_category.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/home/bloc/home_event.dart';
@@ -16,13 +14,11 @@ import 'widgets/drawer_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   final ShareQuote share;
-  final AddCategory addCategory;
   final AddQuote addQuote;
 
   const HomeScreen({
     Key? key,
     required this.share,
-    required this.addCategory,
     required this.addQuote,
   }) : super(key: key);
 

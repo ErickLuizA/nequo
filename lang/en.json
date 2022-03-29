@@ -15,17 +15,12 @@
   "cancel": "Cancel",
   "quote_list_name": "Quote list name",
   "create": "Create",
-  "add_quote_list_error": "A error occurred while adding quote list",
-  "add_quote_list": "Add quote list",
-  "add_quote_to_list": "Add quote to list",
-  "no_lists": "You don't have created lists to add quotes.",
   "favorites": "Favorites",
+  "details": "Details",
   "share": "Share",
   "quote_of_the_day": "Quote of the day",
   "empty_list": "Empty List",
   "load_fav_error": "Error while loading favorites",
-  "del_quote_list_error": "Error when trying to delete quote list",
-  "del_list": "Delete list",
   "del_quote_error": "Error when trying to delete quote",
   "load_quote_error": "Error when trying to load quote"
 }

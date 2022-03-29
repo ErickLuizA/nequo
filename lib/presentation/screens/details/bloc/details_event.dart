@@ -7,3 +7,15 @@ class GetQuoteEvent extends DetailsEvent {
     required this.id,
   });
 }
+
+class AddToFavorites extends DetailsEvent {
+  final int quoteId;
+
+  AddToFavorites(this.quoteId);
+}
+
+class DeleteFromFavorites extends DetailsEvent {
+  final int quoteId;
+
+  DeleteFromFavorites(this.quoteId);
+}

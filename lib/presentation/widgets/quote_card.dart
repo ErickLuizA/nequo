@@ -38,13 +38,6 @@ class QuoteCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    quote.category?.name ?? '',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(fontSize: 16),
-                  ),
-                  Text(
                     '-${quote.author}',
                     style: Theme.of(context)
                         .textTheme
