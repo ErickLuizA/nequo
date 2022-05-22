@@ -5,7 +5,7 @@ import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
 import 'package:nequo/domain/usecases/update_quote.dart';
-import 'package:nequo/external/services/database.dart';
+import 'package:nequo/external/services/database/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -25,10 +25,11 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
     try {
       final quoteOfTheDayId = sharedPreferences.getInt(QUOTE_OF_THE_DAY);
 
-      if (quoteOfTheDayId == null)
+      if (quoteOfTheDayId == null) {
         throw CacheException(
           message: 'Quote of the day not found',
         );
+      }
 
       return await findOne(id: quoteOfTheDayId);
     } catch (e) {
@@ -55,6 +56,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
+          authorSlug: params.authorSlug,
           serverId: serverId,
         ),
       );
@@ -71,7 +73,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
       final result = await database.rawQuery(
         '''
         select quotes.*, 
-        Favorites.id as favorite_id, 
+        Favorites.id as favorite_id
         from Quotes 
         left join Favorites 
         on Quotes.id = Favorites.quote_id
@@ -89,7 +91,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
     try {
       final result = await database.rawQuery('''
         select quotes.*, 
-        Favorites.id as favorite_id, 
+        Favorites.id as favorite_id
         from Quotes 
         left join Favorites 
         on Quotes.id = Favorites.quote_id

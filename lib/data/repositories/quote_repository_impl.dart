@@ -24,7 +24,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   @override
   Future<Either<Failure, Quote>> findQuoteOfTheDay() async {
-    if (await networkInfoService.isConnected) {
+    final bool isConnected = await networkInfoService.isConnected;
+
+    if (isConnected) {
       return await findQuoteOfTheDayOnline();
     } else {
       return await findQuoteOfTheDayOffline();
@@ -40,6 +42,7 @@ class QuoteRepositoryImpl implements QuoteRepository {
         params: AddQuoteParams(
           content: result.content,
           author: result.author,
+          authorSlug: result.authorSlug,
         ),
       );
 

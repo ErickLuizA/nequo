@@ -1,5 +1,5 @@
-import 'package:nequo/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:nequo/app_localizations.dart';
 
 class QuoteOfTheDayErrorWidget extends StatelessWidget {
   final void Function() navigate;

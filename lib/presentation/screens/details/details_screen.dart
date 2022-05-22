@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/entities/quote.dart';
-
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/widgets/quote_details.dart';
 
@@ -79,10 +78,10 @@ class DetailsScreen extends StatelessWidget {
           builder: (context, state) {
             return QuoteDetails(
               quote: quote,
-              share: () => handleShare(quote.content),
-              handleCopy: () => handleCopy(context),
-              handleAddFavorite: () => handleAddFavorite(context),
-              handleDeleteFavorite: () => handleDeleteFavorite(context),
+              // share: () => handleShare(quote.content),
+              // handleCopy: () => handleCopy(context),
+              // handleAddFavorite: () => handleAddFavorite(context),
+              // handleDeleteFavorite: () => handleDeleteFavorite(context),
             );
           },
         ),

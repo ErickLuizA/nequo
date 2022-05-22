@@ -22,7 +22,7 @@ import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/external/datasources/favorite_local_datasource_impl.dart';
 import 'package:nequo/external/datasources/quote_local_datasource_impl.dart';
 import 'package:nequo/external/datasources/quote_remote_datasource_impl.dart';
-import 'package:nequo/external/services/database.dart';
+import 'package:nequo/external/services/database/database.dart';
 import 'package:nequo/external/services/network_info.dart';
 import 'package:nequo/external/services/share.dart';
 import 'package:nequo/presentation/screens/details/bloc/details_bloc.dart';

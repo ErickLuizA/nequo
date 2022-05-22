@@ -1,8 +1,8 @@
+import 'package:dartz/dartz.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
-import 'package:dartz/dartz.dart';
 
 class LoadQuoteOfTheDay implements UseCase<Quote, NoParams> {
   final QuoteRepository quoteRepository;

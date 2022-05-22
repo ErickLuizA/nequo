@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
@@ -5,10 +7,7 @@ import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_da
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_state.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/widgets/quote_of_the_day_error_widget.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/widgets/quote_of_the_day_success_widget.dart';
-
 import 'package:nequo/presentation/widgets/loading_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QuoteOfTheDayScreen extends StatefulWidget {
   final ShareQuote shareQuote;

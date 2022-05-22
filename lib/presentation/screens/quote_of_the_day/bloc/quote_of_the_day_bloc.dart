@@ -1,10 +1,10 @@
+import 'package:bloc/bloc.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_event.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:bloc/bloc.dart';
 
 class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
   final LoadQuoteOfTheDay loadQuoteOfTheDay;
@@ -32,7 +32,7 @@ class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
     emit(
       result.fold(
         (failure) => state.copyWith(
-          error: 'unknow error',
+          error: failure.message,
           uiStatus: QuoteOfTheDayUIStatus.error,
         ),
         (quote) => state.copyWith(

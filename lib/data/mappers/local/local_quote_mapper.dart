@@ -8,6 +8,7 @@ class LocalQuoteMapper {
       id: map['id'],
       content: map['content'],
       author: map['author'],
+      authorSlug: map['author_slug'],
       isFavorited: map['favorite_id'] != null ? true : false,
     );
   }
@@ -17,10 +18,12 @@ class LocalQuoteMapper {
     int? serverId,
     String? content,
     String? author,
+    String? authorSlug,
   }) {
     final Map<String, dynamic> map = {
       'content': content,
       'author': author,
+      'author_slug': authorSlug,
     };
 
     if (id != null) map['id'] = id;
@@ -33,6 +36,7 @@ class LocalQuoteMapper {
     return json.encode({
       'id': quote.id,
       'author': quote.author,
+      'authorSlug': quote.authorSlug,
       'content': quote.content,
     });
   }

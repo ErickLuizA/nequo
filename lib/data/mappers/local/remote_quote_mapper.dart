@@ -6,6 +6,7 @@ class RemoteQuoteMapper {
       id: map['quote']['id'],
       content: map['quote']['content'],
       author: map['quote']['author'],
+      authorSlug: map['quote']['author_slug'],
       isFavorited: false,
     );
   }

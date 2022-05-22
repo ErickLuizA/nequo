@@ -1,12 +1,12 @@
 import 'dart:convert';
 
+import 'package:http/http.dart' as http;
 import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
 import 'package:nequo/data/mappers/local/remote_quote_mapper.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
-import 'package:http/http.dart' as http;
 
-const BASE_URL = 'http://localhost/api';
+const BASE_URL = 'http://192.168.0.105:3333/api/v1';
 
 class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   final http.Client client;
@@ -19,7 +19,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   Future<Quote> findQuoteOfTheDay() async {
     try {
       final response = await client.get(
-        Uri.parse(BASE_URL + '/quote_of_the_day'),
+        Uri.parse(BASE_URL + '/quotes/quote_of_the_day'),
       );
 
       if (response.statusCode == 200) {

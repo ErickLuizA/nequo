@@ -1,12 +1,11 @@
+import 'package:nequo/data/datasources/favorites_local_datasource.dart';
 import 'package:nequo/data/mappers/local/local_favorite_mapper.dart';
 import 'package:nequo/data/mappers/local/local_quote_mapper.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
-
-import 'package:nequo/data/datasources/favorites_local_datasource.dart';
-import 'package:nequo/external/services/database.dart';
+import 'package:nequo/external/services/database/database.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
@@ -23,12 +22,9 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
         '''
        SELECT
           Quotes.*,
-          Favorites.id as favorite_id,
-          Categories.id as category_id,
-          Categories.name as category_name
+          Favorites.id as favorite_id
         FROM Favorites
         JOIN Quotes ON Quotes.id = Favorites.quote_id
-        LEFT JOIN Categories ON Categories.id = Quotes.category_id
         ''',
       );
 
@@ -45,12 +41,9 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
         '''
        SELECT
           Quotes.*,
-          Favorites.id as favorite_id,
-          Categories.id as category_id,
-          Categories.name as category_name
+          Favorites.id as favorite_id
         FROM Favorites
         JOIN Quotes ON Quotes.id = Favorites.quote_id
-        LEFT JOIN Categories ON Categories.id = Quotes.category_id
         WHERE Favorites.quote_id = ?
         ''',
         [id],

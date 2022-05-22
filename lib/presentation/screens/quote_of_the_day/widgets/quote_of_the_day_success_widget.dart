@@ -1,12 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_event.dart';
-import 'package:nequo/presentation/widgets/favorite_buton.dart';
 import 'package:nequo/presentation/widgets/action_button.dart';
-import 'package:flutter/material.dart';
+import 'package:nequo/presentation/widgets/quote_actions.dart';
 import 'package:nequo/presentation/widgets/quote_details.dart';
 
 class QuoteOfTheDaySuccessWidget extends StatelessWidget {
@@ -49,22 +49,28 @@ class QuoteOfTheDaySuccessWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ActionButton(
-              icon: Icons.close_outlined,
-              onPress: close,
-              align: Alignment.topRight,
-            ),
-            QuoteDetails(
-              quote: quote,
-              share: share,
-              handleCopy: () => handleCopy(context),
-              handleAddFavorite: () => handleAddFavorite(context),
-              handleDeleteFavorite: () => handleDeleteFavorite(context),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ActionButton(
+                icon: Icons.close_outlined,
+                onPress: close,
+                align: Alignment.topRight,
+              ),
+              QuoteDetails(
+                quote: quote,
+              ),
+              QuoteActions(
+                isFavorited: quote.isFavorited,
+                share: share,
+                handleCopy: () => handleCopy(context),
+                handleAddFavorite: () => handleAddFavorite(context),
+                handleDeleteFavorite: () => handleDeleteFavorite(context),
+              )
+            ],
+          ),
         ),
       ),
     );
