@@ -1,7 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
@@ -23,22 +22,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     final result = await loadQuotes(NoParams());
 
-    emit(result.fold(
-      (failure) => state.copyWith(
-        uiStatus: HomeUIStatus.error,
-        error: 'error',
+    emit(
+      result.fold(
+        (failure) => state.copyWith(
+          uiStatus: HomeUIStatus.error,
+          error: failure.message,
+        ),
+        (success) {
+          if (success.isEmpty) {
+            return state.copyWith(uiStatus: HomeUIStatus.empty, error: '');
+          } else {
+            return state.copyWith(
+              uiStatus: HomeUIStatus.success,
+              error: '',
+              quotes: success,
+            );
+          }
+        },
       ),
-      (success) {
-        if (success.isEmpty) {
-          return state.copyWith(uiStatus: HomeUIStatus.empty, error: '');
-        } else {
-          return state.copyWith(
-            uiStatus: HomeUIStatus.success,
-            error: '',
-            quotes: success,
-          );
-        }
-      },
-    ));
+    );
   }
 }

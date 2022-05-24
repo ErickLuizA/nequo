@@ -5,7 +5,7 @@ abstract class QuotesRemoteDatasource {
 
   // Future<Quote> findOne(int id);
 
-  // Future<List<Quote>> findAll();
+  Future<List<Quote>> findAll();
 
   // Future<Quote> save(AddQuoteParams params);
 

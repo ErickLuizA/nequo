@@ -73,37 +73,46 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('Nequo'),
         elevation: 0,
       ),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          print(state.uiStatus);
+      body: Container(
+        width: double.infinity,
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return LoadingWidget();
+            }
 
-          if (state.isLoading) {
-            return LoadingWidget();
-          }
+            if (state.hasError) {
+              return LoadErrorWidget(
+                text: 'Error',
+                retry: handleGetQuotes,
+              );
+            }
 
-          if (state.hasError) {
-            return LoadErrorWidget(text: 'Error');
-          }
+            if (state.hasData) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  handleGetQuotes();
+                },
+                child: ListView.builder(
+                  padding: EdgeInsets.all(20),
+                  itemCount: state.quotes.length,
+                  itemBuilder: (context, index) {
+                    final quote = state.quotes[index];
 
-          if (state.hasData) {
-            return ListView.builder(
-              padding: EdgeInsets.all(20),
-              itemCount: state.quotes.length,
-              itemBuilder: (context, index) {
-                final quote = state.quotes[index];
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: QuoteCard(
+                        quote: quote,
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
 
-                return Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: QuoteCard(
-                    quote: quote,
-                  ),
-                );
-              },
-            );
-          }
-
-          return Container();
-        },
+            return Container();
+          },
+        ),
       ),
     );
   }

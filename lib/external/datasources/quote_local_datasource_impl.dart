@@ -26,9 +26,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
       final quoteOfTheDayId = sharedPreferences.getInt(QUOTE_OF_THE_DAY);
 
       if (quoteOfTheDayId == null) {
-        throw CacheException(
-          message: 'Quote of the day not found',
-        );
+        throw CacheException(message: 'Quote of the day not found');
       }
 
       return await findOne(id: quoteOfTheDayId);
@@ -120,6 +118,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         LocalQuoteMapper.toMap(
           content: params.content,
           author: params.author,
+          authorSlug: params.authorSlug,
           serverId: serverId,
         ),
       );
@@ -155,6 +154,19 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         where: 'id = ?',
         whereArgs: [params.id],
       );
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<Quote>> saveAll({required List<SaveQuoteParams> params}) async {
+    try {
+      final futures = params
+          .map((e) => save(serverId: e.serverId, params: e.params))
+          .toList();
+
+      return await Future.wait(futures);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

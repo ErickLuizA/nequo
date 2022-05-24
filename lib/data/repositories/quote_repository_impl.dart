@@ -77,12 +77,44 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   @override
   Future<Either<Failure, List<Quote>>> findAll() async {
+    final bool isConnected = await networkInfoService.isConnected;
+
+    if (isConnected) {
+      return findAllOnline();
+    } else {
+      return findAllOffline();
+    }
+  }
+
+  Future<Either<Failure, List<Quote>>> findAllOnline() async {
+    try {
+      final result = await quotesRemoteDatasource.findAll();
+
+      final quotes = await quotesLocalDatasource.saveAll(
+          params: result
+              .map((quote) => SaveQuoteParams(
+                  serverId: quote.id,
+                  params: AddQuoteParams(
+                      author: quote.author,
+                      content: quote.content,
+                      authorSlug: quote.authorSlug)))
+              .toList());
+
+      return Right(quotes);
+    } on ServerException {
+      return findAllOffline();
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
+    }
+  }
+
+  Future<Either<Failure, List<Quote>>> findAllOffline() async {
     try {
       final result = await quotesLocalDatasource.findAll();
 
       return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
     }
   }
 

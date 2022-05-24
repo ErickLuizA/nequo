@@ -25,7 +25,26 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
-        return RemoteQuoteMapper.toEntity(data);
+        return RemoteQuoteOfTheDayMapper.toEntity(data);
+      } else {
+        throw ServerException(message: response.body);
+      }
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<List<Quote>> findAll() async {
+    try {
+      final response = await client.get(Uri.parse(BASE_URL + '/quotes'));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        return (data['data'] as List<dynamic>)
+            .map((e) => RemoteQuoteMapper.toEntity(e))
+            .toList();
       } else {
         throw ServerException(message: response.body);
       }
