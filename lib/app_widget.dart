@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nequo/app_localizations.dart';
-import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/quote_of_the_day_screen.dart';
@@ -78,7 +77,7 @@ class App extends StatelessWidget {
               return BlocProvider(
                 create: (_) => getIt<DetailsBloc>(),
                 child: DetailsScreen(
-                  quote: (args as DetailsArgument).quote,
+                  quoteId: args as int,
                   share: getIt(),
                 ),
               );
@@ -101,12 +100,4 @@ class App extends StatelessWidget {
       },
     );
   }
-}
-
-class DetailsArgument {
-  final Quote quote;
-
-  DetailsArgument({
-    required this.quote,
-  });
 }

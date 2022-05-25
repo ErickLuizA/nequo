@@ -23,7 +23,7 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
        SELECT
           Quotes.*,
           Favorites.id as favorite_id
-        FROM Favorites
+        FROM $FavoritesTable
         JOIN Quotes ON Quotes.id = Favorites.quote_id
         ''',
       );
@@ -42,9 +42,9 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
        SELECT
           Quotes.*,
           Favorites.id as favorite_id
-        FROM Favorites
+        FROM $FavoritesTable
         JOIN Quotes ON Quotes.id = Favorites.quote_id
-        WHERE Favorites.quote_id = ?
+        WHERE Favorites.id = ?
         ''',
         [id],
       );

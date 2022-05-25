@@ -2,25 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
-import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/widgets/quote_actions.dart';
 import 'package:nequo/presentation/widgets/quote_details.dart';
 
 import 'bloc/details_bloc.dart';
+import 'bloc/details_event.dart';
 import 'bloc/details_state.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   final ShareQuote share;
-  final Quote quote;
+  final int quoteId;
 
-  const DetailsScreen({
+  DetailsScreen({
     Key? key,
     required this.share,
-    required this.quote,
+    required this.quoteId,
   }) : super(key: key);
 
-  void handleCopy(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: quote.content));
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<DetailsBloc>().add(GetQuoteEvent(id: widget.quoteId));
+  }
+
+  void handleCopy(BuildContext context, String text) {
+    Clipboard.setData(ClipboardData(text: text));
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -32,7 +45,7 @@ class DetailsScreen extends StatelessWidget {
   }
 
   void handleShare(String text) {
-    share(
+    widget.share(
       ShareParams(
         text: text,
         subject: 'nequo - Quotes app',
@@ -40,18 +53,22 @@ class DetailsScreen extends StatelessWidget {
     );
   }
 
-  void handleAddFavorite(BuildContext context) {}
+  void handleAddFavorite(BuildContext context) {
+    context.read<DetailsBloc>().add(AddToFavorites(widget.quoteId));
+  }
 
-  void handleDeleteFavorite(BuildContext context) {}
+  void handleDeleteFavorite(BuildContext context) {
+    context.read<DetailsBloc>().add(DeleteFromFavorites(widget.quoteId));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(AppLocalizations.of(context).translate('favorites')),
+        title: Text(AppLocalizations.of(context).translate('details')),
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(20),
         child: BlocConsumer<DetailsBloc, DetailsState>(
           listener: (context, state) {
@@ -76,12 +93,22 @@ class DetailsScreen extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            return QuoteDetails(
-              quote: quote,
-              // share: () => handleShare(quote.content),
-              // handleCopy: () => handleCopy(context),
-              // handleAddFavorite: () => handleAddFavorite(context),
-              // handleDeleteFavorite: () => handleDeleteFavorite(context),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(),
+                QuoteDetails(
+                  quote: state.quote,
+                ),
+                SizedBox(height: 10),
+                QuoteActions(
+                  isFavorited: state.quote.isFavorited,
+                  share: () => handleShare(state.quote.content),
+                  handleCopy: () => handleCopy(context, state.quote.content),
+                  handleAddFavorite: () => handleAddFavorite(context),
+                  handleDeleteFavorite: () => handleDeleteFavorite(context),
+                )
+              ],
             );
           },
         ),

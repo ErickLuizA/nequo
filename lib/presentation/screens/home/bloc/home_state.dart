@@ -14,6 +14,7 @@ class HomeState {
   });
 
   bool get isLoading => uiStatus == HomeUIStatus.loading;
+  bool get isEmpty => uiStatus == HomeUIStatus.empty;
   bool get hasError => uiStatus == HomeUIStatus.error;
   bool get hasData => uiStatus == HomeUIStatus.success;
 

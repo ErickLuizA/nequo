@@ -64,6 +64,7 @@ class SuccessWidget extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 20),
             child: QuoteCard(
               quote: quote,
+              onTap: () {},
             ),
           ),
         );

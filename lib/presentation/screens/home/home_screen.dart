@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/home/bloc/home_event.dart';
+import 'package:nequo/presentation/widgets/empty_widget.dart';
 import 'package:nequo/presentation/widgets/load_error_widget.dart';
 import 'package:nequo/presentation/widgets/loading_widget.dart';
 import 'package:nequo/presentation/widgets/quote_card.dart';
@@ -40,6 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void handleNavigateToQuoteOfTheDay(BuildContext context) {
     Navigator.of(context).pushNamed('/quote_of_the_day');
+  }
+
+  void handleNavigateToDetails(BuildContext context, Quote quote) {
+    Navigator.of(context).pushNamed('/details', arguments: quote.id);
   }
 
   void handleShare(BuildContext context) async {
@@ -81,6 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
               return LoadingWidget();
             }
 
+            if (state.isEmpty) {
+              return EmptyWidget();
+            }
+
             if (state.hasError) {
               return LoadErrorWidget(
                 text: 'Error',
@@ -103,6 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       margin: EdgeInsets.only(bottom: 20),
                       child: QuoteCard(
                         quote: quote,
+                        onTap: () {
+                          handleNavigateToDetails(context, quote);
+                        },
                       ),
                     );
                   },
