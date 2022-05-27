@@ -5,9 +5,9 @@ import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_bloc.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_event.dart';
 import 'package:nequo/presentation/screens/quote_of_the_day/bloc/quote_of_the_day_state.dart';
-import 'package:nequo/presentation/screens/quote_of_the_day/widgets/quote_of_the_day_error_widget.dart';
-import 'package:nequo/presentation/screens/quote_of_the_day/widgets/quote_of_the_day_success_widget.dart';
-import 'package:nequo/presentation/widgets/loading_widget.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/widgets/quote_of_the_day.dart';
+import 'package:nequo/presentation/widgets/error_handler.dart';
+import 'package:nequo/presentation/widgets/loading_indicator.dart';
 
 class QuoteOfTheDayScreen extends StatefulWidget {
   final ShareQuote shareQuote;
@@ -36,7 +36,7 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
     widget.shareQuote(
       ShareParams(
         text: text,
-        subject: 'nequo - Quotes app',
+        subject: 'Nequo - Quotes app',
       ),
     );
   }
@@ -81,18 +81,19 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
           },
           builder: (context, state) {
             if (state.isLoading) {
-              return LoadingWidget();
+              return LoadingIndicator();
             }
 
             if (state.hasError) {
-              return QuoteOfTheDayErrorWidget(
-                navigate: handleClose,
-                retry: handleGetQuoteOfTheDay,
+              return ErrorHandler(
+                text: AppLocalizations.of(context).translate('load_qod_error'),
+                onContinue: handleClose,
+                onRetry: handleGetQuoteOfTheDay,
               );
             }
 
             if (state.hasData) {
-              return QuoteOfTheDaySuccessWidget(
+              return QuoteOfTheDay(
                 close: handleClose,
                 share: () {
                   handleShare(state.quote!.content);

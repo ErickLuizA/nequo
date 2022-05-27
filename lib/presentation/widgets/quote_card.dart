@@ -3,10 +3,13 @@ import 'package:nequo/domain/entities/quote.dart';
 
 class QuoteCard extends StatelessWidget {
   final Quote quote;
-  final Function onTap;
+  final void Function() onTap;
 
-  const QuoteCard({Key? key, required this.quote, required this.onTap})
-      : super(key: key);
+  const QuoteCard({
+    Key? key,
+    required this.quote,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +17,7 @@ class QuoteCard extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       borderRadius: BorderRadius.circular(4),
       child: InkWell(
-        onTap: () {
-          onTap();
-        },
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(

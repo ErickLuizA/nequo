@@ -1,7 +1,7 @@
-import 'package:nequo/presentation/screens/quote_of_the_day/widgets/load_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nequo/presentation/screens/quote_of_the_day/widgets/load_error.dart';
 
 import '../../../utils/make_app.dart';
 
@@ -20,7 +20,7 @@ void main() {
       makeApp(
         LoadError(
           navigate: methodsMock.navigate,
-          retry: methodsMock.retry,
+          onRetry: methodsMock.retry,
         ),
       ),
     );
@@ -36,7 +36,7 @@ void main() {
       makeApp(
         LoadError(
           navigate: methodsMock.navigate,
-          retry: methodsMock.retry,
+          onRetry: methodsMock.retry,
         ),
       ),
     );
@@ -56,7 +56,7 @@ void main() {
       makeApp(
         LoadError(
           navigate: methodsMock.navigate,
-          retry: methodsMock.retry,
+          onRetry: methodsMock.retry,
         ),
       ),
     );

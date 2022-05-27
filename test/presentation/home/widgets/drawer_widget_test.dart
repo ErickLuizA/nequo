@@ -1,7 +1,7 @@
-import 'package:nequo/presentation/home/widgets/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nequo/presentation/home/widgets/drawer_widget.dart';
 
 import '../../../utils/make_app.dart';
 
@@ -19,7 +19,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         Scaffold(
-          body: DrawerWidget(
+          body: Drawer(
             handleNavigateToFavorites: methodsMock.handleNavigateToFavorites,
             handleShare: methodsMock.handleShare,
           ),
@@ -37,7 +37,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         Scaffold(
-          body: DrawerWidget(
+          body: Drawer(
             handleNavigateToFavorites: methodsMock.handleNavigateToFavorites,
             handleShare: methodsMock.handleShare,
           ),
@@ -57,7 +57,7 @@ void main() {
     await tester.pumpWidget(
       makeApp(
         Scaffold(
-          body: DrawerWidget(
+          body: Drawer(
             handleNavigateToFavorites: methodsMock.handleNavigateToFavorites,
             handleShare: methodsMock.handleShare,
           ),

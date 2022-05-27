@@ -9,13 +9,13 @@ import 'package:nequo/presentation/widgets/action_button.dart';
 import 'package:nequo/presentation/widgets/quote_actions.dart';
 import 'package:nequo/presentation/widgets/quote_details.dart';
 
-class QuoteOfTheDaySuccessWidget extends StatelessWidget {
+class QuoteOfTheDay extends StatelessWidget {
   final void Function() close;
   final void Function() share;
 
   final Quote quote;
 
-  const QuoteOfTheDaySuccessWidget({
+  const QuoteOfTheDay({
     Key? key,
     required this.close,
     required this.quote,

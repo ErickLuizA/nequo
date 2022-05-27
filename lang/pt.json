@@ -19,6 +19,8 @@
   "share": "Compartilhar",
   "quote_of_the_day": "Citação do dia",
   "empty_list": "Lista vazia",
+  "no_quotes": "Nenhuma citação encontrada",
+  "no_favorites": "Nenhum favorito encontrado",
   "load_fav_error": "Erro ao carregar favorito",
   "del_quote_error": "Erro ao deletar citação",
   "load_quote_error": "Erro ao carregar citação"

@@ -1,10 +1,10 @@
-import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
-import 'package:nequo/presentation/details/bloc/delete_state.dart';
-import 'package:nequo/presentation/details/widgets/options_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nequo/presentation/details/bloc/delete_bloc.dart';
+import 'package:nequo/presentation/details/bloc/delete_state.dart';
+import 'package:nequo/presentation/details/widgets/options_menu.dart';
 import 'package:nequo/service_locator.dart' as sl;
 
 import '../../../utils/make_app.dart';
@@ -58,7 +58,7 @@ void main() {
   });
 
   testWidgets(
-      'should render LoadingWidget when DeleteListLoadingState is returned from bloc',
+      'should render LoadingIndicator when DeleteListLoadingState is returned from bloc',
       (tester) async {
     when(deleteBlocMock.state).thenAnswer((_) => DeleteListLoadingState());
 

@@ -2,17 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/presentation/widgets/quote_card.dart';
 
-class SuccessWidget extends StatelessWidget {
+class FavoritesList extends StatelessWidget {
   final List<Quote> favorites;
   final Function(int id, {bool isPermanent, List<Quote> quotes}) deleteFavorite;
   final Function(int id, List<Quote> quotes) undoDeleteFavorite;
 
-  const SuccessWidget({
+  const FavoritesList({
     Key? key,
     required this.favorites,
     required this.deleteFavorite,
     required this.undoDeleteFavorite,
   }) : super(key: key);
+
+  void handleNavigateToDetails(BuildContext context, int id) {
+    Navigator.of(context).pushNamed('/details', arguments: id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,9 @@ class SuccessWidget extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 20),
             child: QuoteCard(
               quote: quote,
-              onTap: () {},
+              onTap: () {
+                handleNavigateToDetails(context, quote.id);
+              },
             ),
           ),
         );

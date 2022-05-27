@@ -1,6 +1,6 @@
 {
   "load_qod_error": "Your quote of the day was not found",
-  "try_again": "Try Again",
+  "try_again": "Try again",
   "continue": "Continue",
   "add_fav_error": "Error trying to add quote to favorites",
   "del_fav_error": "Error trying to remove quote from favorites",
@@ -20,6 +20,8 @@
   "share": "Share",
   "quote_of_the_day": "Quote of the day",
   "empty_list": "Empty List",
+  "no_quotes": "No quotes found",
+  "no_favorites": "No favorites found",
   "load_fav_error": "Error while loading favorites",
   "del_quote_error": "Error when trying to delete quote",
   "load_quote_error": "Error when trying to load quote"

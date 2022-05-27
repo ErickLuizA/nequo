@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/entities/quote.dart';
-
-import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
-import 'package:nequo/presentation/widgets/empty_widget.dart';
-import 'package:nequo/presentation/widgets/load_error_widget.dart';
-import 'package:nequo/presentation/widgets/loading_widget.dart';
+import 'package:nequo/presentation/widgets/empty_list.dart';
+import 'package:nequo/presentation/widgets/error_handler.dart';
+import 'package:nequo/presentation/widgets/loading_indicator.dart';
 
 import 'bloc/favorites_bloc.dart';
 import 'bloc/favorites_event.dart';
 import 'bloc/favorites_state.dart';
-import 'widgets/success_widget.dart';
+import 'widgets/favorites_list.dart';
 
 class FavoritesScreen extends StatefulWidget {
   final ShareQuote share;
@@ -42,13 +40,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     widget.share(
       ShareParams(
         text: text,
-        subject: 'nequo - Quotes app',
+        subject: 'Nequo - Quotes app',
       ),
     );
   }
 
-  void deleteFavorite(int id,
-      {bool isPermanent = false, List<Quote> quotes = const []}) {
+  void deleteFavorite(
+    int id, {
+    bool isPermanent = false,
+    List<Quote> quotes = const [],
+  }) {
     if (isPermanent) {
       context
           .read<FavoritesBloc>()
@@ -77,23 +78,26 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           listener: (context, state) {},
           builder: (context, state) {
             if (state.isLoading) {
-              return LoadingWidget();
+              return LoadingIndicator();
             }
 
             if (state.isEmpty) {
-              return EmptyWidget();
+              return EmptyList(
+                text: AppLocalizations.of(context).translate('no_favorites'),
+                onPressed: getFavorites,
+                buttonText: AppLocalizations.of(context).translate('try_again'),
+              );
             }
 
             if (state.hasError) {
-              return LoadErrorWidget(
-                text: AppLocalizations.of(context).translate(
-                  "load_fav_error",
-                ),
+              return ErrorHandler(
+                text: AppLocalizations.of(context).translate("load_fav_error"),
+                onRetry: getFavorites,
               );
             }
 
             if (state.hasData) {
-              return SuccessWidget(
+              return FavoritesList(
                 favorites: state.favorites,
                 deleteFavorite: deleteFavorite,
                 undoDeleteFavorite: undoDeleteFavorite,

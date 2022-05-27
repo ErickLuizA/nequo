@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
   final IconData icon;
-  final void Function() onPress;
   final AlignmentGeometry align;
+  final void Function() onPress;
 
   const ActionButton({
     Key? key,

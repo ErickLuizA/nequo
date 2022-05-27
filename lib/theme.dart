@@ -12,6 +12,8 @@ final theme = themeData.copyWith(
     surface: Colors.deepPurple.shade400,
     onSurface: Colors.grey.shade200,
     onBackground: Colors.blueGrey.shade200,
+    error: Colors.red[400],
+    onError: Colors.grey[100],
   ),
   appBarTheme: AppBarTheme(
     backgroundColor: Colors.deepPurple.shade500,

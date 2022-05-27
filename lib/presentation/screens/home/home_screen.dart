@@ -5,14 +5,14 @@ import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/home/bloc/home_event.dart';
-import 'package:nequo/presentation/widgets/empty_widget.dart';
-import 'package:nequo/presentation/widgets/load_error_widget.dart';
-import 'package:nequo/presentation/widgets/loading_widget.dart';
+import 'package:nequo/presentation/widgets/empty_list.dart';
+import 'package:nequo/presentation/widgets/error_handler.dart';
+import 'package:nequo/presentation/widgets/loading_indicator.dart';
 import 'package:nequo/presentation/widgets/quote_card.dart';
 
 import 'bloc/home_bloc.dart';
 import 'bloc/home_state.dart';
-import 'widgets/drawer_widget.dart';
+import 'widgets/home_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   final ShareQuote share;
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void handleShare(BuildContext context) async {
     await widget.share(
       ShareParams(
-        subject: 'nequo - Quotes App',
+        subject: 'Nequo - Quotes App',
         text: AppLocalizations.of(context).translate('find_quotes'),
       ),
     );
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      endDrawer: DrawerWidget(
+      endDrawer: HomeDrawer(
         handleNavigateToFavorites: () {
           handleNavigateToFavorites(context);
         },
@@ -84,17 +84,21 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state.isLoading) {
-              return LoadingWidget();
+              return LoadingIndicator();
             }
 
             if (state.isEmpty) {
-              return EmptyWidget();
+              return EmptyList(
+                text: AppLocalizations.of(context).translate('no_quotes'),
+                onPressed: handleGetQuotes,
+                buttonText: AppLocalizations.of(context).translate('try_again'),
+              );
             }
 
             if (state.hasError) {
-              return LoadErrorWidget(
-                text: 'Error',
-                retry: handleGetQuotes,
+              return ErrorHandler(
+                text: state.error,
+                onRetry: handleGetQuotes,
               );
             }
 

@@ -1,12 +1,12 @@
-import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/domain/entities/category.dart';
-import 'package:nequo/presentation/details/bloc/details_bloc.dart';
-import 'package:nequo/presentation/details/bloc/details_state.dart';
-import 'package:nequo/presentation/details/details_screen.dart';
-import 'package:nequo/presentation/bloc/favorite_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:nequo/domain/entities/category.dart';
+import 'package:nequo/domain/entities/quote.dart';
+import 'package:nequo/presentation/bloc/favorite_bloc.dart';
+import 'package:nequo/presentation/details/bloc/details_bloc.dart';
+import 'package:nequo/presentation/details/bloc/details_state.dart';
+import 'package:nequo/presentation/details/details_screen.dart';
 import 'package:nequo/service_locator.dart' as sl;
 
 import '../../utils/make_app.dart';
@@ -60,7 +60,7 @@ void main() {
     expect(find.byKey(Key("details_screen")), findsOneWidget);
   });
 
-  testWidgets('should show EmptyWidget when EmptyState is returned from bloc',
+  testWidgets('should show EmptyList when EmptyState is returned from bloc',
       (tester) async {
     when(detailsBlocMock.state).thenAnswer((_) => EmptyState());
 
@@ -79,7 +79,7 @@ void main() {
   });
 
   testWidgets(
-      'should show LoadingWidget when LoadingState is returned from bloc',
+      'should show LoadingIndicator when LoadingState is returned from bloc',
       (tester) async {
     when(detailsBlocMock.state).thenAnswer((_) => LoadingState());
 
@@ -120,8 +120,7 @@ void main() {
     expect(find.byKey(Key("success_widget")), findsOneWidget);
   });
 
-  testWidgets(
-      'should show LoadErrorWidget when ErrorState is returned from bloc',
+  testWidgets('should show ErrorHandler when ErrorState is returned from bloc',
       (tester) async {
     when(detailsBlocMock.state).thenAnswer((_) => ErrorState());
 
