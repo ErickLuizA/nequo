@@ -3,17 +3,21 @@ import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
+import 'package:nequo/domain/usecases/load_random_quote.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 
 import 'details_event.dart';
 import 'details_state.dart';
 
 class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   LoadQuote loadQuote;
+  LoadRandomQuote loadRandomQuote;
   final AddFavorite addFavorite;
   final DeleteFavorite deleteFavorite;
 
   DetailsBloc({
     required this.loadQuote,
+    required this.loadRandomQuote,
     required this.addFavorite,
     required this.deleteFavorite,
   }) : super(DetailsState(
@@ -28,7 +32,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   void _onGetQuoteEvent(GetQuoteEvent event, Emitter<DetailsState> emit) async {
     emit(state.copyWith(uiStatus: DetailsUIStatus.loading));
 
-    final result = await loadQuote(LoadQuoteParams(id: event.id));
+    final result = event.id != null
+        ? await loadQuote(LoadQuoteParams(id: event.id!))
+        : await loadRandomQuote(NoParams());
 
     emit(result.fold(
       (failure) => state.copyWith(

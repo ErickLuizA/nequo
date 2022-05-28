@@ -18,6 +18,7 @@ import 'package:nequo/domain/usecases/load_favorites.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
 import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/load_random_quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/external/datasources/favorite_local_datasource_impl.dart';
 import 'package:nequo/external/datasources/quote_local_datasource_impl.dart';
@@ -52,6 +53,7 @@ Future<void> setUp({bool testing = false}) async {
       addFavorite: getIt(),
       deleteFavorite: getIt(),
       loadQuote: getIt(),
+      loadRandomQuote: getIt(),
     ),
   );
   getIt.registerFactory(
@@ -73,6 +75,11 @@ Future<void> setUp({bool testing = false}) async {
   );
   getIt.registerLazySingleton(
     () => LoadQuotes(
+      quoteRepository: getIt(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => LoadRandomQuote(
       quoteRepository: getIt(),
     ),
   );

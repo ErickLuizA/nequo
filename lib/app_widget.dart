@@ -77,7 +77,7 @@ class App extends StatelessWidget {
               return BlocProvider(
                 create: (_) => getIt<DetailsBloc>(),
                 child: DetailsScreen(
-                  quoteId: args as int,
+                  quoteId: args as int?,
                   share: getIt(),
                 ),
               );

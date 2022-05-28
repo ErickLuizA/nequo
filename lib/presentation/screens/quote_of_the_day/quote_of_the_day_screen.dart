@@ -53,57 +53,66 @@ class _QuoteOfTheDayScreenState extends State<QuoteOfTheDayScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        child: BlocConsumer<QuoteOfTheDayBloc, QuoteOfTheDayState>(
-          listener: (context, state) {
-            if (state.actionStatus == QuoteOfTheDayActionStatus.favoriteError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context).translate('add_fav_error'),
+    return WillPopScope(
+      onWillPop: () {
+        handleClose();
+
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: Container(
+          width: double.infinity,
+          child: BlocConsumer<QuoteOfTheDayBloc, QuoteOfTheDayState>(
+            listener: (context, state) {
+              if (state.actionStatus ==
+                  QuoteOfTheDayActionStatus.favoriteError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context).translate('add_fav_error'),
+                    ),
                   ),
-                ),
-              );
-            }
+                );
+              }
 
-            if (state.actionStatus ==
-                QuoteOfTheDayActionStatus.unfavoriteError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    AppLocalizations.of(context).translate('del_fav_error'),
+              if (state.actionStatus ==
+                  QuoteOfTheDayActionStatus.unfavoriteError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context).translate('del_fav_error'),
+                    ),
                   ),
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state.isLoading) {
-              return LoadingIndicator();
-            }
+                );
+              }
+            },
+            builder: (context, state) {
+              if (state.isLoading) {
+                return LoadingIndicator();
+              }
 
-            if (state.hasError) {
-              return ErrorHandler(
-                text: AppLocalizations.of(context).translate('load_qod_error'),
-                onContinue: handleClose,
-                onRetry: handleGetQuoteOfTheDay,
-              );
-            }
+              if (state.hasError) {
+                return ErrorHandler(
+                  text:
+                      AppLocalizations.of(context).translate('load_qod_error'),
+                  onContinue: handleClose,
+                  onRetry: handleGetQuoteOfTheDay,
+                );
+              }
 
-            if (state.hasData) {
-              return QuoteOfTheDay(
-                close: handleClose,
-                share: () {
-                  handleShare(state.quote!.content);
-                },
-                quote: state.quote!,
-              );
-            }
+              if (state.hasData) {
+                return QuoteOfTheDay(
+                  close: handleClose,
+                  share: () {
+                    handleShare(state.quote!.content);
+                  },
+                  quote: state.quote!,
+                );
+              }
 
-            return Container();
-          },
+              return Container();
+            },
+          ),
         ),
       ),
     );

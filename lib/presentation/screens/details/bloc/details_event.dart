@@ -1,10 +1,10 @@
 abstract class DetailsEvent {}
 
 class GetQuoteEvent extends DetailsEvent {
-  final int id;
+  final int? id;
 
   GetQuoteEvent({
-    required this.id,
+    this.id,
   });
 }
 

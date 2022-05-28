@@ -4,14 +4,10 @@ import 'package:nequo/presentation/widgets/action_button.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class HomeDrawer extends StatefulWidget {
-  final Function() handleNavigateToFavorites;
-  final Function() navigateToQuoteOfTheDay;
   final Function() handleShare;
 
   HomeDrawer({
     Key? key,
-    required this.handleNavigateToFavorites,
-    required this.navigateToQuoteOfTheDay,
     required this.handleShare,
   }) : super(key: key);
 
@@ -53,7 +49,19 @@ class _HomeDrawerState extends State<HomeDrawer>
     super.dispose();
   }
 
-  void handleCloseDrawer(BuildContext context) async {
+  void handleNavigateToFavorites() {
+    Navigator.of(context).pushNamed('/favorites');
+  }
+
+  void handleNavigateToQuoteOfTheDay() {
+    Navigator.of(context).pushNamed('/quote_of_the_day');
+  }
+
+  void handleNavigateToRandomQuote() {
+    Navigator.of(context).pushNamed('/details');
+  }
+
+  void handleCloseDrawer() async {
     await controller.reverse();
 
     if (Navigator.of(context).canPop()) {
@@ -85,14 +93,14 @@ class _HomeDrawerState extends State<HomeDrawer>
                         child: ActionButton(
                           icon: Icons.close,
                           align: Alignment.centerRight,
-                          onPress: () => handleCloseDrawer(context),
+                          onPress: handleCloseDrawer,
                         ),
                       ),
                     ),
                     ListTile(
                       textColor: Theme.of(context).colorScheme.onBackground,
                       iconColor: Theme.of(context).colorScheme.onBackground,
-                      onTap: widget.navigateToQuoteOfTheDay,
+                      onTap: handleNavigateToQuoteOfTheDay,
                       title: Text(
                         AppLocalizations.of(context)
                             .translate('quote_of_the_day'),
@@ -102,7 +110,16 @@ class _HomeDrawerState extends State<HomeDrawer>
                     ListTile(
                       textColor: Theme.of(context).colorScheme.onBackground,
                       iconColor: Theme.of(context).colorScheme.onBackground,
-                      onTap: widget.handleNavigateToFavorites,
+                      onTap: handleNavigateToRandomQuote,
+                      title: Text(
+                        AppLocalizations.of(context).translate('random_quote'),
+                      ),
+                      leading: Icon(Icons.shuffle_outlined),
+                    ),
+                    ListTile(
+                      textColor: Theme.of(context).colorScheme.onBackground,
+                      iconColor: Theme.of(context).colorScheme.onBackground,
+                      onTap: handleNavigateToFavorites,
                       title: Text(
                         AppLocalizations.of(context).translate('favorites'),
                       ),
@@ -126,7 +143,7 @@ class _HomeDrawerState extends State<HomeDrawer>
                     return Padding(
                       padding: const EdgeInsets.only(right: 20, bottom: 20),
                       child: Text(
-                        snapshot.data!.version,
+                        "nequo ${snapshot.data!.version}",
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                     );

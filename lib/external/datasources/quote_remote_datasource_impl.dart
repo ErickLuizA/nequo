@@ -52,4 +52,23 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
       throw ServerException(message: e.toString());
     }
   }
+
+  @override
+  Future<Quote> findRandom() async {
+    try {
+      final response = await client.get(
+        Uri.parse(BASE_URL + '/quotes/random'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        return RemoteQuoteMapper.toEntity(data);
+      } else {
+        throw ServerException(message: response.body);
+      }
+    } catch (e) {
+      throw ServerException(message: e.toString());
+    }
+  }
 }

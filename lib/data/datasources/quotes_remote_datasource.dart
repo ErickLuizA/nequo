@@ -3,6 +3,8 @@ import 'package:nequo/domain/entities/quote.dart';
 abstract class QuotesRemoteDatasource {
   Future<Quote> findQuoteOfTheDay();
 
+  Future<Quote> findRandom();
+
   // Future<Quote> findOne(int id);
 
   Future<List<Quote>> findAll();

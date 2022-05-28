@@ -65,12 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: HomeDrawer(
-        handleNavigateToFavorites: () {
-          handleNavigateToFavorites(context);
-        },
-        navigateToQuoteOfTheDay: () {
-          handleNavigateToQuoteOfTheDay(context);
-        },
         handleShare: () {
           handleShare(context);
         },

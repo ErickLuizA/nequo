@@ -12,12 +12,12 @@ import 'bloc/details_state.dart';
 
 class DetailsScreen extends StatefulWidget {
   final ShareQuote share;
-  final int quoteId;
+  final int? quoteId;
 
   DetailsScreen({
     Key? key,
     required this.share,
-    required this.quoteId,
+    this.quoteId,
   }) : super(key: key);
 
   @override
@@ -25,10 +25,18 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
+  late bool isRandom;
+
   @override
   void initState() {
     super.initState();
 
+    isRandom = widget.quoteId == null;
+
+    handleGetQuote();
+  }
+
+  void handleGetQuote() {
     context.read<DetailsBloc>().add(GetQuoteEvent(id: widget.quoteId));
   }
 
@@ -48,17 +56,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
     widget.share(
       ShareParams(
         text: text,
-        subject: 'nequo - Quotes app',
+        subject: 'Nequo - Quotes app',
       ),
     );
   }
 
-  void handleAddFavorite(BuildContext context) {
-    context.read<DetailsBloc>().add(AddToFavorites(widget.quoteId));
+  void handleAddFavorite(BuildContext context, int quoteId) {
+    context.read<DetailsBloc>().add(AddToFavorites(quoteId));
   }
 
-  void handleDeleteFavorite(BuildContext context) {
-    context.read<DetailsBloc>().add(DeleteFromFavorites(widget.quoteId));
+  void handleDeleteFavorite(BuildContext context, int quoteId) {
+    context.read<DetailsBloc>().add(DeleteFromFavorites(quoteId));
   }
 
   @override
@@ -66,7 +74,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(AppLocalizations.of(context).translate('details')),
+        title: Text(
+          isRandom
+              ? AppLocalizations.of(context).translate('random_quote')
+              : AppLocalizations.of(context).translate('details'),
+        ),
+        actions: [
+          if (isRandom)
+            IconButton(
+              icon: Icon(Icons.shuffle_outlined),
+              onPressed: handleGetQuote,
+            ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.all(20),
@@ -105,8 +124,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   isFavorited: state.quote.isFavorited,
                   share: () => handleShare(state.quote.content),
                   handleCopy: () => handleCopy(context, state.quote.content),
-                  handleAddFavorite: () => handleAddFavorite(context),
-                  handleDeleteFavorite: () => handleDeleteFavorite(context),
+                  handleAddFavorite: () =>
+                      handleAddFavorite(context, state.quote.id),
+                  handleDeleteFavorite: () =>
+                      handleDeleteFavorite(context, state.quote.id),
                 )
               ],
             );

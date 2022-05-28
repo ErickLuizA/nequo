@@ -150,4 +150,15 @@ class QuoteRepositoryImpl implements QuoteRepository {
       return Left(CacheFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Quote>> findRandom() async {
+    try {
+      final result = await quotesRemoteDatasource.findRandom();
+
+      return Right(result);
+    } on CacheException {
+      return Left(CacheFailure());
+    }
+  }
 }

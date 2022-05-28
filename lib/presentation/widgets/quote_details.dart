@@ -33,6 +33,7 @@ class QuoteDetails extends StatelessWidget {
                   Text(
                     quote.content,
                     style: Theme.of(context).textTheme.bodyText1,
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 10),
                   Icon(
