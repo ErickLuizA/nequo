@@ -77,7 +77,7 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
     try {
       await database.delete(
         FavoritesTable,
-        where: "id = ?",
+        where: "quote_id = ?",
         whereArgs: [params.id],
       );
     } catch (e) {

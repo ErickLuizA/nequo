@@ -85,7 +85,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               return EmptyList(
                 text: AppLocalizations.of(context).translate('no_favorites'),
                 onPressed: getFavorites,
-                buttonText: AppLocalizations.of(context).translate('try_again'),
               );
             }
 
@@ -97,10 +96,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             }
 
             if (state.hasData) {
-              return FavoritesList(
-                favorites: state.favorites,
-                deleteFavorite: deleteFavorite,
-                undoDeleteFavorite: undoDeleteFavorite,
+              return RefreshIndicator(
+                onRefresh: () {
+                  getFavorites();
+
+                  return Future.value(null);
+                },
+                child: FavoritesList(
+                  favorites: state.favorites,
+                  deleteFavorite: deleteFavorite,
+                  undoDeleteFavorite: undoDeleteFavorite,
+                ),
               );
             }
 
