@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:nequo/domain/usecases/usecase.dart';
 
 import 'home_event.dart';
 import 'home_state.dart';
@@ -10,8 +9,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc({
     required this.loadQuotes,
-  }) : super(HomeState(quotes: [], uiStatus: HomeUIStatus.initial)) {
+  }) : super(
+          HomeState(
+            quotes: [],
+            uiStatus: HomeUIStatus.initial,
+            page: 1,
+            lastPage: 1,
+          ),
+        ) {
     on<GetQuotesEvent>(_onGetQuotes);
+    on<GetNextQuotesEvent>(_onGetNextQuotes);
   }
 
   _onGetQuotes(
@@ -20,7 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(uiStatus: HomeUIStatus.loading));
 
-    final result = await loadQuotes(NoParams());
+    final result = await loadQuotes(LoadQuotesParams());
 
     emit(
       result.fold(
@@ -29,16 +36,43 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           error: failure.message,
         ),
         (success) {
-          if (success.isEmpty) {
+          if (success.data.isEmpty) {
             return state.copyWith(uiStatus: HomeUIStatus.empty, error: '');
           } else {
             return state.copyWith(
               uiStatus: HomeUIStatus.success,
               error: '',
-              quotes: success,
+              quotes: success.data,
+              page: success.currentPage,
+              lastPage: success.lastPage,
             );
           }
         },
+      ),
+    );
+  }
+
+  _onGetNextQuotes(
+    GetNextQuotesEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    final result = await loadQuotes(
+      LoadQuotesParams(page: event.page),
+    );
+
+    emit(
+      result.fold(
+        (failure) => state.copyWith(
+          uiStatus: HomeUIStatus.paginationError,
+          error: failure.message,
+        ),
+        (success) => state.copyWith(
+          uiStatus: HomeUIStatus.success,
+          error: '',
+          quotes: state.quotes + success.data,
+          page: success.currentPage,
+          lastPage: success.lastPage,
+        ),
       ),
     );
   }

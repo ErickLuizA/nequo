@@ -61,6 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<HomeBloc>().add(GetQuotesEvent());
   }
 
+  void handleGetNextQuotes() {
+    final currentPage = context.read<HomeBloc>().state.page;
+
+    context.read<HomeBloc>().add(GetNextQuotesEvent(page: currentPage + 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,8 +109,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: ListView.builder(
                   padding: EdgeInsets.all(20),
-                  itemCount: state.quotes.length,
+                  itemCount: state.quotes.length + 1,
                   itemBuilder: (context, index) {
+                    if (index == state.quotes.length &&
+                        state.page == state.lastPage) {
+                      return Container();
+                    }
+
+                    if (index == state.quotes.length) {
+                      handleGetNextQuotes();
+
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                      );
+                    }
+
                     final quote = state.quotes[index];
 
                     return Container(

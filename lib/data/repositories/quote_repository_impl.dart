@@ -9,7 +9,9 @@ import 'package:nequo/domain/services/network_info_service.dart';
 import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_quote.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/domain/usecases/update_quote.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 
 class QuoteRepositoryImpl implements QuoteRepository {
   final QuotesRemoteDatasource quotesRemoteDatasource;
@@ -76,43 +78,66 @@ class QuoteRepositoryImpl implements QuoteRepository {
   }
 
   @override
-  Future<Either<Failure, List<Quote>>> findAll() async {
+  Future<Either<Failure, PaginatedResponse<List<Quote>>>> findAll(
+      LoadQuotesParams params) async {
     final bool isConnected = await networkInfoService.isConnected;
 
     if (isConnected) {
-      return findAllOnline();
+      return findAllOnline(params);
     } else {
-      return findAllOffline();
+      return findAllOffline(params);
     }
   }
 
-  Future<Either<Failure, List<Quote>>> findAllOnline() async {
+  Future<Either<Failure, PaginatedResponse<List<Quote>>>> findAllOnline(
+      LoadQuotesParams params) async {
     try {
-      final result = await quotesRemoteDatasource.findAll();
+      final result = await quotesRemoteDatasource.findAll(params);
 
       final quotes = await quotesLocalDatasource.saveAll(
-          params: result
-              .map((quote) => SaveQuoteParams(
-                  serverId: quote.id,
-                  params: AddQuoteParams(
-                      author: quote.author,
-                      content: quote.content,
-                      authorSlug: quote.authorSlug)))
-              .toList());
+        params: result.data
+            .map(
+              (quote) => SaveQuoteParams(
+                serverId: quote.id,
+                params: AddQuoteParams(
+                  author: quote.author,
+                  content: quote.content,
+                  authorSlug: quote.authorSlug,
+                ),
+              ),
+            )
+            .toList(),
+      );
 
-      return Right(quotes);
+      return Right(
+        PaginatedResponse(
+          data: quotes,
+          currentPage: result.currentPage,
+          lastPage: result.lastPage,
+          perPage: result.perPage,
+          total: result.total,
+          firstPage: result.firstPage,
+        ),
+      );
     } on ServerException {
-      return findAllOffline();
+      return findAllOffline(params);
     } on CacheException catch (e) {
       return Left(CacheFailure(message: e.message));
     }
   }
 
-  Future<Either<Failure, List<Quote>>> findAllOffline() async {
+  Future<Either<Failure, PaginatedResponse<List<Quote>>>> findAllOffline(
+      LoadQuotesParams params) async {
     try {
       final result = await quotesLocalDatasource.findAll();
 
-      return Right(result);
+      return Right(
+        PaginatedResponse(
+          data: result,
+          currentPage: params.page,
+          perPage: params.perPage,
+        ),
+      );
     } on CacheException catch (e) {
       return Left(CacheFailure(message: e.message));
     }

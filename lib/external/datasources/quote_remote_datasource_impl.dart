@@ -5,6 +5,8 @@ import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
 import 'package:nequo/data/mappers/local/remote_quote_mapper.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
+import 'package:nequo/domain/usecases/load_quotes.dart';
+import 'package:nequo/domain/usecases/usecase.dart';
 
 const BASE_URL = 'http://192.168.0.105:3333/api/v1';
 
@@ -35,16 +37,17 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   }
 
   @override
-  Future<List<Quote>> findAll() async {
+  Future<PaginatedResponse<List<Quote>>> findAll(
+      LoadQuotesParams params) async {
     try {
-      final response = await client.get(Uri.parse(BASE_URL + '/quotes'));
+      final response = await client.get(Uri.parse(
+        BASE_URL + "/quotes?page=${params.page}&per_page=${params.perPage}",
+      ));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
-        return (data['data'] as List<dynamic>)
-            .map((e) => RemoteQuoteMapper.toEntity(e))
-            .toList();
+        return RemoteQuoteMapper.toPaginatedQuoteList(data);
       } else {
         throw ServerException(message: response.body);
       }
@@ -56,9 +59,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   @override
   Future<Quote> findRandom() async {
     try {
-      final response = await client.get(
-        Uri.parse(BASE_URL + '/quotes/random'),
-      );
+      final response = await client.get(Uri.parse(BASE_URL + '/quotes/random'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);

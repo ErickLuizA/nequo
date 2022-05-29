@@ -42,3 +42,6 @@ app.*.map.json
 
 # Android Signing
 **/android/key.properties
+
+# My stuff
+TODO.md
