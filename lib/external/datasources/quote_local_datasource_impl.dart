@@ -37,14 +37,13 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
 
   @override
   Future<void> saveQuoteOfTheDay({
-    int? serverId,
     required AddQuoteParams params,
   }) async {
     try {
       final result = await database.query(
         QuotesTable,
         where: 'server_id = ?',
-        whereArgs: [serverId],
+        whereArgs: [params.id],
       );
 
       if (result.isNotEmpty) return;
@@ -55,7 +54,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
           content: params.content,
           author: params.author,
           authorSlug: params.authorSlug,
-          serverId: serverId,
+          serverId: params.id,
         ),
       );
 
@@ -66,7 +65,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
   }
 
   @override
-  Future<List<Quote>> findAll() async {
+  Future<List<Quote>> findAll({required bool isFeed}) async {
     try {
       final result = await database.rawQuery(
         '''
@@ -75,7 +74,9 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         from Quotes 
         left join Favorites 
         on Quotes.id = Favorites.quote_id
-        ''',
+        ''' +
+            (isFeed ? 'where Quotes.is_feed = ?' : ''),
+        [isFeed ? 1 : 0],
       );
 
       return result.map((e) => LocalQuoteMapper.toEntity(e)).toList();
@@ -95,6 +96,28 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
         on Quotes.id = Favorites.quote_id
         where Quotes.id = ?;
         ''', [id]);
+
+      if (result.isEmpty) throw CacheException(message: 'Quote not found');
+
+      return LocalQuoteMapper.toEntity(result[0]);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<Quote?> findByServerId({required int serverId}) async {
+    try {
+      final result = await database.rawQuery('''
+        select quotes.*, 
+        Favorites.id as favorite_id
+        from Quotes 
+        left join Favorites 
+        on Quotes.id = Favorites.quote_id
+        where Quotes.server_id = ?;
+        ''', [serverId]);
+
+      if (result.isEmpty) return null;
 
       return LocalQuoteMapper.toEntity(result[0]);
     } catch (e) {
@@ -160,13 +183,36 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
   }
 
   @override
-  Future<List<Quote>> saveAll({required List<SaveQuoteParams> params}) async {
+  Future<List<Quote>> saveAll({
+    required List<SaveQuoteParams> params,
+    bool replace = true,
+  }) async {
     try {
-      final futures = params
-          .map((e) => save(serverId: e.serverId, params: e.params))
-          .toList();
+      await database.transaction((txn) async {
+        final batch = txn.batch();
 
-      return await Future.wait(futures);
+        if (replace) {
+          batch.delete(QuotesTable, where: 'is_feed = ?', whereArgs: [1]);
+        }
+
+        params.forEach((element) {
+          batch.insert(
+            QuotesTable,
+            LocalQuoteMapper.toMap(
+              content: element.params.content,
+              author: element.params.author,
+              authorSlug: element.params.authorSlug,
+              serverId: element.params.id,
+              isFeed: true,
+            ),
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
+        });
+
+        await batch.commit();
+      });
+
+      return await findAll(isFeed: true);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

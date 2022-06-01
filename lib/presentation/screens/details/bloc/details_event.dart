@@ -1,3 +1,5 @@
+import 'package:nequo/domain/entities/quote.dart';
+
 abstract class DetailsEvent {}
 
 class GetQuoteEvent extends DetailsEvent {
@@ -9,9 +11,9 @@ class GetQuoteEvent extends DetailsEvent {
 }
 
 class AddToFavorites extends DetailsEvent {
-  final int quoteId;
+  final Quote quote;
 
-  AddToFavorites(this.quoteId);
+  AddToFavorites(this.quote);
 }
 
 class DeleteFromFavorites extends DetailsEvent {

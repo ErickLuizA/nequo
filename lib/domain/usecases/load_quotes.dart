@@ -7,8 +7,9 @@ import 'package:nequo/domain/usecases/usecase.dart';
 class LoadQuotesParams {
   final int page;
   final int perPage;
+  final bool persist;
 
-  LoadQuotesParams({this.page = 1, this.perPage = 20});
+  LoadQuotesParams({this.page = 1, this.perPage = 20, this.persist = true});
 }
 
 class LoadQuotes

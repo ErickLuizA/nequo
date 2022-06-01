@@ -62,7 +62,7 @@ class FavoriteLocalDatasourceImpl implements FavoritesLocalDatasource {
     try {
       final id = await database.insert(
         FavoritesTable,
-        LocalFavoriteMapper.toMap(quoteId: params.quoteId),
+        LocalFavoriteMapper.toMap(quoteId: params.quote.id),
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 

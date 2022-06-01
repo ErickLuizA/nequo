@@ -24,5 +24,6 @@
   "load_fav_error": "Erro ao carregar favorito",
   "del_quote_error": "Erro ao deletar citação",
   "load_quote_error": "Erro ao carregar citação",
-  "random_quote": "Citação aleatória"
+  "random_quote": "Citação aleatória",
+  "random_quote_error": "Erro ao carregar citação aleatória"
 }

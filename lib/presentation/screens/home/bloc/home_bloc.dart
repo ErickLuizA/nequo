@@ -57,15 +57,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     final result = await loadQuotes(
-      LoadQuotesParams(page: event.page),
+      LoadQuotesParams(page: event.page, persist: false),
     );
 
     emit(
       result.fold(
-        (failure) => state.copyWith(
-          uiStatus: HomeUIStatus.paginationError,
-          error: failure.message,
-        ),
+        (failure) {
+          return state.copyWith(
+            uiStatus: HomeUIStatus.paginationError,
+            error: failure.message,
+          );
+        },
         (success) => state.copyWith(
           uiStatus: HomeUIStatus.success,
           error: '',

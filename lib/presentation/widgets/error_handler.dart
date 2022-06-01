@@ -19,49 +19,51 @@ class ErrorHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      key: Key("load_error_widget_column"),
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.report_gmailerrorred,
-          color: Theme.of(context).colorScheme.error,
-          size: 50,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 40,
-            vertical: 30,
+    return Center(
+      child: Column(
+        key: Key("load_error_widget_column"),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.report_gmailerrorred,
+            color: Theme.of(context).colorScheme.error,
+            size: 50,
           ),
-          child: Text(
-            text,
-            style: Theme.of(context).textTheme.bodyText2,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        TextButton(
-          key: Key("try_again_button"),
-          child: Text(
-              retryText ?? AppLocalizations.of(context).translate("try_again")),
-          style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(
-              Theme.of(context).textTheme.bodyText2?.color,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: 30,
+            ),
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyText2,
+              textAlign: TextAlign.center,
             ),
           ),
-          onPressed: onRetry,
-        ),
-        if (onContinue != null)
           TextButton(
-            child: Text(continueText ??
-                AppLocalizations.of(context).translate("continue")),
+            key: Key("try_again_button"),
+            child: Text(retryText ??
+                AppLocalizations.of(context).translate("try_again")),
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all(
                 Theme.of(context).textTheme.bodyText2?.color,
               ),
             ),
-            onPressed: onContinue,
+            onPressed: onRetry,
           ),
-      ],
+          if (onContinue != null)
+            TextButton(
+              child: Text(continueText ??
+                  AppLocalizations.of(context).translate("continue")),
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(
+                  Theme.of(context).textTheme.bodyText2?.color,
+                ),
+              ),
+              onPressed: onContinue,
+            ),
+        ],
+      ),
     );
   }
 }

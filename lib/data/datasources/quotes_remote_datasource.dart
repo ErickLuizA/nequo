@@ -7,7 +7,7 @@ abstract class QuotesRemoteDatasource {
 
   Future<Quote> findRandom();
 
-  // Future<Quote> findOne(int id);
+  Future<Quote> findOne({required int id});
 
   Future<PaginatedResponse<List<Quote>>> findAll(LoadQuotesParams params);
 

@@ -19,11 +19,13 @@ class LocalQuoteMapper {
     String? content,
     String? author,
     String? authorSlug,
+    bool isFeed = false,
   }) {
     final Map<String, dynamic> map = {
       'content': content,
       'author': author,
       'author_slug': authorSlug,
+      'is_feed': isFeed,
     };
 
     if (id != null) map['id'] = id;

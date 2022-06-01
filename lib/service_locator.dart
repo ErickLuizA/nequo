@@ -123,6 +123,7 @@ Future<void> setUp({bool testing = false}) async {
   );
   getIt.registerLazySingleton<FavoritesRepository>(
     () => FavoritesRepositoryImpl(
+      quotesLocalDatasource: getIt(),
       favoritesLocalDatasource: getIt(),
     ),
   );

@@ -9,6 +9,7 @@ Future<void> onCreate(Database db, int version) async {
           content TEXT,
           author varchar(50),
           author_slug varchar(50),
+          is_feed boolean default false,
         
           created_at timestamp default current_timestamp,
           updated_at timestamp default current_timestamp

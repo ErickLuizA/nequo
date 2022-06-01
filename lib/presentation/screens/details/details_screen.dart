@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
+import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
+import 'package:nequo/presentation/widgets/error_handler.dart';
+import 'package:nequo/presentation/widgets/loading_indicator.dart';
 import 'package:nequo/presentation/widgets/quote_actions.dart';
 import 'package:nequo/presentation/widgets/quote_details.dart';
 
@@ -61,8 +64,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  void handleAddFavorite(BuildContext context, int quoteId) {
-    context.read<DetailsBloc>().add(AddToFavorites(quoteId));
+  void handleAddFavorite(BuildContext context, Quote quote) {
+    context.read<DetailsBloc>().add(AddToFavorites(quote));
   }
 
   void handleDeleteFavorite(BuildContext context, int quoteId) {
@@ -112,25 +115,40 @@ class _DetailsScreenState extends State<DetailsScreen> {
             }
           },
           builder: (context, state) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(),
-                QuoteDetails(
-                  quote: state.quote,
-                ),
-                SizedBox(height: 10),
-                QuoteActions(
-                  isFavorited: state.quote.isFavorited,
-                  share: () => handleShare(state.quote.content),
-                  handleCopy: () => handleCopy(context, state.quote.content),
-                  handleAddFavorite: () =>
-                      handleAddFavorite(context, state.quote.id),
-                  handleDeleteFavorite: () =>
-                      handleDeleteFavorite(context, state.quote.id),
-                )
-              ],
-            );
+            if (state.isLoading) {
+              return LoadingIndicator();
+            }
+
+            if (state.hasError) {
+              return ErrorHandler(
+                text: state.error,
+                onRetry: handleGetQuote,
+              );
+            }
+
+            if (state.hasData) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(),
+                  QuoteDetails(
+                    quote: state.quote,
+                  ),
+                  SizedBox(height: 10),
+                  QuoteActions(
+                    isFavorited: state.quote.isFavorited,
+                    share: () => handleShare(state.quote.content),
+                    handleCopy: () => handleCopy(context, state.quote.content),
+                    handleAddFavorite: () =>
+                        handleAddFavorite(context, state.quote),
+                    handleDeleteFavorite: () =>
+                        handleDeleteFavorite(context, state.quote.id),
+                  )
+                ],
+              );
+            }
+
+            return Container();
           },
         ),
       ),

@@ -25,5 +25,6 @@
   "load_fav_error": "Error while loading favorites",
   "del_quote_error": "Error when trying to delete quote",
   "load_quote_error": "Error when trying to load quote",
-  "random_quote": "Random Quote"
+  "random_quote": "Random Quote",
+  "random_quote_error": "Error while loading random quote"
 }

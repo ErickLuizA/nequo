@@ -40,8 +40,8 @@ class QuoteRepositoryImpl implements QuoteRepository {
       final result = await quotesRemoteDatasource.findQuoteOfTheDay();
 
       await quotesLocalDatasource.saveQuoteOfTheDay(
-        serverId: result.id,
         params: AddQuoteParams(
+          id: result.id,
           content: result.content,
           author: result.author,
           authorSlug: result.authorSlug,
@@ -68,12 +68,58 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   @override
   Future<Either<Failure, Quote>> findOne(LoadQuoteParams params) async {
+    final bool isConnected = await networkInfoService.isConnected;
+
+    if (isConnected) {
+      return findOneOnline(params);
+    } else {
+      return findOneOffline(params);
+    }
+  }
+
+  Future<Either<Failure, Quote>> findOneOnline(LoadQuoteParams params) async {
     try {
-      final result = await quotesLocalDatasource.findOne(id: params.id);
+      if (params.isServer) {
+        final isAlreadySaved = await quotesLocalDatasource.findByServerId(
+          serverId: params.id,
+        );
+
+        if (isAlreadySaved != null) {
+          return Right(isAlreadySaved);
+        }
+      }
+
+      final result = await quotesRemoteDatasource.findOne(id: params.id);
 
       return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
+    } on ServerException {
+      return findOneOffline(params);
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
+    }
+  }
+
+  Future<Either<Failure, Quote>> findOneOffline(LoadQuoteParams params) async {
+    try {
+      if (params.isServer) {
+        final result = await quotesLocalDatasource.findByServerId(
+          serverId: params.id,
+        );
+
+        if (result == null) {
+          return Left(CacheFailure(message: 'Quote not found'));
+        }
+
+        return Right(result);
+      } else {
+        final result = await quotesLocalDatasource.findOne(
+          id: params.id,
+        );
+
+        return Right(result);
+      }
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -94,20 +140,24 @@ class QuoteRepositoryImpl implements QuoteRepository {
     try {
       final result = await quotesRemoteDatasource.findAll(params);
 
-      final quotes = await quotesLocalDatasource.saveAll(
-        params: result.data
-            .map(
-              (quote) => SaveQuoteParams(
-                serverId: quote.id,
-                params: AddQuoteParams(
-                  author: quote.author,
-                  content: quote.content,
-                  authorSlug: quote.authorSlug,
+      List<Quote> quotes = result.data;
+
+      if (params.persist) {
+        quotes = await quotesLocalDatasource.saveAll(
+          params: result.data
+              .map(
+                (quote) => SaveQuoteParams(
+                  params: AddQuoteParams(
+                    id: quote.id,
+                    author: quote.author,
+                    content: quote.content,
+                    authorSlug: quote.authorSlug,
+                  ),
                 ),
-              ),
-            )
-            .toList(),
-      );
+              )
+              .toList(),
+        );
+      }
 
       return Right(
         PaginatedResponse(
@@ -120,6 +170,10 @@ class QuoteRepositoryImpl implements QuoteRepository {
         ),
       );
     } on ServerException {
+      if (params.page > 1) {
+        return Left(CacheFailure(message: 'Server error!'));
+      }
+
       return findAllOffline(params);
     } on CacheException catch (e) {
       return Left(CacheFailure(message: e.message));
@@ -129,13 +183,14 @@ class QuoteRepositoryImpl implements QuoteRepository {
   Future<Either<Failure, PaginatedResponse<List<Quote>>>> findAllOffline(
       LoadQuotesParams params) async {
     try {
-      final result = await quotesLocalDatasource.findAll();
+      final result = await quotesLocalDatasource.findAll(isFeed: true);
 
       return Right(
         PaginatedResponse(
           data: result,
           currentPage: params.page,
           perPage: params.perPage,
+          lastPage: params.page,
         ),
       );
     } on CacheException catch (e) {
@@ -182,8 +237,8 @@ class QuoteRepositoryImpl implements QuoteRepository {
       final result = await quotesRemoteDatasource.findRandom();
 
       return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
     }
   }
 }

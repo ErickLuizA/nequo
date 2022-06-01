@@ -23,7 +23,7 @@ class QuoteOfTheDay extends StatelessWidget {
   }) : super(key: key);
 
   void handleAddFavorite(BuildContext context) {
-    context.read<QuoteOfTheDayBloc>().add(AddToFavorites(quote.id));
+    context.read<QuoteOfTheDayBloc>().add(AddToFavorites(quote));
   }
 
   void handleDeleteFavorite(BuildContext context) {

@@ -1,18 +1,22 @@
+import 'package:dartz/dartz.dart';
 import 'package:nequo/data/datasources/favorites_local_datasource.dart';
+import 'package:nequo/data/datasources/quotes_local_datasource.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
-import 'package:nequo/domain/usecases/add_favorite.dart';
-import 'package:nequo/domain/usecases/delete_favorite.dart';
-import 'package:dartz/dartz.dart';
-
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/repositories/favorites_repository.dart';
+import 'package:nequo/domain/usecases/add_favorite.dart';
+import 'package:nequo/domain/usecases/add_quote.dart';
+import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
   FavoritesLocalDatasource favoritesLocalDatasource;
+  QuotesLocalDatasource quotesLocalDatasource;
 
-  FavoritesRepositoryImpl({required this.favoritesLocalDatasource});
+  FavoritesRepositoryImpl(
+      {required this.favoritesLocalDatasource,
+      required this.quotesLocalDatasource});
 
   @override
   Future<Either<Failure, List<Quote>>> findAll() async {
@@ -39,6 +43,19 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   @override
   Future<Either<Failure, Quote>> save(AddFavoriteParams params) async {
     try {
+      try {
+        await quotesLocalDatasource.findOne(id: params.quote.id);
+      } on CacheException {
+        await quotesLocalDatasource.save(
+          params: AddQuoteParams(
+            id: params.quote.id,
+            content: params.quote.content,
+            author: params.quote.author,
+            authorSlug: params.quote.authorSlug,
+          ),
+        );
+      }
+
       final result = await favoritesLocalDatasource.save(params);
 
       return Right(result);

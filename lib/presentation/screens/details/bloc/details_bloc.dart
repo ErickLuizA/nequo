@@ -36,17 +36,19 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         ? await loadQuote(LoadQuoteParams(id: event.id!))
         : await loadRandomQuote(NoParams());
 
-    emit(result.fold(
-      (failure) => state.copyWith(
-        uiStatus: DetailsUIStatus.loading,
-        error: 'error',
+    emit(
+      result.fold(
+        (failure) => state.copyWith(
+          uiStatus: DetailsUIStatus.error,
+          error: failure.message,
+        ),
+        (quote) => state.copyWith(
+          uiStatus: DetailsUIStatus.success,
+          quote: quote,
+          error: '',
+        ),
       ),
-      (quote) => state.copyWith(
-        uiStatus: DetailsUIStatus.loading,
-        quote: quote,
-        error: '',
-      ),
-    ));
+    );
   }
 
   void _onAddToFavorites(
@@ -59,7 +61,7 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       ),
     );
 
-    final result = await addFavorite(AddFavoriteParams(quoteId: event.quoteId));
+    final result = await addFavorite(AddFavoriteParams(quote: event.quote));
 
     if (result.isLeft()) {
       emit(state.copyWith(

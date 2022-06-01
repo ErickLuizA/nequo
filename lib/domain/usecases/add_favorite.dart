@@ -1,14 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:nequo/domain/entities/quote.dart';
-
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/repositories/favorites_repository.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
 class AddFavoriteParams {
-  final int quoteId;
+  final Quote quote;
 
-  AddFavoriteParams({required this.quoteId});
+  AddFavoriteParams({required this.quote});
 }
 
 class AddFavorite implements UseCase<void, AddFavoriteParams> {

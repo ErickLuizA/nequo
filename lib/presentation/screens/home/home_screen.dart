@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
 
-            if (state.hasData) {
+            if (state.hasData || state.hasPaginationError) {
               return RefreshIndicator(
                 onRefresh: () async {
                   handleGetQuotes();
@@ -118,6 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     if (index == state.quotes.length) {
                       handleGetNextQuotes();
+
+                      if (state.hasPaginationError) {
+                        return Text(
+                          AppLocalizations.of(context).translate(
+                            'load_quote_error',
+                          ),
+                        );
+                      }
 
                       return Center(
                         child: CircularProgressIndicator(

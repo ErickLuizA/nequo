@@ -53,7 +53,7 @@ class QuoteOfTheDayBloc extends Bloc<QuoteOfTheDayEvent, QuoteOfTheDayState> {
       ),
     );
 
-    final result = await addFavorite(AddFavoriteParams(quoteId: event.quoteId));
+    final result = await addFavorite(AddFavoriteParams(quote: event.quote));
 
     if (result.isLeft()) {
       emit(state.copyWith(
