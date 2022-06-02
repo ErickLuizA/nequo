@@ -1,4 +1,4 @@
-<h1 align="center"> nequo </h1>
+<h1 align="center"> Nequo </h1>
 
 <p align="center">
   <a href="https://github.com/ErickLuizA/nequo/graphs/commit-activity" alt="Maintenance">
@@ -29,9 +29,9 @@
 
 ## :clipboard: Description
 
-nequo is a app built with flutter for you to see and add quotes
+Nequo is a quote app built with flutter.
 
-<a href="https://play.google.com/store/apps/details?id=com.deverick.com.deverick.com.deverick.nequo">
+<a href="https://play.google.com/store/apps/details?id=com.deverick.nequo">
   <img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download on Google Play" height="100">
 </a>
 
@@ -91,18 +91,12 @@ $ flutter run
 ## :framed_picture: Screenshots
 
 <div>
-  <img alt="Fanarvel image" src="./.github/qotd.png"  width="250"/>
-  <img alt="Fanarvel image" src="./.github/home.png"  width="250"/>
-  <img alt="Fanarvel image" src="./.github/addmodal.png"  width="250"/>
-  <img alt="Fanarvel image" src="./.github/addquote.png"  width="250"/>
-  <img alt="Fanarvel image" src="./.github/quote.png"  width="250"/>
+  <img alt="Nequo Screen" src="./.github/qod.png"  width="250"/>
+  <img alt="Nequo Screen" src="./.github/home.png"  width="250"/>
+  <img alt="Nequo Screen" src="./.github/details.png"  width="250"/>
+  <img alt="Nequo Screen" src="./.github/drawer.png"  width="250"/>
+  <img alt="Nequo Screen" src="./.github/favorites.png"  width="250"/>
 </div>
-
-## :information_source: TODO
-  - Better design
-  - Edit option to quote list
-  - Go to the end of scroll list
-
 ## :memo: License
 
 
