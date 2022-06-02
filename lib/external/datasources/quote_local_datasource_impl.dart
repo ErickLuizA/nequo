@@ -158,4 +158,25 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
       throw CacheException(message: e.toString());
     }
   }
+
+  @override
+  Future<Quote> findRandom() async {
+    try {
+      final result = await database.rawQuery('''
+        select quotes.*, 
+        Favorites.id as favorite_id
+        from Quotes 
+        left join Favorites 
+        on Quotes.id = Favorites.quote_id
+        order by random()
+        limit 1
+        ''');
+
+      if (result.isEmpty) throw CacheException(message: 'Quote not found');
+
+      return LocalQuoteMapper.toEntity(result[0]);
+    } catch (e) {
+      throw CacheException(message: e.toString());
+    }
+  }
 }

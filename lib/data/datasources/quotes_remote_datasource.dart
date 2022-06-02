@@ -10,10 +10,4 @@ abstract class QuotesRemoteDatasource {
   Future<Quote> findOne({required int id});
 
   Future<PaginatedResponse<List<Quote>>> findAll(LoadQuotesParams params);
-
-  // Future<Quote> save(AddQuoteParams params);
-
-  // Future<Quote> update();
-
-  // Future<void> delete(DeleteQuoteParams params);
 }

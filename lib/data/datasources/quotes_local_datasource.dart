@@ -16,6 +16,8 @@ abstract class QuotesLocalDatasource {
 
   Future<List<Quote>> findAll({required bool isFeed});
 
+  Future<Quote> findRandom();
+
   Future<Quote> save({
     required AddQuoteParams params,
   });

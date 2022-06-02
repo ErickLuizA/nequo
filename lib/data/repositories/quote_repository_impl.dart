@@ -48,8 +48,6 @@ class QuoteRepositoryImpl implements QuoteRepository {
       return findQuoteOfTheDayOffline();
     } on ServerException {
       return findQuoteOfTheDayOffline();
-    } on CacheException catch (e) {
-      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -76,13 +74,17 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   Future<Either<Failure, Quote>> findOneOnline(LoadQuoteParams params) async {
     try {
+      final alreadyExists = await findOneOffline(params);
+
+      if (alreadyExists.isRight()) {
+        return alreadyExists;
+      }
+
       final result = await quotesRemoteDatasource.findOne(id: params.id);
 
       return Right(result);
     } on ServerException {
       return findOneOffline(params);
-    } on CacheException catch (e) {
-      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -144,12 +146,10 @@ class QuoteRepositoryImpl implements QuoteRepository {
       );
     } on ServerException {
       if (params.page > 1) {
-        return Left(CacheFailure(message: 'Server error!'));
+        return Left(ServerFailure(message: 'Server error!'));
       }
 
       return findAllOffline(params);
-    } on CacheException catch (e) {
-      return Left(CacheFailure(message: e.message));
     }
   }
 
@@ -177,19 +177,39 @@ class QuoteRepositoryImpl implements QuoteRepository {
       final result = await quotesLocalDatasource.save(params: params);
 
       return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
     }
   }
 
   @override
   Future<Either<Failure, Quote>> findRandom() async {
+    final bool isConnected = await networkInfoService.isConnected;
+
+    if (isConnected) {
+      return findRandomOnline();
+    } else {
+      return findRandomOffline();
+    }
+  }
+
+  Future<Either<Failure, Quote>> findRandomOnline() async {
     try {
       final result = await quotesRemoteDatasource.findRandom();
 
       return Right(result);
     } on ServerException {
-      return Left(ServerFailure());
+      return findRandomOffline();
+    }
+  }
+
+  Future<Either<Failure, Quote>> findRandomOffline() async {
+    try {
+      final result = await quotesLocalDatasource.findRandom();
+
+      return Right(result);
+    } on CacheException catch (e) {
+      return Left(CacheFailure(message: e.message));
     }
   }
 }
