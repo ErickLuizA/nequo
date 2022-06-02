@@ -5,8 +5,8 @@ import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/repositories/favorites_repository.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
 

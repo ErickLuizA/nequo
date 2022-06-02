@@ -6,9 +6,8 @@ import 'package:nequo/domain/usecases/usecase.dart';
 
 class LoadQuoteParams {
   final int id;
-  final bool isServer;
 
-  LoadQuoteParams({required this.id, this.isServer = true});
+  LoadQuoteParams({required this.id});
 }
 
 class LoadQuote extends UseCase<Quote, LoadQuoteParams> {

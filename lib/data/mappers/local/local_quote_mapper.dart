@@ -15,7 +15,6 @@ class LocalQuoteMapper {
 
   static Map<String, dynamic> toMap({
     int? id,
-    int? serverId,
     String? content,
     String? author,
     String? authorSlug,
@@ -29,7 +28,6 @@ class LocalQuoteMapper {
     };
 
     if (id != null) map['id'] = id;
-    if (serverId != null) map['server_id'] = serverId;
 
     return map;
   }

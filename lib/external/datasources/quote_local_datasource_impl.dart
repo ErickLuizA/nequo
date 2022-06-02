@@ -2,9 +2,7 @@ import 'package:nequo/data/datasources/quotes_local_datasource.dart';
 import 'package:nequo/data/mappers/local/local_quote_mapper.dart';
 import 'package:nequo/domain/entities/quote.dart';
 import 'package:nequo/domain/errors/exceptions.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote.dart';
-import 'package:nequo/domain/usecases/update_quote.dart';
+import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:nequo/external/services/database/database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -42,7 +40,7 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
     try {
       final result = await database.query(
         QuotesTable,
-        where: 'server_id = ?',
+        where: 'id = ?',
         whereArgs: [params.id],
       );
 
@@ -51,10 +49,10 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
       final id = await database.insert(
         QuotesTable,
         LocalQuoteMapper.toMap(
+          id: params.id,
           content: params.content,
           author: params.author,
           authorSlug: params.authorSlug,
-          serverId: params.id,
         ),
       );
 
@@ -106,77 +104,20 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
   }
 
   @override
-  Future<Quote?> findByServerId({required int serverId}) async {
+  Future<Quote> save({required AddQuoteParams params}) async {
     try {
-      final result = await database.rawQuery('''
-        select quotes.*, 
-        Favorites.id as favorite_id
-        from Quotes 
-        left join Favorites 
-        on Quotes.id = Favorites.quote_id
-        where Quotes.server_id = ?;
-        ''', [serverId]);
-
-      if (result.isEmpty) return null;
-
-      return LocalQuoteMapper.toEntity(result[0]);
-    } catch (e) {
-      throw CacheException(message: e.toString());
-    }
-  }
-
-  @override
-  Future<Quote> save({int? serverId, required AddQuoteParams params}) async {
-    try {
-      final result = await database.query(
-        QuotesTable,
-        where: 'server_id = ?',
-        whereArgs: [serverId],
-      );
-
-      if (result.isNotEmpty) return LocalQuoteMapper.toEntity(result[0]);
-
       final id = await database.insert(
         QuotesTable,
         LocalQuoteMapper.toMap(
+          id: params.id,
           content: params.content,
           author: params.author,
           authorSlug: params.authorSlug,
-          serverId: serverId,
         ),
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
       return findOne(id: id);
-    } catch (e) {
-      throw CacheException(message: e.toString());
-    }
-  }
-
-  @override
-  Future<Quote> update(UpdateQuoteParams params) async {
-    try {
-      final id = await database.update(
-        QuotesTable,
-        LocalQuoteMapper.toMap(
-          content: params.content,
-          author: params.author,
-        ),
-      );
-
-      return findOne(id: id);
-    } catch (e) {
-      throw CacheException(message: e.toString());
-    }
-  }
-
-  @override
-  Future<void> delete(DeleteQuoteParams params) async {
-    try {
-      await database.delete(
-        QuotesTable,
-        where: 'id = ?',
-        whereArgs: [params.id],
-      );
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -199,10 +140,10 @@ class QuoteLocalDatasourceImpl implements QuotesLocalDatasource {
           batch.insert(
             QuotesTable,
             LocalQuoteMapper.toMap(
+              id: element.params.id,
               content: element.params.content,
               author: element.params.author,
               authorSlug: element.params.authorSlug,
-              serverId: element.params.id,
               isFeed: true,
             ),
             conflictAlgorithm: ConflictAlgorithm.replace,

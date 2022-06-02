@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nequo/app_localizations.dart';
 import 'package:nequo/domain/entities/quote.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/share_quote.dart';
 import 'package:nequo/presentation/screens/home/bloc/home_event.dart';
 import 'package:nequo/presentation/widgets/empty_list.dart';
@@ -16,12 +15,10 @@ import 'widgets/home_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   final ShareQuote share;
-  final AddQuote addQuote;
 
   const HomeScreen({
     Key? key,
     required this.share,
-    required this.addQuote,
   }) : super(key: key);
 
   @override

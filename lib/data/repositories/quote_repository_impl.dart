@@ -6,11 +6,8 @@ import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/errors/failures.dart';
 import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:nequo/domain/services/network_info_service.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
-import 'package:nequo/domain/usecases/delete_quote.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
-import 'package:nequo/domain/usecases/update_quote.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
 class QuoteRepositoryImpl implements QuoteRepository {
@@ -79,16 +76,6 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   Future<Either<Failure, Quote>> findOneOnline(LoadQuoteParams params) async {
     try {
-      if (params.isServer) {
-        final isAlreadySaved = await quotesLocalDatasource.findByServerId(
-          serverId: params.id,
-        );
-
-        if (isAlreadySaved != null) {
-          return Right(isAlreadySaved);
-        }
-      }
-
       final result = await quotesRemoteDatasource.findOne(id: params.id);
 
       return Right(result);
@@ -101,23 +88,9 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   Future<Either<Failure, Quote>> findOneOffline(LoadQuoteParams params) async {
     try {
-      if (params.isServer) {
-        final result = await quotesLocalDatasource.findByServerId(
-          serverId: params.id,
-        );
+      final result = await quotesLocalDatasource.findOne(id: params.id);
 
-        if (result == null) {
-          return Left(CacheFailure(message: 'Quote not found'));
-        }
-
-        return Right(result);
-      } else {
-        final result = await quotesLocalDatasource.findOne(
-          id: params.id,
-        );
-
-        return Right(result);
-      }
+      return Right(result);
     } on CacheException catch (e) {
       return Left(CacheFailure(message: e.message));
     }
@@ -202,28 +175,6 @@ class QuoteRepositoryImpl implements QuoteRepository {
   Future<Either<Failure, Quote>> save(AddQuoteParams params) async {
     try {
       final result = await quotesLocalDatasource.save(params: params);
-
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Quote>> update(UpdateQuoteParams params) async {
-    try {
-      final result = await quotesLocalDatasource.update(params);
-
-      return Right(result);
-    } on CacheException {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> delete(DeleteQuoteParams params) async {
-    try {
-      final result = await quotesLocalDatasource.delete(params);
 
       return Right(result);
     } on CacheException {

@@ -63,7 +63,6 @@ class App extends StatelessWidget {
               return BlocProvider(
                 create: (_) => getIt<HomeBloc>(),
                 child: HomeScreen(
-                  addQuote: getIt(),
                   share: getIt(),
                 ),
               );

@@ -11,9 +11,7 @@ import 'package:nequo/domain/repositories/quotes_repository.dart';
 import 'package:nequo/domain/services/network_info_service.dart';
 import 'package:nequo/domain/services/share_service.dart';
 import 'package:nequo/domain/usecases/add_favorite.dart';
-import 'package:nequo/domain/usecases/add_quote.dart';
 import 'package:nequo/domain/usecases/delete_favorite.dart';
-import 'package:nequo/domain/usecases/delete_quote.dart';
 import 'package:nequo/domain/usecases/load_favorites.dart';
 import 'package:nequo/domain/usecases/load_quote.dart';
 import 'package:nequo/domain/usecases/load_quote_of_the_day.dart';
@@ -103,17 +101,6 @@ Future<void> setUp({bool testing = false}) async {
       favoritesRepository: getIt(),
     ),
   );
-  getIt.registerLazySingleton(
-    () => DeleteQuote(
-      quoteRepository: getIt(),
-    ),
-  );
-  getIt.registerLazySingleton(
-    () => AddQuote(
-      quoteRepository: getIt(),
-    ),
-  );
-
   getIt.registerLazySingleton<QuoteRepository>(
     () => QuoteRepositoryImpl(
       quotesLocalDatasource: getIt(),

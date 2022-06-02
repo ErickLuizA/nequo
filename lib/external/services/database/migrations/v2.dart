@@ -5,7 +5,6 @@ Future<void> onCreate(Database db, int version) async {
   await db.execute("""
         create table $QuotesTable(
           id integer primary key, 
-          server_id integer null,
           content TEXT,
           author varchar(50),
           author_slug varchar(50),
