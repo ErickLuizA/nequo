@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:nequo/data/datasources/quotes_remote_datasource.dart';
 import 'package:nequo/data/mappers/local/remote_quote_mapper.dart';
@@ -8,7 +9,7 @@ import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
-const BASE_URL = 'http://192.168.0.105:3333/api/v1';
+final baseUrl = DotEnv().env['API_BASE_URL'] ?? '';
 
 class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   final http.Client client;
@@ -21,7 +22,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   Future<Quote> findQuoteOfTheDay() async {
     try {
       final response = await client.get(
-        Uri.parse(BASE_URL + '/quotes/quote_of_the_day'),
+        Uri.parse(baseUrl + '/quotes/quote_of_the_day'),
       );
 
       if (response.statusCode == 200) {
@@ -41,7 +42,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
       LoadQuotesParams params) async {
     try {
       final response = await client.get(Uri.parse(
-        BASE_URL + "/quotes?page=${params.page}&per_page=${params.perPage}",
+        baseUrl + "/quotes?page=${params.page}&per_page=${params.perPage}",
       ));
 
       if (response.statusCode == 200) {
@@ -59,7 +60,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   @override
   Future<Quote> findRandom() async {
     try {
-      final response = await client.get(Uri.parse(BASE_URL + '/quotes/random'));
+      final response = await client.get(Uri.parse(baseUrl + '/quotes/random'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -76,7 +77,7 @@ class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   @override
   Future<Quote> findOne({required int id}) async {
     try {
-      final response = await client.get(Uri.parse(BASE_URL + '/quotes/$id'));
+      final response = await client.get(Uri.parse(baseUrl + '/quotes/$id'));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);

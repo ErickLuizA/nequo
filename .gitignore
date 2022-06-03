@@ -45,3 +45,7 @@ app.*.map.json
 
 # My stuff
 TODO.md
+
+# env files
+.env
+.env.local
