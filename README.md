@@ -97,6 +97,7 @@ $ flutter run
   <img alt="Nequo Screen" src="./.github/drawer.png"  width="250"/>
   <img alt="Nequo Screen" src="./.github/favorites.png"  width="250"/>
 </div>
+
 ## :memo: License
 
 
