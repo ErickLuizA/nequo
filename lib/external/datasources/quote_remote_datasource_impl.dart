@@ -9,7 +9,7 @@ import 'package:nequo/domain/errors/exceptions.dart';
 import 'package:nequo/domain/usecases/load_quotes.dart';
 import 'package:nequo/domain/usecases/usecase.dart';
 
-final baseUrl = DotEnv().env['API_BASE_URL'] ?? '';
+final baseUrl = dotenv.env['API_BASE_URL'] ?? '';
 
 class QuoteRemoteDatasourceImpl implements QuotesRemoteDatasource {
   final http.Client client;

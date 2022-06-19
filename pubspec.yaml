@@ -2,7 +2,7 @@ name: nequo
 description: Quotes app.
 publish_to: 'none' 
 
-version: 1.0.0+2
+version: 1.0.0+4
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
