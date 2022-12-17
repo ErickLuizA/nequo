@@ -4,6 +4,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 const QuotesTable = 'Quotes';
+const AuthorsTable = 'Authors';
+const TagsTable = 'Tags';
 const FavoritesTable = 'Favorites';
 
 Future<Database> initDb() async {
@@ -18,7 +20,7 @@ Future<Database> initDb() async {
     },
     onUpgrade: onUpgrade,
     onCreate: onCreate,
-    version: 2,
+    version: 3,
   );
 
   return database;

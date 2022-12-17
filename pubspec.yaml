@@ -1,16 +1,16 @@
 name: nequo
 description: Quotes app.
-publish_to: 'none' 
+publish_to: 'none'
 
-version: 1.0.0+4
+version: 2.0.0
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-    
+
   sqflite: ^2.0.2
   path: ^1.7.0
   share: ^2.0.4
@@ -42,6 +42,6 @@ flutter:
   assets:
     - .env
     - .env.local
-    
+
     - lang/en.json
     - lang/pt.json
